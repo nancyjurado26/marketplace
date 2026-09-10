@@ -1,0 +1,734 @@
+<!DOCTYPE html>
+
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+```
+<title>Marketplace</title>
+
+<link rel="stylesheet" href="styles.css">
+```
+
+</head>
+
+<body>
+
+```
+<!-- ===============================
+     ENCABEZADO
+     =============================== -->
+
+<header>
+
+    <div class="logo">
+        MARKETPLACE
+    </div>
+
+    <nav>
+        <a href="#">Inicio</a>
+        <a href="#productos">Productos</a>
+        <a href="#servicios">Servicios</a>
+        <a href="#donaciones">Donaciones</a>
+    </nav>
+
+    <div class="botones">
+
+        <button id="btnLogin" type="button">
+            Iniciar sesión
+        </button>
+
+        <button id="btnRegistro" type="button">
+            Registrarse
+        </button>
+
+        <button id="btnCarrito" type="button">
+            🛒 Carrito
+        </button>
+
+        <button id="btnMisCompras" type="button">
+            🧾 Mis compras
+        </button>
+
+        <button id="btnMiCuenta" type="button">
+            👤 Mi cuenta
+        </button>
+
+        <button id="btnCerrarSesion" type="button">
+            🚪 Cerrar sesión
+        </button>
+
+    </div>
+
+</header>
+
+
+<!-- ===============================
+     PRESENTACIÓN
+     =============================== -->
+
+<section class="hero">
+
+    <h1>
+        Bienvenido a Marketplace
+    </h1>
+
+    <p>
+        Compra, vende, ofrece servicios y ayuda a tu comunidad.
+    </p>
+
+    <button onclick="irProductos()">
+        Ver productos
+    </button>
+
+</section>
+
+
+<!-- ===============================
+     PRODUCTOS
+     =============================== -->
+
+<section id="productos">
+
+    <h2>
+        Productos disponibles
+    </h2>
+
+    <div id="listaProductos">
+
+        <p>
+            Cargando productos...
+        </p>
+
+    </div>
+
+</section>
+
+
+<!-- ===============================
+     DETALLE DEL PRODUCTO
+     =============================== -->
+
+<div id="detalleProducto" class="detalle-producto"></div>
+
+
+<!-- ===============================
+     MODAL LOGIN
+     =============================== -->
+
+<div id="loginModal" class="modal">
+
+    <div class="modal-contenido">
+
+        <button
+            type="button"
+            class="cerrar-modal"
+            onclick="cerrarLogin()">
+            ×
+        </button>
+
+        <h2>
+            Iniciar sesión
+        </h2>
+
+        <form id="formLogin">
+
+            <label for="loginCorreo">
+                Correo
+            </label>
+
+            <input
+                type="email"
+                id="loginCorreo"
+                placeholder="Ingrese su correo"
+                required
+            >
+
+            <label for="loginPassword">
+                Contraseña
+            </label>
+
+            <input
+                type="password"
+                id="loginPassword"
+                placeholder="Ingrese su contraseña"
+                required
+            >
+
+            <button
+                type="submit"
+                class="btn-login">
+                Iniciar sesión
+            </button>
+
+        </form>
+
+        <p id="mensajeLogin"></p>
+
+    </div>
+
+</div>
+
+
+<!-- ===============================
+     MODAL REGISTRO
+     =============================== -->
+
+<div id="registroModal" class="modal">
+
+    <div class="modal-contenido">
+
+        <button
+            type="button"
+            class="cerrar-modal"
+            onclick="cerrarRegistro()">
+            ×
+        </button>
+
+        <h2>
+            📝 Crear cuenta
+        </h2>
+
+        <form id="formRegistro">
+
+            <label for="registroNombres">
+                Nombres
+            </label>
+
+            <input
+                type="text"
+                id="registroNombres"
+                placeholder="Ingrese sus nombres"
+                required
+            >
+
+            <label for="registroApellidos">
+                Apellidos
+            </label>
+
+            <input
+                type="text"
+                id="registroApellidos"
+                placeholder="Ingrese sus apellidos"
+                required
+            >
+
+            <label for="registroCorreo">
+                Correo
+            </label>
+
+            <input
+                type="email"
+                id="registroCorreo"
+                placeholder="Ingrese su correo"
+                required
+            >
+
+            <label for="registroTelefono">
+                Teléfono
+            </label>
+
+            <input
+                type="tel"
+                id="registroTelefono"
+                placeholder="Ingrese su teléfono"
+                required
+            >
+
+            <label for="registroCiudad">
+                Ciudad
+            </label>
+
+            <input
+                type="text"
+                id="registroCiudad"
+                placeholder="Ingrese su ciudad"
+                required
+            >
+
+            <label for="registroDireccion">
+                Dirección
+            </label>
+
+            <input
+                type="text"
+                id="registroDireccion"
+                placeholder="Ingrese su dirección"
+                required
+            >
+
+            <label for="registroPassword">
+                Contraseña
+            </label>
+
+            <input
+                type="password"
+                id="registroPassword"
+                placeholder="Mínimo 6 caracteres"
+                required
+            >
+
+            <label for="registroConfirmarPassword">
+                Confirmar contraseña
+            </label>
+
+            <input
+                type="password"
+                id="registroConfirmarPassword"
+                placeholder="Repita la contraseña"
+                required
+            >
+
+            <button
+                type="submit"
+                class="btn-login">
+                📝 Registrarse
+            </button>
+
+        </form>
+
+        <p id="mensajeRegistro"></p>
+
+    </div>
+
+</div>
+
+
+<!-- ===============================
+     MI CUENTA
+     =============================== -->
+
+<div id="miCuenta" class="modal">
+
+    <div class="modal-contenido">
+
+        <button
+            type="button"
+            class="cerrar-modal"
+            onclick="cerrarMiCuenta()">
+            ×
+        </button>
+
+        <h2>
+            👤 Mi cuenta
+        </h2>
+
+        <!-- DATOS DEL USUARIO -->
+
+        <div id="datosCuenta">
+
+            <h3>
+                Mis datos
+            </h3>
+
+            <p>
+                <strong>Nombres:</strong>
+                <span id="cuentaNombres"></span>
+            </p>
+
+            <p>
+                <strong>Apellidos:</strong>
+                <span id="cuentaApellidos"></span>
+            </p>
+
+            <p>
+                <strong>Correo:</strong>
+                <span id="cuentaCorreo"></span>
+            </p>
+
+            <p>
+                <strong>Teléfono:</strong>
+                <span id="cuentaTelefono"></span>
+            </p>
+
+            <p>
+                <strong>Ciudad:</strong>
+                <span id="cuentaCiudad"></span>
+            </p>
+
+            <p>
+                <strong>Dirección:</strong>
+                <span id="cuentaDireccion"></span>
+            </p>
+
+        </div>
+
+
+        <!-- BOTÓN CAMBIAR CONTRASEÑA -->
+
+        <button
+            type="button"
+            id="btnMostrarCambioPassword">
+            🔐 Cambiar contraseña
+        </button>
+
+
+        <!-- CAMBIO DE CONTRASEÑA -->
+
+        <div
+            id="seccionCambioPassword"
+            style="display: none;">
+
+            <h3>
+                Cambiar contraseña
+            </h3>
+
+            <form id="formCambiarPassword">
+
+                <label for="passwordActual">
+                    Contraseña actual
+                </label>
+
+                <input
+                    type="password"
+                    id="passwordActual"
+                    placeholder="Ingrese su contraseña actual"
+                    required
+                >
+
+                <label for="nuevaPassword">
+                    Nueva contraseña
+                </label>
+
+                <input
+                    type="password"
+                    id="nuevaPassword"
+                    placeholder="Ingrese la nueva contraseña"
+                    required
+                >
+
+                <label for="confirmarPassword">
+                    Confirmar nueva contraseña
+                </label>
+
+                <input
+                    type="password"
+                    id="confirmarPassword"
+                    placeholder="Repita la nueva contraseña"
+                    required
+                >
+
+                <button
+                    type="submit"
+                    class="btn-login">
+                    🔐 Cambiar contraseña
+                </button>
+
+            </form>
+
+            <p id="mensajePassword"></p>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- ===============================
+     CARRITO
+     =============================== -->
+
+<div id="carrito" class="carrito">
+
+    <div class="carrito-contenido">
+
+        <button
+            class="cerrar-carrito"
+            onclick="cerrarCarrito()">
+            ✕
+        </button>
+
+        <h2>
+            🛒 Mi carrito
+        </h2>
+
+        <div id="listaCarrito">
+
+            <p>
+                El carrito está vacío.
+            </p>
+
+        </div>
+
+        <div id="totalCarrito">
+            Total: $0
+        </div>
+
+        <button
+            id="btnFinalizarCompra"
+            onclick="finalizarCompra()">
+            💳 Finalizar compra
+        </button>
+
+    </div>
+
+</div>
+
+
+<!-- ===============================
+     CONFIRMACIÓN DE COMPRA
+     =============================== -->
+
+<div id="confirmacionCompra" class="confirmacion-compra">
+
+    <div class="confirmacion-contenido">
+
+        <button
+            class="cerrar-confirmacion"
+            onclick="cerrarConfirmacion()">
+            ✕
+        </button>
+
+        <h2>
+            ✅ Confirmar compra
+        </h2>
+
+        <p id="resumenCompra"></p>
+
+        <button
+            class="btn-confirmar"
+            onclick="confirmarCompra()">
+            ✅ Confirmar compra
+        </button>
+
+        <button
+            class="btn-cancelar"
+            onclick="cerrarConfirmacion()">
+            Cancelar
+        </button>
+
+    </div>
+
+</div>
+
+
+<!-- ===============================
+     MIS COMPRAS
+     =============================== -->
+
+<div id="misCompras" class="mis-compras">
+
+    <div class="mis-compras-contenido">
+
+        <button
+            class="cerrar-mis-compras"
+            onclick="cerrarMisCompras()">
+            ✕
+        </button>
+
+        <h2>
+            🧾 Mis compras
+        </h2>
+
+        <div id="listaMisCompras">
+
+            <p>
+                Cargando compras...
+            </p>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+<!-- ===============================
+     SERVICIOS
+     =============================== -->
+
+<section id="servicios">
+
+    <h2>
+        🛠️ Servicios
+    </h2>
+
+    <p>
+        Encuentra y publica servicios para tu comunidad.
+    </p>
+
+    <!-- BOTÓN PUBLICAR SERVICIO -->
+
+    <button
+        type="button"
+        id="btnPublicarServicio">
+        ➕ Publicar servicio
+    </button>
+
+
+    <!-- LISTA DE SERVICIOS -->
+
+    <div id="listaServicios">
+
+        <p>
+            Cargando servicios...
+        </p>
+
+    </div>
+
+</section>
+
+
+<!-- ===============================
+     MODAL PUBLICAR SERVICIO
+     =============================== -->
+
+<div id="servicioModal" class="modal">
+
+    <div class="modal-contenido">
+
+        <button
+            type="button"
+            class="cerrar-modal"
+            onclick="cerrarServicioModal()">
+            ×
+        </button>
+
+        <h2>
+            🛠️ Publicar servicio
+        </h2>
+
+
+        <form
+            id="formServicio"
+            enctype="multipart/form-data">
+
+
+            <!-- NOMBRE -->
+
+            <label for="servicioNombre">
+                Nombre del servicio
+            </label>
+
+            <input
+                type="text"
+                id="servicioNombre"
+                name="nombre"
+                placeholder="Ej: Reparación de computadores"
+                required
+            >
+
+
+            <!-- DESCRIPCIÓN -->
+
+            <label for="servicioDescripcion">
+                Descripción
+            </label>
+
+            <textarea
+                id="servicioDescripcion"
+                name="descripcion"
+                placeholder="Describe el servicio que ofreces"
+                required></textarea>
+
+
+            <!-- PRECIO -->
+
+            <label for="servicioPrecio">
+                Precio
+            </label>
+
+            <input
+                type="number"
+                id="servicioPrecio"
+                name="precio"
+                placeholder="Ej: 50"
+                min="0"
+                required
+            >
+
+
+            <!-- CIUDAD -->
+
+            <label for="servicioCiudad">
+                Ciudad
+            </label>
+
+            <input
+                type="text"
+                id="servicioCiudad"
+                name="ciudad"
+                placeholder="Ej: Rotterdam"
+                required
+            >
+
+
+            <!-- IMÁGENES -->
+
+            <label for="servicioImagenes">
+                Imágenes del servicio
+            </label>
+
+            <input
+                type="file"
+                id="servicioImagenes"
+                name="imagenes"
+                accept="image/*"
+                multiple
+            >
+
+            <small>
+                Puedes seleccionar hasta 5 imágenes.
+            </small>
+
+
+            <!-- BOTÓN -->
+
+            <button
+                type="submit"
+                class="btn-login">
+                🛠️ Publicar servicio
+            </button>
+
+        </form>
+
+
+        <!-- MENSAJE -->
+
+        <p id="mensajeServicio"></p>
+
+    </div>
+
+</div>
+
+
+<!-- ===============================
+     DONACIONES
+     =============================== -->
+
+<section id="donaciones">
+
+    <h2>
+        Donaciones
+    </h2>
+
+    <p>
+        Ayuda a personas de nuestra comunidad.
+    </p>
+
+</section>
+
+
+<!-- ===============================
+     PIE DE PÁGINA
+     =============================== -->
+
+<footer>
+
+    <p>
+        © 2026 Marketplace
+    </p>
+
+</footer>
+
+
+<script src="app.js"></script>
+
+
+</body>
+
+</html>
