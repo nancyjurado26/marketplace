@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 const compraSchema = new mongoose.Schema({
 
     // ===============================
-    // USUARIO QUE REALIZÓ LA COMPRA
+    // USUARIO QUE REALIZÓ LA COMPRA.
     // ===============================
     usuario: {
         type: mongoose.Schema.Types.ObjectId,
