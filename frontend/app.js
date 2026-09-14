@@ -74,6 +74,7 @@ function cerrarServicioModal() {
 }
 
 
+
 // =====================================================
 // PUBLICAR SERVICIO
 // =====================================================
@@ -82,107 +83,147 @@ async function publicarServicio(event) {
 
     event.preventDefault();
 
-    const token = obtenerToken();
-
-    const mensaje = document.getElementById("mensajeServicio");
-
-    if (!token) {
-
-        mensaje.textContent =
-            "⚠️ Debes iniciar sesión para publicar un servicio.";
-
-        abrirLogin();
-
-        return;
-    }
-
-
-    const formulario =
-        document.getElementById("formServicio");
-
-
-    if (!formulario) {
-
-        console.error(
-            "No existe el formulario de servicios."
-        );
-
-        return;
-    }
-
-
-    // =========================================
-    // OBTENER DATOS
-    // =========================================
-
-    const nombre =
-        document.getElementById("servicioNombre")
-            .value
-            .trim();
-
-    const descripcion =
-        document.getElementById("servicioDescripcion")
-            .value
-            .trim();
-
-    const precio =
-        document.getElementById("servicioPrecio")
-            .value;
-
-    const ciudad =
-        document.getElementById("servicioCiudad")
-            .value
-            .trim();
-
-    const imagenes =
-        document.getElementById("servicioImagenes")
-            .files;
-
-
-    // =========================================
-    // VALIDACIONES
-    // =========================================
-
-    if (
-        !nombre ||
-        !descripcion ||
-        !precio ||
-        !ciudad
-    ) {
-
-        mensaje.textContent =
-            "⚠️ Debes completar todos los campos.";
-
-        return;
-    }
-
-
-    if (imagenes.length > 5) {
-
-        mensaje.textContent =
-            "⚠️ Solo puedes seleccionar hasta 5 imágenes.";
-
-        return;
-    }
+    const mensaje =
+        document.getElementById("mensajeServicio");
 
 
     try {
 
-        mensaje.textContent =
-            "⏳ Publicando servicio...";
+        // =========================================
+        // OBTENER DATOS DEL FORMULARIO
+        // =========================================
+
+        const titulo =
+            document
+                .getElementById("servicioTitulo")
+                .value
+                .trim();
+
+        const descripcion =
+            document
+                .getElementById("servicioDescripcion")
+                .value
+                .trim();
+
+        const categoria =
+            document
+                .getElementById("servicioCategoria")
+                .value;
+
+        const municipio =
+            document
+                .getElementById("servicioMunicipio")
+                .value
+                .trim();
+
+        const barrio =
+            document
+                .getElementById("servicioBarrio")
+                .value
+                .trim();
+
+        const direccion =
+            document
+                .getElementById("servicioDireccion")
+                .value
+                .trim();
+
+        const precio =
+            document
+                .getElementById("servicioPrecio")
+                .value;
+
+        const duracion =
+            document
+                .getElementById("servicioDuracion")
+                .value
+                .trim();
+
+        const estado =
+            document
+                .getElementById("servicioEstado")
+                .value;
+
+        const imagenes =
+            document
+                .getElementById("servicioImagenes")
+                .files;
+
+        const latitud =
+            document
+                .getElementById("servicioLatitud")
+                .value;
+
+        const longitud =
+            document
+                .getElementById("servicioLongitud")
+                .value;
 
 
         // =========================================
-        // FORMDATA
+        // VALIDAR CAMPOS
+        // =========================================
+
+        if (
+            !titulo ||
+            !descripcion ||
+            !categoria ||
+            !municipio ||
+            !barrio ||
+            !direccion ||
+            !precio ||
+            !duracion ||
+            !estado
+        ) {
+
+            mensaje.textContent =
+                "⚠️ Completa todos los campos.";
+
+            return;
+        }
+
+
+        // =========================================
+        // VALIDAR IMÁGENES
+        // =========================================
+
+        if (imagenes.length > 5) {
+
+            mensaje.textContent =
+                "⚠️ Solo puedes seleccionar hasta 5 imágenes.";
+
+            return;
+        }
+
+
+        // =========================================
+        // OBTENER TOKEN
+        // =========================================
+
+        const token =
+            obtenerToken();
+
+        if (!token) {
+
+            mensaje.textContent =
+                "⚠️ Debes iniciar sesión para publicar un servicio.";
+
+            abrirLogin();
+
+            return;
+        }
+
+
+        // =========================================
+        // CREAR FORMDATA
         // =========================================
 
         const datos =
             new FormData();
 
-
         datos.append(
-            "nombre",
-            nombre
+            "titulo",
+            titulo
         );
 
         datos.append(
@@ -191,13 +232,48 @@ async function publicarServicio(event) {
         );
 
         datos.append(
+            "categoria",
+            categoria
+        );
+
+        datos.append(
+            "municipio",
+            municipio
+        );
+
+        datos.append(
+            "barrio",
+            barrio
+        );
+
+        datos.append(
+            "direccion",
+            direccion
+        );
+
+        datos.append(
             "precio",
             precio
         );
 
         datos.append(
-            "ciudad",
-            ciudad
+            "duracion",
+            duracion
+        );
+
+        datos.append(
+            "estado",
+            estado
+        );
+
+        datos.append(
+            "latitud",
+            latitud
+        );
+
+        datos.append(
+            "longitud",
+            longitud
         );
 
 
@@ -219,8 +295,12 @@ async function publicarServicio(event) {
 
 
         // =========================================
-        // ENVIAR AL SERVIDOR
+        // ENVIAR AL BACKEND
         // =========================================
+
+        console.log(
+            "🛠️ Publicando servicio..."
+        );
 
         const respuesta =
             await fetch(
@@ -229,7 +309,7 @@ async function publicarServicio(event) {
                     method: "POST",
 
                     headers: {
-                        "Authorization":
+                        Authorization:
                             `Bearer ${token}`
                     },
 
@@ -243,64 +323,93 @@ async function publicarServicio(event) {
 
 
         console.log(
-            "RESPUESTA PUBLICAR SERVICIO:",
+            "RESPUESTA SERVICIO:",
             resultado
         );
 
 
-        if (!respuesta.ok) {
+        // =========================================
+        // SESIÓN EXPIRADA
+        // =========================================
 
-            if (respuesta.status === 401) {
-
-                localStorage.removeItem(
-                    "token"
-                );
-
-                localStorage.removeItem(
-                    "usuario"
-                );
-
-                actualizarBotonesUsuario();
-
-                alert(
-                    "⚠️ Tu sesión ha expirado. Inicia sesión nuevamente."
-                );
-
-                cerrarServicioModal();
-
-                abrirLogin();
-
-                return;
-            }
-
+        if (respuesta.status === 401) {
 
             mensaje.textContent =
-                `❌ ${
-                    resultado.mensaje ||
-                    "No se pudo publicar el servicio."
-                }`;
+                "⚠️ Tu sesión ha expirado. Inicia sesión nuevamente.";
+
+            localStorage.removeItem(
+                "token"
+            );
+
+            localStorage.removeItem(
+                "usuario"
+            );
+
+            actualizarBotonesUsuario();
 
             return;
         }
 
 
+        // =========================================
+        // ERROR DEL SERVIDOR
+        // =========================================
+
+        if (!respuesta.ok) {
+
+            mensaje.textContent =
+                "❌ " +
+                (
+                    resultado.mensaje ||
+                    "No se pudo publicar el servicio."
+                );
+
+            return;
+        }
+
+
+        // =========================================
+        // PUBLICACIÓN EXITOSA
+        // =========================================
+
         mensaje.textContent =
             "✅ Servicio publicado correctamente.";
 
 
-        formulario.reset();
+        const formulario =
+            document.getElementById(
+                "formServicio"
+            );
 
 
-        // Actualizar lista de servicios
+        if (formulario) {
+
+            formulario.reset();
+
+        }
+
+
+        // =========================================
+        // ACTUALIZAR SERVICIOS
+        // =========================================
 
         await obtenerServicios();
 
 
-        setTimeout(() => {
+        // =========================================
+        // CERRAR MODAL
+        // =========================================
 
-            cerrarServicioModal();
+        setTimeout(
+            () => {
 
-        }, 1000);
+                cerrarServicioModal();
+
+                mensaje.textContent = "";
+
+            },
+            1000
+        );
 
 
     } catch (error) {
@@ -311,9 +420,96 @@ async function publicarServicio(event) {
         );
 
         mensaje.textContent =
-            "❌ Error de conexión con el servidor.";
+            "❌ Error al conectar con el servidor.";
     }
 }
+
+
+// =====================================================
+// OBTENER UBICACIÓN DEL SERVICIO
+// =====================================================
+
+window.obtenerUbicacionServicio = function () {
+
+    const mensaje =
+        document.getElementById(
+            "mensajeUbicacion"
+        );
+
+
+    if (!navigator.geolocation) {
+
+        mensaje.textContent =
+            "❌ Tu navegador no permite obtener la ubicación.";
+
+        return;
+    }
+
+
+    mensaje.textContent =
+        "📍 Obteniendo tu ubicación...";
+
+
+    navigator.geolocation.getCurrentPosition(
+
+        function (posicion) {
+
+            const latitud =
+                posicion.coords.latitude;
+
+            const longitud =
+                posicion.coords.longitude;
+
+
+            document.getElementById(
+                "servicioLatitud"
+            ).value = latitud;
+
+
+            document.getElementById(
+                "servicioLongitud"
+            ).value = longitud;
+
+
+            mensaje.textContent =
+                "✅ Ubicación capturada correctamente.";
+
+
+            console.log(
+                "📍 Latitud:",
+                latitud
+            );
+
+            console.log(
+                "📍 Longitud:",
+                longitud
+            );
+        },
+
+
+        function (error) {
+
+            console.error(
+                "Error obteniendo ubicación:",
+                error
+            );
+
+
+            mensaje.textContent =
+                "❌ No se pudo obtener tu ubicación. " +
+                "Verifica que hayas permitido el acceso a la ubicación.";
+        },
+
+
+        {
+            enableHighAccuracy: true,
+            timeout: 10000,
+            maximumAge: 0
+        }
+    );
+};
+
+
 
 
 // =====================================================
@@ -344,7 +540,7 @@ async function obtenerServicios() {
 
         const respuesta =
             await fetch(
-                `${API_URL}/services`
+                `${API_URL}/servicios`
             );
 
 
@@ -394,6 +590,221 @@ async function obtenerServicios() {
 
 
 // =====================================================
+// CALCULAR DISTANCIA ENTRE DOS UBICACIONES
+// =====================================================
+
+function calcularDistancia(
+    lat1,
+    lon1,
+    lat2,
+    lon2
+) {
+
+    const radioTierra = 6371;
+
+    const dLat =
+        (lat2 - lat1) *
+        Math.PI / 180;
+
+    const dLon =
+        (lon2 - lon1) *
+        Math.PI / 180;
+
+    const a =
+        Math.sin(dLat / 2) *
+        Math.sin(dLat / 2) +
+
+        Math.cos(lat1 * Math.PI / 180) *
+        Math.cos(lat2 * Math.PI / 180) *
+        Math.sin(dLon / 2) *
+        Math.sin(dLon / 2);
+
+    const c =
+        2 *
+        Math.atan2(
+            Math.sqrt(a),
+            Math.sqrt(1 - a)
+        );
+
+    return radioTierra * c;
+}
+
+
+
+
+        window.buscarServiciosCercanos = function () {
+
+    const mensaje =
+        document.getElementById(
+            "mensajeServiciosCercanos"
+        );
+
+    if (mensaje) {
+        mensaje.textContent =
+            "📍 Obteniendo tu ubicación...";
+    }
+
+    if (!navigator.geolocation) {
+
+        if (mensaje) {
+            mensaje.textContent =
+                "❌ Tu navegador no permite obtener la ubicación.";
+        }
+
+        return;
+    }
+
+    navigator.geolocation.getCurrentPosition(
+
+        async function (posicion) {
+
+            const miLatitud =
+                posicion.coords.latitude;
+
+            const miLongitud =
+                posicion.coords.longitude;
+
+            console.log(
+                "📍 MI LATITUD:",
+                miLatitud
+            );
+
+            console.log(
+                "📍 MI LONGITUD:",
+                miLongitud
+            );
+
+            try {
+
+                const respuesta =
+                    await fetch(
+                        `${API_URL}/servicios/ubicacion`
+                    );
+
+                if (!respuesta.ok) {
+
+                    throw new Error(
+                        "No se pudieron obtener los servicios."
+                    );
+
+                }
+
+                const servicios =
+                    await respuesta.json();
+
+                console.log(
+                    "📍 SERVICIOS CON UBICACIÓN:",
+                    servicios
+                );
+
+                if (!servicios.length) {
+
+                    if (mensaje) {
+                        mensaje.textContent =
+                            "⚠️ No hay servicios con ubicación registrada.";
+                    }
+
+                    mostrarServicios([]);
+
+                    return;
+                }
+
+                const serviciosConDistancia =
+                    servicios.map(servicio => {
+
+                        const latitudServicio =
+                            Number(
+                                servicio.ubicacion.latitud
+                            );
+
+                        const longitudServicio =
+                            Number(
+                                servicio.ubicacion.longitud
+                            );
+
+                        const distancia =
+                            calcularDistancia(
+                                miLatitud,
+                                miLongitud,
+                                latitudServicio,
+                                longitudServicio
+                            );
+
+                        return {
+                            ...servicio,
+                            distancia
+                        };
+
+                    });
+
+                serviciosConDistancia.sort(
+                    (a, b) =>
+                        a.distancia - b.distancia
+                );
+
+                const tresMasCercanos =
+                    serviciosConDistancia.slice(
+                        0,
+                        3
+                    );
+
+                console.log(
+                    "📍 3 SERVICIOS MÁS CERCANOS:",
+                    tresMasCercanos
+                );
+
+                if (mensaje) {
+
+                    mensaje.textContent =
+                        `📍 Se encontraron ${tresMasCercanos.length} servicios cercanos.`;
+
+                }
+
+                mostrarServicios(
+                    tresMasCercanos
+                );
+
+            } catch (error) {
+
+                console.error(
+                    "Error buscando servicios cercanos:",
+                    error
+                );
+
+                if (mensaje) {
+
+                    mensaje.textContent =
+                        "❌ Error buscando servicios cercanos.";
+
+                }
+
+            }
+
+        },
+
+        function (error) {
+
+            console.error(
+                "Error de ubicación:",
+                error
+            );
+
+            if (mensaje) {
+
+                mensaje.textContent =
+                    "⚠️ No fue posible obtener tu ubicación.";
+
+            }
+
+        }
+
+    );
+
+};
+
+
+
+// =====================================================
 // MOSTRAR SERVICIOS
 // =====================================================
 
@@ -404,14 +815,11 @@ function mostrarServicios(servicios) {
             "listaServicios"
         );
 
-
     if (!contenedor) {
         return;
     }
 
-
     contenedor.innerHTML = "";
-
 
     if (
         !servicios ||
@@ -427,22 +835,62 @@ function mostrarServicios(servicios) {
         return;
     }
 
-
     servicios.forEach(servicio => {
 
         const tarjeta =
-            document.createElement(
-                "div"
-            );
-
+            document.createElement("div");
 
         tarjeta.classList.add(
             "servicio"
         );
 
 
-        let imagenesHTML = "";
+        // =============================================
+        // CALCULAR TEXTO DE DISTANCIA
+        // =============================================
 
+        let textoDistancia = "";
+
+        if (
+            servicio.distancia != null &&
+            !isNaN(servicio.distancia)
+        ) {
+
+            if (servicio.distancia < 1) {
+
+                const metros =
+                    Math.round(
+                        servicio.distancia * 1000
+                    );
+
+                textoDistancia = `
+                    <p class="distancia-servicio">
+                        <strong>
+                            📍 Distancia:
+                        </strong>
+                        ${metros} metros
+                    </p>
+                `;
+
+            } else {
+
+                textoDistancia = `
+                    <p class="distancia-servicio">
+                        <strong>
+                            📍 Distancia:
+                        </strong>
+                        ${servicio.distancia.toFixed(2)} km
+                    </p>
+                `;
+            }
+        }
+
+
+        // =============================================
+        // IMÁGENES
+        // =============================================
+
+        let imagenesHTML = "";
 
         if (
             servicio.imagenes &&
@@ -450,69 +898,101 @@ function mostrarServicios(servicios) {
         ) {
 
             imagenesHTML =
-                servicio.imagenes.map(
-                    imagen => `
+                servicio.imagenes.map(imagen => {
 
+                    return `
                         <img
-                            src="${API_URL}/uploads/${imagen}"
-                            alt="${servicio.nombre}"
-                            onerror="this.style.display='none'"
+                            src="${imagen}"
+                            alt="${servicio.titulo}"
                         >
+                    `;
 
-                    `
-                ).join("");
+                }).join("");
 
-        } else {
-
-            imagenesHTML = `
-                <p>
-                    Sin imágenes
-                </p>
-            `;
         }
 
+
+        // =============================================
+        // TARJETA DEL SERVICIO
+        // =============================================
 
         tarjeta.innerHTML = `
 
             <div class="servicio-imagenes">
-
                 ${imagenesHTML}
-
             </div>
 
+            <h3>
+                ${servicio.titulo || "Sin título"}
+            </h3>
 
-            <div class="servicio-contenido">
+            <p>
+                <strong>
+                    Descripción:
+                </strong>
 
-                <h3>
-                    ${servicio.nombre}
-                </h3>
+                ${servicio.descripcion || "Sin descripción"}
+            </p>
 
-                <p>
-                    ${servicio.descripcion}
-                </p>
+            <p>
+                <strong>
+                    Categoría:
+                </strong>
 
-                <p class="precio">
+                ${servicio.categoria || "Sin categoría"}
+            </p>
 
-                    <strong>
-                        Precio:
-                    </strong>
+            <p>
+                <strong>
+                    💰 Precio:
+                </strong>
 
-                    $${Number(servicio.precio)
-                        .toLocaleString("es-CO")}
+                $${Number(
+                    servicio.precio || 0
+                ).toLocaleString("es-CO")}
+            </p>
 
-                </p>
+            <p>
+                <strong>
+                    📍 Municipio:
+                </strong>
 
-                <p>
+                ${servicio.municipio || "No especificado"}
+            </p>
 
-                    <strong>
-                        Ciudad:
-                    </strong>
+            <p>
+                <strong>
+                    🏘️ Barrio:
+                </strong>
 
-                    ${servicio.ciudad || "No especificada"}
+                ${servicio.barrio || "No especificado"}
+            </p>
 
-                </p>
+            <p>
+                <strong>
+                    🏠 Dirección:
+                </strong>
 
-            </div>
+                ${servicio.direccion || "No especificada"}
+            </p>
+
+            <p>
+                <strong>
+                    ⏱️ Duración:
+                </strong>
+
+                ${servicio.duracion || "No especificada"}
+            </p>
+
+            <p>
+                <strong>
+                    Estado:
+                </strong>
+
+                ${servicio.estado || "Disponible"}
+            </p>
+
+            ${textoDistancia}
 
         `;
 
@@ -520,8 +1000,10 @@ function mostrarServicios(servicios) {
         contenedor.appendChild(
             tarjeta
         );
+
     });
 }
+
 
 // =====================================================
 // AUTENTICACIÓN JWT
@@ -1317,6 +1799,229 @@ function actualizarBotonesUsuario() {
     }
 }
 
+// ===============================
+// PUBLICAR PRODUCTO
+// ===============================
+
+function abrirProductoModal() {
+
+    const token = localStorage.getItem("token");
+
+    if (!token) {
+
+        alert("Debes iniciar sesión para publicar un producto.");
+
+        abrirLogin();
+
+        return;
+    }
+
+    document.getElementById("productoModal").style.display = "flex";
+
+}
+
+
+// ===============================
+// CERRAR MODAL PRODUCTO
+// ===============================
+
+function cerrarProductoModal() {
+
+    const modal = document.getElementById("productoModal");
+
+    modal.style.display = "none";
+
+    document.getElementById("formProducto").reset();
+
+    document.getElementById("mensajeProducto").textContent = "";
+
+}
+
+
+// ===============================
+// PUBLICAR PRODUCTO
+// ===============================
+async function publicarProducto(event) {
+
+    event.preventDefault();
+
+    const token = localStorage.getItem("token");
+
+    if (!token) {
+
+        alert("Debes iniciar sesión para publicar un producto.");
+
+        cerrarProductoModal();
+
+        abrirLogin();
+
+        return;
+    }
+
+
+    const nombre =
+        document.getElementById("productoNombre").value.trim();
+
+    const descripcion =
+        document.getElementById("productoDescripcion").value.trim();
+
+    const precio =
+        Number(document.getElementById("productoPrecio").value);
+
+    const categoria =
+        document.getElementById("productoCategoria").value.trim();
+
+    const stock =
+        Number(document.getElementById("productoStock").value);
+
+    const archivoImagen =
+        document.getElementById("productoImagen").files[0];
+
+    const mensaje =
+        document.getElementById("mensajeProducto");
+
+
+    // ===============================
+    // VALIDAR DATOS
+    // ===============================
+
+    if (
+        !nombre ||
+        !descripcion ||
+        !categoria ||
+        precio < 0 ||
+        stock < 1
+    ) {
+
+        mensaje.textContent =
+            "❌ Completa correctamente todos los campos.";
+
+        return;
+    }
+
+
+    if (!archivoImagen) {
+
+        mensaje.textContent =
+            "❌ Debes seleccionar una imagen.";
+
+        return;
+    }
+
+
+    // ===============================
+    // CREAR FORM DATA
+    // ===============================
+
+    const formulario = new FormData();
+
+    formulario.append("nombre", nombre);
+
+    formulario.append("descripcion", descripcion);
+
+    formulario.append("precio", precio);
+
+    formulario.append("categoria", categoria);
+
+    formulario.append("stock", stock);
+
+    formulario.append("imagen", archivoImagen);
+
+
+    mensaje.textContent =
+        "⏳ Publicando producto...";
+
+
+    try {
+
+        const respuesta = await fetch(
+            `${API_URL}/productos`,
+            {
+                method: "POST",
+
+                headers: {
+                    "Authorization": `Bearer ${token}`
+                },
+
+                body: formulario
+            }
+        );
+
+
+        const datos = await respuesta.json();
+
+
+        // ===============================
+        // SESIÓN EXPIRADA
+        // ===============================
+
+        if (respuesta.status === 401) {
+
+            localStorage.removeItem("token");
+
+            localStorage.removeItem("usuario");
+
+            actualizarBotonesUsuario();
+
+            cerrarProductoModal();
+
+            alert(
+                "Tu sesión ha expirado. Inicia sesión nuevamente."
+            );
+
+            abrirLogin();
+
+            return;
+        }
+
+
+        // ===============================
+        // ERROR
+        // ===============================
+
+        if (!respuesta.ok) {
+
+            mensaje.textContent =
+                `❌ ${
+                    datos.mensaje ||
+                    "No se pudo publicar el producto."
+                }`;
+
+            return;
+        }
+
+
+        // ===============================
+        // ÉXITO
+        // ===============================
+
+        mensaje.textContent =
+            "✅ Producto publicado correctamente.";
+
+
+        await obtenerProductos();
+
+
+        setTimeout(() => {
+
+            cerrarProductoModal();
+
+        }, 1000);
+
+
+    } catch (error) {
+
+        console.error(
+            "Error publicando producto:",
+            error
+        );
+
+        mensaje.textContent =
+            "❌ Error de conexión con el servidor.";
+
+    }
+
+}
 
 // =====================================================
 // OBTENER PRODUCTOS
@@ -1805,6 +2510,127 @@ function mostrarCarrito() {
 }
 
 
+// ===============================
+// MEDIO DE PAGO
+// ===============================
+
+function abrirPagoModal() {
+
+    const token = localStorage.getItem("token");
+
+    if (!token) {
+
+        alert("Debes iniciar sesión para realizar una compra.");
+
+        abrirLogin();
+
+        return;
+    }
+
+    document.getElementById("pagoModal").style.display = "flex";
+}
+
+
+function cerrarPagoModal() {
+
+    const modal =
+        document.getElementById("pagoModal");
+
+    modal.style.display = "none";
+
+
+    // Limpiar selección
+
+    const opciones =
+        document.querySelectorAll(
+            'input[name="medioPago"]'
+        );
+
+    opciones.forEach(opcion => {
+
+        opcion.checked = false;
+
+    });
+
+
+    document.getElementById(
+        "mensajePago"
+    ).textContent = "";
+
+}
+
+
+// ===============================
+// CONTINUAR CON EL PAGO
+// ===============================
+
+function continuarPago() {
+
+    const opcionSeleccionada =
+        document.querySelector(
+            'input[name="medioPago"]:checked'
+        );
+
+    const mensaje =
+        document.getElementById(
+            "mensajePago"
+        );
+
+
+    // ===============================
+    // VALIDAR MEDIO DE PAGO
+    // ===============================
+
+    if (!opcionSeleccionada) {
+
+        mensaje.textContent =
+            "⚠️ Selecciona un medio de pago.";
+
+        return;
+    }
+
+
+    const medioPago =
+        opcionSeleccionada.value;
+
+
+    // ===============================
+    // MOSTRAR MEDIO SELECCIONADO
+    // ===============================
+
+    if (medioPago === "tarjeta") {
+
+        mensaje.textContent =
+            "💳 Has seleccionado pago con Tarjeta.";
+
+    } else if (medioPago === "nequi") {
+
+        mensaje.textContent =
+            "📱 Has seleccionado pago con Nequi.";
+
+    } else if (medioPago === "breb") {
+
+        mensaje.textContent =
+            "📱 Has seleccionado pago con Llave Bre-B.";
+    }
+
+
+    console.log(
+        "MEDIO DE PAGO SELECCIONADO:",
+        medioPago
+    );
+
+
+    // ===============================
+    // CONTINUAR CON LA COMPRA
+    // ===============================
+
+    confirmarCompra();
+
+}
+
+
+
 // =====================================================
 // AUMENTAR CANTIDAD
 // =====================================================
@@ -2006,7 +2832,6 @@ function cerrarConfirmacion() {
     }
 }
 
-
 // =====================================================
 // CONFIRMAR COMPRA
 // =====================================================
@@ -2039,6 +2864,36 @@ async function confirmarCompra() {
 
         return;
     }
+
+
+    // =====================================================
+    // OBTENER MEDIO DE PAGO SELECCIONADO
+    // =====================================================
+
+    const opcionSeleccionada =
+        document.querySelector(
+            'input[name="medioPago"]:checked'
+        );
+
+
+    if (!opcionSeleccionada) {
+
+        alert(
+            "⚠️ Debes seleccionar un medio de pago."
+        );
+
+        return;
+    }
+
+
+    const medioPago =
+        opcionSeleccionada.value;
+
+
+    console.log(
+        "💳 MEDIO DE PAGO:",
+        medioPago
+    );
 
 
     try {
@@ -2076,7 +2931,14 @@ async function confirmarCompra() {
 
                                 cantidad:
                                     producto.cantidad
-                            }))
+                            })),
+
+                        // ===============================
+                        // MEDIO DE PAGO
+                        // ===============================
+
+                        medioPago:
+                            medioPago
                     })
                 }
             );
@@ -2091,6 +2953,10 @@ async function confirmarCompra() {
             datos
         );
 
+
+        // =====================================================
+        // ERROR
+        // =====================================================
 
         if (!respuesta.ok) {
 
@@ -2112,6 +2978,8 @@ async function confirmarCompra() {
 
                 cerrarConfirmacion();
 
+                cerrarPagoModal();
+
                 abrirLogin();
 
                 actualizarBotonesUsuario();
@@ -2129,6 +2997,10 @@ async function confirmarCompra() {
         }
 
 
+        // =====================================================
+        // COMPRA REGISTRADA
+        // =====================================================
+
         alert(
             "✅ Compra registrada correctamente."
         );
@@ -2137,9 +3009,14 @@ async function confirmarCompra() {
         carrito = [];
 
 
+        // Cerrar ventanas
+
         cerrarConfirmacion();
 
+        cerrarPagoModal();
+
         cerrarCarrito();
+
 
     } catch (error) {
 
@@ -2336,6 +3213,10 @@ async function mostrarMisCompras() {
             let productosHTML = "";
 
 
+            // =====================================================
+            // PRODUCTOS DE LA COMPRA
+            // =====================================================
+
             if (
                 compra.productos &&
                 compra.productos.length > 0
@@ -2431,10 +3312,54 @@ async function mostrarMisCompras() {
             }
 
 
+            // =====================================================
+            // MEDIO DE PAGO
+            // =====================================================
+
+            const medioPago =
+                compra.medioPago ||
+                "No especificado";
+
+
+            let medioPagoTexto =
+                medioPago;
+
+
+            if (
+                medioPago === "tarjeta"
+            ) {
+
+                medioPagoTexto =
+                    "💳 Tarjeta";
+
+            } else if (
+                medioPago === "nequi"
+            ) {
+
+                medioPagoTexto =
+                    "📱 Nequi";
+
+            } else if (
+                medioPago === "breb"
+            ) {
+
+                medioPagoTexto =
+                    "📱 Llave Bre-B";
+            }
+
+
+            // =====================================================
+            // ESTADO
+            // =====================================================
+
             const estado =
                 compra.estado ||
                 "Pendiente";
 
+
+            // =====================================================
+            // FECHA
+            // =====================================================
 
             const fecha =
                 compra.fecha
@@ -2446,11 +3371,19 @@ async function mostrarMisCompras() {
                     : "Sin fecha";
 
 
+            // =====================================================
+            // TOTAL
+            // =====================================================
+
             const total =
                 Number(
                     compra.total
                 ) || 0;
 
+
+            // =====================================================
+            // MOSTRAR COMPRA
+            // =====================================================
 
             compraElemento.innerHTML = `
 
@@ -2466,7 +3399,9 @@ async function mostrarMisCompras() {
 
                 </div>
 
+
                 ${productosHTML}
+
 
                 <div class="compra-total">
 
@@ -2476,6 +3411,18 @@ async function mostrarMisCompras() {
                     )}
 
                 </div>
+
+
+                <div class="compra-medio-pago">
+
+                    Medio de pago:
+
+                    <strong>
+                        ${medioPagoTexto}
+                    </strong>
+
+                </div>
+
 
                 <div
                     class="
@@ -2497,6 +3444,7 @@ async function mostrarMisCompras() {
             lista.appendChild(
                 compraElemento
             );
+
         });
 
 
@@ -2515,6 +3463,9 @@ async function mostrarMisCompras() {
         `;
     }
 }
+
+
+
 
 
 // =====================================================
@@ -2765,42 +3716,77 @@ document.addEventListener(
             );
 
 
-        if (btnPublicarServicio) {
+        // =========================================
+// BOTÓN PUBLICAR SERVICIO
+// =========================================
 
-            btnPublicarServicio.addEventListener(
-                "click",
-                abrirServicioModal
-            );
-        }
+if (btnPublicarServicio) {
+
+    btnPublicarServicio.addEventListener(
+        "click",
+        abrirServicioModal
+    );
+
+}
+
+// ===============================
+// PUBLICAR PRODUCTO
+// ===============================
+
+const btnPublicarProducto =
+    document.getElementById("btnPublicarProducto");
+
+if (btnPublicarProducto) {
+
+    btnPublicarProducto.addEventListener(
+        "click",
+        abrirProductoModal
+    );
+
+}
 
 
-        // -----------------------------------------
-        // FORMULARIO SERVICIO
-        // -----------------------------------------
+const formProducto =
+    document.getElementById("formProducto");
 
-        const formServicio =
-            document.getElementById(
-                "formServicio"
-            );
+if (formProducto) {
 
+    formProducto.addEventListener(
+        "submit",
+        publicarProducto
+    );
 
-        if (formServicio) {
-
-            formServicio.addEventListener(
-                "submit",
-                publicarServicio
-            );
-        }
+}
 
 
-        // -----------------------------------------
-        // ACTUALIZAR USUARIO
-        // -----------------------------------------
+    
 
-        actualizarBotonesUsuario();
 
-    }
-);
+
+// =========================================
+// FORMULARIO PUBLICAR SERVICIO
+// =========================================
+
+const formServicio =
+    document.getElementById("formServicio");
+
+if (formServicio) {
+
+    formServicio.addEventListener(
+        "submit",
+        publicarServicio
+    );
+
+}
+
+
+// =========================================
+// ACTUALIZAR BOTONES DEL USUARIO
+// =========================================
+
+actualizarBotonesUsuario();
+
+});
 // =====================================================
 // CERRAR DETALLE AL HACER CLIC AFUERA
 // =====================================================
@@ -2831,4 +3817,4 @@ document.addEventListener(
 // =====================================================
 
 obtenerProductos();
-
+console.log("✅ app.js cargado correctamente");

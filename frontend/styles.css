@@ -313,7 +313,156 @@ section h2 {
 #servicios {
     background-color: #e5e7eb;
 }
+/* ===============================
+   SERVICIOS
+   =============================== */
 
+#listaServicios {
+    width: 90%;
+    max-width: 1200px;
+    margin: 30px auto;
+
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 25px;
+}
+
+
+/* TARJETA DEL SERVICIO */
+
+.servicio {
+    background-color: white;
+    border-radius: 12px;
+    overflow: hidden;
+
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.10);
+
+    border: 1px solid #e5e7eb;
+
+    display: flex;
+    flex-direction: column;
+
+    transition: transform 0.2s ease,
+                box-shadow 0.2s ease;
+}
+
+
+/* EFECTO AL PASAR EL MOUSE */
+
+.servicio:hover {
+    transform: translateY(-4px);
+
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}
+
+
+/* ===============================
+   IMÁGENES DEL SERVICIO
+   =============================== */
+
+.servicio-imagenes {
+    width: 100%;
+    height: 200px;
+
+    display: flex;
+    overflow: hidden;
+
+    background-color: #f8fafc;
+}
+
+
+.servicio-imagenes img {
+    width: 100%;
+    height: 200px;
+
+    object-fit: cover;
+
+    display: block;
+}
+
+
+/* ===============================
+   CONTENIDO
+   =============================== */
+
+.servicio-contenido {
+    padding: 20px;
+
+    display: flex;
+    flex-direction: column;
+
+    gap: 8px;
+}
+
+
+/* TÍTULO */
+
+.servicio-contenido h3 {
+    margin: 0 0 8px 0;
+
+    font-size: 20px;
+
+    color: #1f2937;
+}
+
+
+/* TEXTOS */
+
+.servicio-contenido p {
+    margin: 0;
+
+    font-size: 14px;
+
+    line-height: 1.5;
+
+    color: #4b5563;
+}
+
+
+/* PRECIO */
+
+.servicio-contenido .precio {
+    font-size: 18px;
+
+    color: #111827;
+
+    margin-top: 5px;
+}
+
+
+/* ESTADO */
+
+.servicio-contenido p:last-child {
+    font-weight: 500;
+}
+
+
+/* ===============================
+   RESPONSIVE
+   =============================== */
+
+
+/* TABLET */
+
+@media (max-width: 900px) {
+
+    #listaServicios {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+}
+
+
+/* CELULAR */
+
+@media (max-width: 600px) {
+
+    #listaServicios {
+        grid-template-columns: 1fr;
+        width: 95%;
+    }
+
+}
 
 /* ===============================
    DONACIONES
@@ -1796,4 +1945,545 @@ footer {
         max-height: 95vh;
     }
 
+}
+
+/* =====================================================
+   BOTONES DE SERVICIOS
+   ===================================================== */
+
+.botones-servicios {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+    flex-wrap: wrap;
+    margin: 20px 0;
+}
+
+
+/* BOTÓN SERVICIOS MÁS CERCANOS */
+/* =====================================================
+   BOTONES DE SERVICIOS
+   ===================================================== */
+
+.botones-servicios {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 18px;
+    flex-wrap: wrap;
+    margin: 25px 0;
+}
+
+
+/* SERVICIOS MÁS CERCANOS */
+
+#servicios .btn-servicios-cercanos {
+    width: auto;
+    padding: 14px 24px;
+
+    border: none;
+    border-radius: 10px;
+
+    background: #2563eb;
+    color: #ffffff;
+
+    font-size: 16px;
+    font-weight: bold;
+
+    cursor: pointer;
+
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+
+    transition: all 0.2s ease;
+}
+
+
+#servicios .btn-servicios-cercanos:hover {
+    background: #1d4ed8;
+    transform: translateY(-2px);
+
+    box-shadow: 0 6px 14px rgba(0, 0, 0, 0.20);
+}
+
+
+/* PUBLICAR SERVICIO */
+
+#servicios .btn-publicar-servicio {
+    width: auto;
+    padding: 14px 24px;
+
+    border: none;
+    border-radius: 10px;
+
+    background: #16a34a;
+    color: #ffffff;
+
+    font-size: 16px;
+    font-weight: bold;
+
+    cursor: pointer;
+
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+
+    transition: all 0.2s ease;
+}
+
+
+#servicios .btn-publicar-servicio:hover {
+    background: #15803d;
+    transform: translateY(-2px);
+
+    box-shadow: 0 6px 14px rgba(0, 0, 0, 0.20);
+}
+
+
+/* MENSAJE */
+
+#mensajeServiciosCercanos {
+    text-align: center;
+    margin: 12px 0 20px;
+
+    color: #475569;
+    font-size: 15px;
+}
+
+/* =====================================================
+   BOTÓN PUBLICAR PRODUCTO
+   ===================================================== */
+
+.botones-productos {
+    display: flex;
+    justify-content: center;
+    margin: 20px 0;
+}
+
+#productos .btn-publicar-producto {
+    border: none;
+    border-radius: 10px;
+
+    padding: 14px 24px;
+
+    background: #f59e0b;
+    color: white;
+
+    font-size: 16px;
+    font-weight: bold;
+
+    cursor: pointer;
+
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+
+    transition: all 0.2s ease;
+}
+
+#productos .btn-publicar-producto:hover {
+    background: #d97706;
+
+    transform: translateY(-2px);
+
+    box-shadow: 0 6px 14px rgba(0, 0, 0, 0.20);
+}
+
+#productos .btn-publicar-producto:active {
+    transform: translateY(0);
+}
+
+
+/* =====================================================
+   MODAL PUBLICAR PRODUCTO
+   ===================================================== */
+
+#productoModal {
+    display: none;
+
+    position: fixed;
+    z-index: 10000;
+
+    left: 0;
+    top: 0;
+
+    width: 100%;
+    height: 100%;
+
+    background-color: rgba(0, 0, 0, 0.60);
+
+    justify-content: center;
+    align-items: center;
+
+    padding: 20px;
+}
+
+
+/* CONTENIDO DEL MODAL */
+
+#productoModal .modal-contenido {
+
+    position: relative;
+
+    width: 100%;
+    max-width: 550px;
+
+    max-height: 90vh;
+
+    overflow-y: auto;
+
+    background-color: #ffffff;
+
+    color: #111827;
+
+    padding: 30px;
+
+    border-radius: 14px;
+
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.30);
+}
+
+
+/* TÍTULO */
+
+#productoModal h2 {
+
+    margin-top: 0;
+    margin-bottom: 25px;
+
+    color: #111827;
+
+    text-align: center;
+
+}
+
+
+/* ETIQUETAS */
+
+#productoModal label {
+
+    display: block;
+
+    margin-top: 15px;
+    margin-bottom: 6px;
+
+    color: #374151;
+
+    font-weight: bold;
+
+}
+
+
+/* INPUTS */
+
+#productoModal input,
+#productoModal textarea {
+
+    width: 100%;
+
+    padding: 12px;
+
+    border: 1px solid #d1d5db;
+
+    border-radius: 8px;
+
+    background-color: #ffffff;
+
+    color: #111827;
+
+    font-size: 15px;
+
+    box-sizing: border-box;
+
+}
+
+
+/* TEXTAREA */
+
+#productoModal textarea {
+
+    min-height: 100px;
+
+    resize: vertical;
+
+}
+
+
+/* PLACEHOLDER */
+
+#productoModal input::placeholder,
+#productoModal textarea::placeholder {
+
+    color: #9ca3af;
+
+}
+
+
+/* BOTÓN CERRAR */
+
+#productoModal .cerrar-modal {
+
+    position: absolute;
+
+    top: 10px;
+    right: 15px;
+
+    border: none;
+
+    background: transparent;
+
+    color: #111827;
+
+    font-size: 30px;
+
+    font-weight: bold;
+
+    cursor: pointer;
+
+}
+
+
+/* BOTÓN PUBLICAR */
+
+#productoModal .btn-guardar-producto {
+
+    width: 100%;
+
+    margin-top: 25px;
+
+    padding: 14px;
+
+    border: none;
+
+    border-radius: 9px;
+
+    background-color: #16a34a;
+
+    color: #ffffff;
+
+    font-size: 16px;
+
+    font-weight: bold;
+
+    cursor: pointer;
+
+}
+
+
+#productoModal .btn-guardar-producto:hover {
+
+    background-color: #15803d;
+
+}
+
+
+/* MENSAJE */
+
+#productoModal #mensajeProducto {
+
+    margin-top: 15px;
+
+    text-align: center;
+
+    color: #374151;
+
+    font-weight: bold;
+
+}
+
+/* =====================================
+   MODAL MEDIO DE PAGO
+   ===================================== */
+
+#pagoModal {
+
+    display: none;
+
+    position: fixed;
+
+    z-index: 20000;
+
+    left: 0;
+    top: 0;
+
+    width: 100%;
+    height: 100%;
+
+    background-color: rgba(0, 0, 0, 0.60);
+
+    justify-content: center;
+    align-items: center;
+
+    padding: 20px;
+
+    box-sizing: border-box;
+}
+
+
+/* CONTENIDO */
+
+#pagoModal .pago-contenido {
+
+    position: relative;
+
+    width: 100%;
+    max-width: 450px;
+
+    background-color: #ffffff;
+
+    color: #111827;
+
+    padding: 30px;
+
+    border-radius: 14px;
+
+    box-shadow:
+        0 10px 30px rgba(0, 0, 0, 0.30);
+
+    box-sizing: border-box;
+}
+
+
+/* TÍTULO */
+
+#pagoModal h2 {
+
+    margin-top: 0;
+
+    margin-bottom: 15px;
+
+    text-align: center;
+
+    color: #111827;
+}
+
+
+/* TEXTO */
+
+#pagoModal p {
+
+    color: #374151;
+
+    text-align: center;
+
+}
+
+
+/* OPCIONES */
+
+#pagoModal .opciones-pago {
+
+    margin-top: 25px;
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 12px;
+}
+
+
+/* CADA OPCIÓN */
+
+#pagoModal .opcion-pago {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 12px;
+
+    padding: 15px;
+
+    border: 1px solid #d1d5db;
+
+    border-radius: 10px;
+
+    background-color: #f9fafb;
+
+    color: #111827;
+
+    cursor: pointer;
+}
+
+
+/* RADIO */
+
+#pagoModal .opcion-pago input {
+
+    width: 18px;
+    height: 18px;
+}
+
+
+/* TEXTO DE LA OPCIÓN */
+
+#pagoModal .opcion-pago span {
+
+    color: #111827;
+
+    font-weight: bold;
+}
+
+
+/* BOTÓN CONTINUAR */
+
+#pagoModal .btn-continuar-pago {
+
+    width: 100%;
+
+    margin-top: 25px;
+
+    padding: 14px;
+
+    border: none;
+
+    border-radius: 9px;
+
+    background-color: #16a34a;
+
+    color: white;
+
+    font-size: 16px;
+
+    font-weight: bold;
+
+    cursor: pointer;
+}
+
+
+#pagoModal .btn-continuar-pago:hover {
+
+    background-color: #15803d;
+}
+
+
+/* BOTÓN CERRAR */
+
+#pagoModal .cerrar-modal {
+
+    position: absolute;
+
+    top: 10px;
+    right: 15px;
+
+    border: none;
+
+    background: transparent;
+
+    color: #111827;
+
+    font-size: 30px;
+
+    font-weight: bold;
+
+    cursor: pointer;
+}
+
+
+/* MENSAJE */
+
+#pagoModal #mensajePago {
+
+    margin-top: 15px;
+
+    color: #374151;
+
+    font-weight: bold;
 }

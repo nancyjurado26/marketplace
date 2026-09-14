@@ -58,6 +58,20 @@ const compraSchema = new mongoose.Schema({
         required: true
     },
 
+
+    // ===============================
+    // MEDIO DE PAGO
+    // ===============================
+    medioPago: {
+        type: String,
+        enum: ["tarjeta", "nequi", "breb"],
+        required: true
+    },
+
+
+
+
+
     // ===============================
     // FECHA
     // ===============================

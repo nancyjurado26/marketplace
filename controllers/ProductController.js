@@ -13,7 +13,7 @@ const crearProducto = async (req, res) => {
             precio: req.body.precio,
             categoria: req.body.categoria,
             stock: req.body.stock,
-            imagen: req.body.imagen,
+            imagen: req.file ? req.file.filename : null,
             usuario: req.usuario.id
         });
 

@@ -18,23 +18,33 @@ const publicarServicio = async (req, res) => {
             : [];
 
         const servicio = new Service({
+    titulo: req.body.titulo,
+    descripcion: req.body.descripcion,
+    categoria: req.body.categoria,
+    municipio: req.body.municipio,
+    barrio: req.body.barrio,
+    direccion: req.body.direccion,
 
-            titulo: req.body.titulo,
-            descripcion: req.body.descripcion,
-            categoria: req.body.categoria,
-            municipio: req.body.municipio,
-            barrio: req.body.barrio,
-            direccion: req.body.direccion,
-            precio: req.body.precio,
-            duracion: req.body.duracion,
-            estado: req.body.estado,
+    // ===============================
+    // GEOLOCALIZACIÓN
+    // ===============================
 
-            imagenes,
+    ubicacion: {
+        latitud: req.body.latitud
+            ? Number(req.body.latitud)
+            : null,
 
-            // Usuario que publicó el servicio
-            usuario: req.usuario.id
+        longitud: req.body.longitud
+            ? Number(req.body.longitud)
+            : null
+    },
 
-        });
+    precio: req.body.precio,
+    duracion: req.body.duracion,
+    estado: req.body.estado,
+    imagenes,
+    usuario: req.usuario.id
+});
 
         await servicio.save();
 
@@ -313,22 +323,64 @@ const obtenerServiciosConUbicacion = async (req, res) => {
     try {
 
         const servicios = await Service.find({
-            "ubicacion.latitud": { $exists: true },
-            "ubicacion.longitud": { $exists: true }
-        }).populate('usuario', 'nombres apellidos correo');
+            "ubicacion.latitud": {
+                $ne: null
+            },
+            "ubicacion.longitud": {
+                $ne: null
+            }
+        })
+        .populate(
+            "usuario",
+            "nombres apellidos correo"
+        )
+        .sort({
+            fechaPublicacion: -1
+        });
 
-        res.json(servicios);
+        const serviciosConUbicacion = servicios.map(servicio => {
+
+            const servicioObjeto =
+                servicio.toObject();
+
+            servicioObjeto.imagenes =
+                (servicioObjeto.imagenes || []).map(imagen => {
+
+                    if (
+                        imagen.startsWith("http://") ||
+                        imagen.startsWith("https://")
+                    ) {
+                        return imagen;
+                    }
+
+                    return `${req.protocol}://${req.get("host")}/uploads/${imagen}`;
+
+                });
+
+            return servicioObjeto;
+
+        });
+
+        res.status(200).json(
+            serviciosConUbicacion
+        );
 
     } catch (error) {
 
+        console.error(
+            "Error obteniendo servicios con ubicación:",
+            error
+        );
+
         res.status(500).json({
-            mensaje: error.message
+            mensaje:
+                "Error obteniendo servicios con ubicación",
+            error: error.message
         });
 
     }
 
 };
-
 
 // ===============================
 // Búsqueda avanzada

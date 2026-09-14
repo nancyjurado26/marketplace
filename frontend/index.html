@@ -90,11 +90,26 @@
      PRODUCTOS
      =============================== -->
 
+
+
 <section id="productos">
 
     <h2>
-        Productos disponibles
+        🛍️ Productos disponibles
     </h2>
+
+    <div class="botones-productos">
+
+        <button
+            type="button"
+            class="btn-publicar-producto"
+            id="btnPublicarProducto"
+        >
+            ➕ Publicar producto
+        </button>
+
+    </div>
+
 
     <div id="listaProductos">
 
@@ -105,6 +120,117 @@
     </div>
 
 </section>
+
+<!-- ===============================
+     MODAL PUBLICAR PRODUCTO
+     =============================== -->
+
+<div id="productoModal" class="modal">
+
+    <div class="modal-contenido">
+
+        <button
+            type="button"
+            class="cerrar-modal"
+            onclick="cerrarProductoModal()"
+        >
+            ×
+        </button>
+
+        <h2>
+            🛍️ Publicar producto
+        </h2>
+
+        <form id="formProducto">
+
+            <label for="productoNombre">
+                Nombre del producto
+            </label>
+
+            <input
+                type="text"
+                id="productoNombre"
+                placeholder="Ej: Licuadora"
+                required
+            >
+
+
+            <label for="productoDescripcion">
+                Descripción
+            </label>
+
+            <textarea
+                id="productoDescripcion"
+                placeholder="Describe el producto"
+                required
+            ></textarea>
+
+
+            <label for="productoPrecio">
+                Precio
+            </label>
+
+            <input
+                type="number"
+                id="productoPrecio"
+                placeholder="Ej: 150000"
+                min="0"
+                required
+            >
+
+
+            <label for="productoCategoria">
+                Categoría
+            </label>
+
+            <input
+                type="text"
+                id="productoCategoria"
+                placeholder="Ej: Electrodomésticos"
+                required
+            >
+
+
+            <label for="productoStock">
+                Cantidad disponible
+            </label>
+
+            <input
+                type="number"
+                id="productoStock"
+                placeholder="Ej: 5"
+                min="1"
+                required
+            >
+
+
+            <label for="productoImagen">Imagen del producto</label>
+
+           <input
+           type="file"
+           id="productoImagen"
+           accept="image/*"
+           required
+>
+
+
+            <button
+                type="submit"
+                class="btn-guardar-producto"
+            >
+                Publicar producto
+            </button>
+
+        </form>
+
+        <p id="mensajeProducto"></p>
+
+    </div>
+
+</div>
+
+
+
 
 
 <!-- ===============================
@@ -458,14 +584,107 @@
         </div>
 
         <button
-            id="btnFinalizarCompra"
-            onclick="finalizarCompra()">
-            💳 Finalizar compra
+        id="btnFinalizarCompra"
+        type="button"
+        onclick="abrirPagoModal()">
+         💳 Finalizar compra
         </button>
 
     </div>
 
 </div>
+
+
+
+<!-- ===============================
+     MODAL MEDIO DE PAGO
+     =============================== -->
+
+  <div id="pagoModal">
+
+    <div class="pago-contenido">
+
+        <button
+            type="button"
+            class="cerrar-modal"
+            onclick="cerrarPagoModal()"
+        >
+            ×
+        </button>
+
+        <h2>💳 Medio de pago</h2>
+
+        <p>
+            Selecciona cómo deseas realizar tu pago:
+        </p>
+
+        <div class="opciones-pago">
+
+            <!-- TARJETA -->
+            <label class="opcion-pago">
+
+                <input
+                    type="radio"
+                    name="medioPago"
+                    value="tarjeta"
+                >
+
+                <span>
+                    💳 Tarjeta
+                </span>
+
+            </label>
+
+
+            <!-- NEQUI -->
+            <label class="opcion-pago">
+
+                <input
+                    type="radio"
+                    name="medioPago"
+                    value="nequi"
+                >
+
+                <span>
+                    📱 Nequi
+                </span>
+
+            </label>
+
+
+            <!-- BRE-B -->
+            <label class="opcion-pago">
+
+                <input
+                    type="radio"
+                    name="medioPago"
+                    value="breb"
+                >
+
+                <span>
+                    📱 Llave Bre-B
+                </span>
+
+            </label>
+
+        </div>
+
+
+        <button
+            type="button"
+            class="btn-continuar-pago"
+            onclick="continuarPago()"
+        >
+            Continuar con el pago
+        </button>
+
+        <p id="mensajePago"></p>
+
+    </div>
+
+</div>
+
+
 
 
 <!-- ===============================
@@ -540,6 +759,9 @@
 <!-- ===============================
      SERVICIOS
      =============================== -->
+<!-- ===============================
+     SERVICIOS
+     =============================== -->
 
 <section id="servicios">
 
@@ -547,17 +769,38 @@
         🛠️ Servicios
     </h2>
 
+    <div class="botones-servicios">
+
+        <!-- SERVICIOS MÁS CERCANOS -->
+
+        <button
+            type="button"
+            class="btn-servicios-cercanos"
+            onclick="buscarServiciosCercanos()"
+        >
+            📍 Servicios más cercanos
+        </button>
+
+
+        <!-- PUBLICAR SERVICIO -->
+
+        <button
+            type="button"
+            class="btn-publicar-servicio"
+            id="btnPublicarServicio"
+        >
+            ➕ Publicar servicio
+        </button>
+
+    </div>
+
+
+    <p id="mensajeServiciosCercanos"></p>
+
+
     <p>
         Encuentra y publica servicios para tu comunidad.
     </p>
-
-    <!-- BOTÓN PUBLICAR SERVICIO -->
-
-    <button
-        type="button"
-        id="btnPublicarServicio">
-        ➕ Publicar servicio
-    </button>
 
 
     <!-- LISTA DE SERVICIOS -->
@@ -573,125 +816,241 @@
 </section>
 
 
+
 <!-- ===============================
      MODAL PUBLICAR SERVICIO
      =============================== -->
 
 <div id="servicioModal" class="modal">
 
-    <div class="modal-contenido">
+<div class="modal-contenido">
+
+    <button
+        type="button"
+        class="cerrar-modal"
+        onclick="cerrarServicioModal()">
+        ×
+    </button>
+
+    <h2>🛠️ Publicar servicio</h2>
+
+    <form id="formServicio" enctype="multipart/form-data">
+
+        <!-- TÍTULO -->
+
+        <label for="servicioTitulo">
+            Título del servicio
+        </label>
+
+        <input
+            type="text"
+            id="servicioTitulo"
+            name="titulo"
+            placeholder="Ej: Reparación de computadores"
+            required
+        >
+
+
+        <!-- DESCRIPCIÓN -->
+
+        <label for="servicioDescripcion">
+            Descripción
+        </label>
+
+        <textarea
+            id="servicioDescripcion"
+            name="descripcion"
+            placeholder="Describe el servicio que ofreces"
+            required></textarea>
+
+
+        <!-- CATEGORÍA -->
+
+        <label for="servicioCategoria">
+            Categoría
+        </label>
+
+        <select
+            id="servicioCategoria"
+            name="categoria"
+            required>
+
+            <option value="">
+                Selecciona una categoría
+            </option>
+
+            <option value="Salud">Salud</option>
+            <option value="Hogar">Hogar</option>
+            <option value="Educación">Educación</option>
+            <option value="Tecnología">Tecnología</option>
+            <option value="Mascotas">Mascotas</option>
+            <option value="Transporte">Transporte</option>
+            <option value="Belleza">Belleza</option>
+            <option value="Construcción">Construcción</option>
+            <option value="Emergencias">Emergencias</option>
+            <option value="Otros">Otros</option>
+
+        </select>
+
+
+        <!-- MUNICIPIO -->
+
+        <label for="servicioMunicipio">
+            Municipio
+        </label>
+
+        <input
+            type="text"
+            id="servicioMunicipio"
+            name="municipio"
+            placeholder="Ej: San Gil"
+            required
+        >
+
+
+        <!-- BARRIO -->
+
+        <label for="servicioBarrio">
+            Barrio
+        </label>
+
+        <input
+            type="text"
+            id="servicioBarrio"
+            name="barrio"
+            placeholder="Ej: Centro"
+            required
+        >
+
+
+        <!-- DIRECCIÓN -->
+
+        <label for="servicioDireccion">
+            Dirección
+        </label>
+
+        <input
+            type="text"
+            id="servicioDireccion"
+            name="direccion"
+            placeholder="Ej: Calle 10 # 5-20"
+            required
+        >
+         <!-- ===============================
+     UBICACIÓN
+     =============================== -->
+
+<button
+    type="button"
+    class="btn-login"
+    onclick="obtenerUbicacionServicio()">
+    📍 Usar mi ubicación
+</button>
+
+<p id="mensajeUbicacion"></p>
+
+<input
+    type="hidden"
+    id="servicioLatitud"
+    name="latitud"
+>
+
+<input
+    type="hidden"
+    id="servicioLongitud"
+    name="longitud"
+>
+
+        <!-- PRECIO -->
+
+        <label for="servicioPrecio">
+            Precio
+        </label>
+
+        <input
+            type="number"
+            id="servicioPrecio"
+            name="precio"
+            placeholder="Ej: 50000"
+            min="0"
+            required
+        >
+
+
+        <!-- DURACIÓN -->
+
+        <label for="servicioDuracion">
+            Duración
+        </label>
+
+        <input
+            type="text"
+            id="servicioDuracion"
+            name="duracion"
+            placeholder="Ej: 2 horas"
+            required
+        >
+
+
+        <!-- ESTADO -->
+
+        <label for="servicioEstado">
+            Estado
+        </label>
+
+        <select
+            id="servicioEstado"
+            name="estado"
+            required>
+
+            <option value="Disponible">
+                Disponible
+            </option>
+
+            <option value="En proceso">
+                En proceso
+            </option>
+
+            <option value="Finalizado">
+                Finalizado
+            </option>
+
+        </select>
+
+
+        <!-- IMÁGENES -->
+
+        <label for="servicioImagenes">
+            Imágenes del servicio
+        </label>
+
+        <input
+            type="file"
+            id="servicioImagenes"
+            name="imagenes"
+            accept="image/*"
+            multiple
+        >
+
+        <small>
+            Puedes seleccionar hasta 5 imágenes.
+        </small>
+
+
+        <!-- BOTÓN -->
 
         <button
-            type="button"
-            class="cerrar-modal"
-            onclick="cerrarServicioModal()">
-            ×
+            type="submit"
+            class="btn-login">
+            🛠️ Publicar servicio
         </button>
 
-        <h2>
-            🛠️ Publicar servicio
-        </h2>
+    </form>
 
 
-        <form
-            id="formServicio"
-            enctype="multipart/form-data">
+    <!-- MENSAJE -->
 
-
-            <!-- NOMBRE -->
-
-            <label for="servicioNombre">
-                Nombre del servicio
-            </label>
-
-            <input
-                type="text"
-                id="servicioNombre"
-                name="nombre"
-                placeholder="Ej: Reparación de computadores"
-                required
-            >
-
-
-            <!-- DESCRIPCIÓN -->
-
-            <label for="servicioDescripcion">
-                Descripción
-            </label>
-
-            <textarea
-                id="servicioDescripcion"
-                name="descripcion"
-                placeholder="Describe el servicio que ofreces"
-                required></textarea>
-
-
-            <!-- PRECIO -->
-
-            <label for="servicioPrecio">
-                Precio
-            </label>
-
-            <input
-                type="number"
-                id="servicioPrecio"
-                name="precio"
-                placeholder="Ej: 50"
-                min="0"
-                required
-            >
-
-
-            <!-- CIUDAD -->
-
-            <label for="servicioCiudad">
-                Ciudad
-            </label>
-
-            <input
-                type="text"
-                id="servicioCiudad"
-                name="ciudad"
-                placeholder="Ej: Rotterdam"
-                required
-            >
-
-
-            <!-- IMÁGENES -->
-
-            <label for="servicioImagenes">
-                Imágenes del servicio
-            </label>
-
-            <input
-                type="file"
-                id="servicioImagenes"
-                name="imagenes"
-                accept="image/*"
-                multiple
-            >
-
-            <small>
-                Puedes seleccionar hasta 5 imágenes.
-            </small>
-
-
-            <!-- BOTÓN -->
-
-            <button
-                type="submit"
-                class="btn-login">
-                🛠️ Publicar servicio
-            </button>
-
-        </form>
-
-
-        <!-- MENSAJE -->
-
-        <p id="mensajeServicio"></p>
-
-    </div>
+    <p id="mensajeServicio"></p>
 
 </div>
 

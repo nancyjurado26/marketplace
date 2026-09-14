@@ -1,3 +1,4 @@
+
 const mongoose = require('mongoose');
 
 const serviceSchema = new mongoose.Schema({
@@ -12,23 +13,22 @@ const serviceSchema = new mongoose.Schema({
         required: true
     },
 
-   categoria: {
-    type: String,
-    enum: [
-        "Salud",
-        "Hogar",
-        "Educación",
-        "Tecnología",
-        "Mascotas",
-        "Transporte",
-        "Belleza",
-        "Construcción",
-        "Emergencias",
-        "Otros"
-    ],
-    required: true
-},
-    
+    categoria: {
+        type: String,
+        enum: [
+            "Salud",
+            "Hogar",
+            "Educación",
+            "Tecnología",
+            "Mascotas",
+            "Transporte",
+            "Belleza",
+            "Construcción",
+            "Emergencias",
+            "Otros"
+        ],
+        required: true
+    },
 
     municipio: {
         type: String,
@@ -44,12 +44,19 @@ const serviceSchema = new mongoose.Schema({
         type: String
     },
 
+    // ===============================
+    // GEOLOCALIZACIÓN
+    // ===============================
+
     ubicacion: {
         latitud: {
-            type: Number
+            type: Number,
+            default: null
         },
+
         longitud: {
-            type: Number
+            type: Number,
+            default: null
         }
     },
 
@@ -64,13 +71,19 @@ const serviceSchema = new mongoose.Schema({
 
     estado: {
         type: String,
-        enum: ["Disponible", "En proceso", "Finalizado"],
+        enum: [
+            "Disponible",
+            "En proceso",
+            "Finalizado"
+        ],
         default: "Disponible"
     },
 
-    imagenes: [{
-        type: String
-    }],
+    imagenes: [
+        {
+            type: String
+        }
+    ],
 
     usuario: {
         type: mongoose.Schema.Types.ObjectId,
@@ -85,3 +98,4 @@ const serviceSchema = new mongoose.Schema({
 });
 
 module.exports = mongoose.model('Service', serviceSchema);
+

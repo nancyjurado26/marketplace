@@ -1,6 +1,8 @@
 const Compra = require("../models/Compra");
 
 
+
+
 // ===============================
 // CREAR COMPRA
 // ===============================
@@ -11,10 +13,18 @@ const crearCompra = async (req, res) => {
 
     try {
 
+        console.log("👤 USUARIO DEL TOKEN:");
+        console.log(req.usuario);
+
         console.log("DATOS RECIBIDOS:");
         console.log(req.body);
 
-        const { productos } = req.body;
+        const { productos, medioPago } = req.body;
+
+
+        // ===============================
+        // VALIDAR CARRITO
+        // ===============================
 
         if (!productos || productos.length === 0) {
 
@@ -24,36 +34,60 @@ const crearCompra = async (req, res) => {
 
         }
 
+
+        // ===============================
+        // VALIDAR MEDIO DE PAGO
+        // ===============================
+
+        if (
+            !medioPago ||
+            !["tarjeta", "nequi", "breb"].includes(medioPago)
+        ) {
+
+            return res.status(400).json({
+                mensaje: "Medio de pago no válido"
+            });
+
+        }
+
+
+        // ===============================
+        // CALCULAR TOTAL
+        // ===============================
+
         let total = 0;
 
         const productosCompra = productos.map(producto => {
 
-    const cantidad =
-        Number(producto.cantidad) || 1;
+            const cantidad =
+                Number(producto.cantidad) || 1;
 
-    const precio =
-        Number(producto.precio) || 0;
+            const precio =
+                Number(producto.precio) || 0;
 
-    const subtotal =
-        precio * cantidad;
+            const subtotal =
+                precio * cantidad;
 
-    total += subtotal;
+            total += subtotal;
 
-    return {
-    producto: producto._id,
+            return {
 
-    nombre: producto.nombre,
+                producto: producto._id,
 
-    imagen: producto.imagen || "",
+                nombre: producto.nombre,
 
-    precio: precio,
+                imagen: producto.imagen || "",
 
-    cantidad: cantidad,
+                precio: precio,
 
-    subtotal: subtotal
-  };
+                cantidad: cantidad,
 
-});
+                subtotal: subtotal
+
+            };
+
+        });
+
 
         console.log("PRODUCTOS A GUARDAR:");
         console.log(productosCompra);
@@ -61,17 +95,32 @@ const crearCompra = async (req, res) => {
         console.log("TOTAL:");
         console.log(total);
 
+        console.log("MEDIO DE PAGO:");
+        console.log(medioPago);
+
+
+        // ===============================
+        // CREAR COMPRA
+        // ===============================
 
         const compra = new Compra({
+
+            usuario: req.usuario.id,
 
             productos: productosCompra,
 
             total: total,
 
+            medioPago: medioPago,
+
             estado: "Pendiente"
 
         });
 
+
+        // ===============================
+        // GUARDAR EN MONGODB
+        // ===============================
 
         await compra.save();
 
@@ -105,6 +154,8 @@ const crearCompra = async (req, res) => {
     }
 
 };
+
+
 // ===============================
 // OBTENER COMPRAS
 // ===============================

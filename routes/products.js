@@ -14,11 +14,18 @@ const {
 
 const verificarToken = require('../middleware/auth');
 
+const upload = require('../config/multer');
+
 // ===============================
 // Crear producto - PROTEGIDO
 // ===============================
 
-router.post('/', verificarToken, crearProducto);
+router.post(
+    '/',
+    verificarToken,
+    upload.single('imagen'),
+    crearProducto
+);
 
 
 // ===============================
