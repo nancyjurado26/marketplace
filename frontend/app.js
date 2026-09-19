@@ -1,7 +1,12 @@
 
 console.log("🚀 APP.JS SE ESTÁ EJECUTANDO");
-const API_URL = "http://localhost:4000";
 
+const API_URL =
+    window.location.hostname === "localhost"
+        ? "http://localhost:4000"
+        : window.location.origin;
+
+        
 let productosGlobales = [];
 let carrito = [];
 
