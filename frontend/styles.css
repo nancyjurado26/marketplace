@@ -2487,3 +2487,454 @@ footer {
 
     font-weight: bold;
 }
+
+
+/* =====================================================
+   MODAL REGISTRO
+   ===================================================== */
+
+#registroModal {
+    display: none;
+
+    position: fixed;
+
+    top: 0;
+    left: 0;
+
+    width: 100%;
+    height: 100%;
+
+    background-color: rgba(0, 0, 0, 0.65);
+
+    justify-content: center;
+    align-items: center;
+
+    padding: 20px;
+
+    z-index: 11000;
+}
+
+
+/* VENTANA DEL REGISTRO */
+
+#registroModal .modal-contenido {
+
+    position: relative;
+
+    width: 100%;
+    max-width: 500px;
+
+    max-height: 90vh;
+
+    overflow-y: auto;
+
+    padding: 30px;
+
+    background-color: #ffffff;
+
+    color: #111827;
+
+    border-radius: 18px;
+
+    box-shadow:
+        0 15px 40px rgba(0, 0, 0, 0.30);
+
+    box-sizing: border-box;
+
+    opacity: 1;
+}
+
+
+/* TÍTULO */
+
+#registroModal .modal-contenido h2 {
+
+    text-align: center;
+
+    margin-top: 0;
+    margin-bottom: 25px;
+
+    color: #111827;
+
+    font-size: 28px;
+}
+
+
+/* FORMULARIO */
+
+#registroModal form {
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 8px;
+}
+
+
+/* ETIQUETAS */
+
+#registroModal label {
+
+    display: block;
+
+    margin-top: 8px;
+    margin-bottom: 4px;
+
+    color: #374151;
+
+    font-weight: bold;
+}
+
+
+/* CAMPOS */
+
+#registroModal input {
+
+    width: 100%;
+
+    padding: 12px;
+
+    border: 1px solid #d1d5db;
+
+    border-radius: 8px;
+
+    background-color: #ffffff;
+
+    color: #111827;
+
+    font-size: 15px;
+
+    box-sizing: border-box;
+
+    opacity: 1;
+}
+
+
+/* PLACEHOLDER */
+
+#registroModal input::placeholder {
+
+    color: #9ca3af;
+
+}
+
+
+/* BOTÓN REGISTRARSE */
+
+#registroModal .btn-login {
+
+    width: 100%;
+
+    margin-top: 15px;
+
+    padding: 13px;
+
+    border: none;
+
+    border-radius: 8px;
+
+    background-color: #2563eb;
+
+    color: white;
+
+    font-size: 16px;
+
+    font-weight: bold;
+
+    cursor: pointer;
+
+    opacity: 1;
+}
+
+
+#registroModal .btn-login:hover {
+
+    background-color: #1d4ed8;
+
+}
+
+
+/* BOTÓN CERRAR */
+
+#registroModal .cerrar-modal {
+
+    position: absolute;
+
+    top: 10px;
+    right: 15px;
+
+    width: 35px;
+    height: 35px;
+
+    border: none;
+
+    background: transparent;
+
+    color: #111827;
+
+    font-size: 28px;
+
+    font-weight: bold;
+
+    cursor: pointer;
+
+    opacity: 1;
+}
+
+
+#registroModal .cerrar-modal:hover {
+
+    color: #ef4444;
+}
+
+
+/* MENSAJE */
+
+#mensajeRegistro {
+
+    text-align: center;
+
+    margin-top: 15px;
+
+    color: #111827;
+
+    font-weight: bold;
+}
+
+
+/* REGISTRO EN CELULAR */
+
+@media (max-width: 600px) {
+
+    #registroModal {
+
+        padding: 10px;
+    }
+
+    #registroModal .modal-contenido {
+
+        width: 95%;
+
+        padding: 25px 20px;
+
+        max-height: 95vh;
+    }
+
+}
+
+/* =====================================================
+   BARRA DE PROGRESO DE MIS COMPRAS
+   ===================================================== */
+
+.barra-progreso {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    margin: 25px 0 15px;
+}
+
+.paso-progreso {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-width: 70px;
+    text-align: center;
+    opacity: 0.4;
+}
+
+.paso-progreso span {
+    font-size: 22px;
+    margin-bottom: 5px;
+}
+
+.paso-progreso small {
+    font-size: 11px;
+    font-weight: bold;
+}
+
+.paso-progreso.activo {
+    opacity: 1;
+}
+
+.linea-progreso {
+    width: 45px;
+    height: 4px;
+    background: #ccc;
+    margin-bottom: 20px;
+}
+
+.linea-progreso.activa {
+    background: #28a745;
+}
+
+.mensaje-estado {
+    text-align: center;
+    font-weight: bold;
+    margin: 15px 0;
+}
+
+.compra-cancelada {
+    text-align: center;
+    font-weight: bold;
+    margin: 20px 0;
+}
+/* =====================================================
+   BARRA DE PROGRESO DE MIS COMPRAS
+   ===================================================== */
+
+.barra-progreso {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    margin: 25px 0;
+    padding: 10px 0;
+}
+
+/* Cada paso */
+.paso-progreso {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-width: 80px;
+    color: #999;
+    position: relative;
+    z-index: 2;
+}
+
+/* Círculo del paso */
+.paso-progreso span {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    background: #e0e0e0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    border: 3px solid #d0d0d0;
+    transition: all 0.3s ease;
+}
+
+/* Texto debajo del círculo */
+.paso-progreso small {
+    margin-top: 8px;
+    font-size: 12px;
+    font-weight: 600;
+    text-align: center;
+    color: #999;
+}
+
+/* PASO ACTIVO / COMPLETADO */
+.paso-progreso.activo span {
+    background: #28a745;
+    border-color: #28a745;
+    color: white;
+    transform: scale(1.08);
+    box-shadow: 0 3px 8px rgba(40, 167, 69, 0.3);
+}
+
+.paso-progreso.activo small {
+    color: #28a745;
+    font-weight: bold;
+}
+
+/* Líneas entre los pasos */
+.linea-progreso {
+    flex: 1;
+    height: 5px;
+    min-width: 25px;
+    max-width: 90px;
+    background: #d9d9d9;
+    margin: 0 5px;
+    margin-bottom: 25px;
+    border-radius: 5px;
+    transition: background 0.3s ease;
+}
+
+/* Línea de progreso activa */
+.linea-progreso.activa {
+    background: #28a745;
+}
+
+/* =====================================================
+   COMPRA CANCELADA
+   ===================================================== */
+
+.compra-cancelada {
+    margin: 20px 0;
+    padding: 15px;
+    border-radius: 10px;
+    background: #f8d7da;
+    border: 1px solid #f5c2c7;
+    color: #842029;
+    font-weight: bold;
+    text-align: center;
+}
+
+/* =====================================================
+   BOTONES DE CAMBIO DE ESTADO
+   ===================================================== */
+
+.compra-estado button {
+    margin-top: 15px;
+    padding: 10px 18px;
+    border: none;
+    border-radius: 8px;
+    background: #28a745;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.compra-estado button:hover {
+    background: #218838;
+    transform: translateY(-1px);
+}
+
+/* =====================================================
+   MENSAJE DEL ESTADO
+   ===================================================== */
+
+.mensaje-estado {
+    margin: 8px 0 15px;
+    font-size: 14px;
+    color: #555;
+}
+
+/* =====================================================
+   ADAPTACIÓN PARA CELULAR
+   ===================================================== */
+
+@media (max-width: 700px) {
+
+    .barra-progreso {
+        overflow-x: auto;
+        justify-content: flex-start;
+        padding: 10px 5px 15px;
+    }
+
+    .paso-progreso {
+        min-width: 70px;
+    }
+
+    .paso-progreso span {
+        width: 36px;
+        height: 36px;
+        font-size: 17px;
+    }
+
+    .paso-progreso small {
+        font-size: 10px;
+    }
+
+    .linea-progreso {
+        min-width: 20px;
+        max-width: 45px;
+        height: 4px;
+    }
+}

@@ -1,4 +1,5 @@
 
+console.log("🚀 APP.JS SE ESTÁ EJECUTANDO");
 const API_URL = "http://localhost:4000";
 
 let productosGlobales = [];
@@ -752,6 +753,9 @@ function calcularDistancia(
                     "📍 3 SERVICIOS MÁS CERCANOS:",
                     tresMasCercanos
                 );
+
+
+                 
 
                 if (mensaje) {
 
@@ -2067,6 +2071,29 @@ async function obtenerProductos() {
 
 
 // =====================================================
+// IR A LA SECCIÓN DE PRODUCTOS
+// =====================================================
+
+function irProductos() {
+
+    const productos =
+        document.getElementById("productos");
+
+    if (productos) {
+
+        productos.scrollIntoView({
+            behavior: "smooth"
+        });
+
+    }
+
+}
+
+
+
+
+
+// =====================================================
 // MOSTRAR PRODUCTOS
 // =====================================================
 
@@ -2277,8 +2304,19 @@ function cerrarDetalle() {
             "none";
     }
 }
+// =====================================================
 
+// CARGAR PRODUCTOS Y SERVICIOS AL INICIAR
 
+// =====================================================
+
+console.log("🚀 INICIANDO CARGA DE PRODUCTOS");
+
+obtenerProductos();
+
+console.log("🛠️ INICIANDO CARGA DE SERVICIOS");
+
+obtenerServicios();
 // =====================================================
 // COMPRAR / AGREGAR AL CARRITO
 // =====================================================
@@ -3057,28 +3095,119 @@ function cerrarCarrito() {
 // MOSTRAR MIS COMPRAS
 // =====================================================
 
+
+async function cambiarEstadoCompra(idCompra, nuevoEstado) {
+
+
+
+    console.log("🔎 ESTADO QUE SE VA A ENVIAR:", nuevoEstado);
+    try {
+
+        const token = localStorage.getItem("token");
+
+        if (!token) {
+
+            alert("Debes iniciar sesión.");
+
+            return;
+
+        }
+
+
+
+
+        console.log(
+    "🚨 ID COMPRA:",
+    idCompra,
+    "🚨 NUEVO ESTADO:",
+    nuevoEstado
+);
+
+        const respuesta = await fetch(
+            `${API_URL}/compras/${idCompra}/estado`,
+            {
+                method: "PUT",
+
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${token}`
+                },
+
+                body: JSON.stringify({
+                    estado: nuevoEstado
+                })
+            }
+        );
+
+
+        const datos = await respuesta.json();
+
+
+        if (!respuesta.ok) {
+
+            console.error(
+                "Error cambiando estado:",
+                datos
+            );
+
+            alert(
+                datos.mensaje ||
+                "No se pudo cambiar el estado."
+            );
+
+            return;
+
+        }
+
+
+        console.log(
+            "✅ ESTADO ACTUALIZADO:",
+            datos.compra
+        );
+
+
+        alert(
+            `✅ Estado actualizado a: ${nuevoEstado}`
+        );
+
+
+        // Volver a cargar las compras
+        await mostrarMisCompras();
+
+
+    } catch (error) {
+
+        console.error(
+            "❌ Error cambiando estado:",
+            error
+        );
+
+        alert(
+            "❌ Error de conexión con el servidor."
+        );
+
+    }
+
+}
+
+
+
+
+// =====================================================
+// MOSTRAR MIS COMPRAS
+// =====================================================
+
 async function mostrarMisCompras() {
 
-    console.log(
-        "🧾 ABRIENDO MIS COMPRAS"
-    );
-
+    console.log("🧾 ABRIENDO MIS COMPRAS");
 
     const ventana =
-        document.getElementById(
-            "misCompras"
-        );
+        document.getElementById("misCompras");
 
     const lista =
-        document.getElementById(
-            "listaMisCompras"
-        );
+        document.getElementById("listaMisCompras");
 
-
-    if (
-        !ventana ||
-        !lista
-    ) {
+    if (!ventana || !lista) {
 
         console.error(
             "ERROR: Elementos de Mis Compras no encontrados."
@@ -3087,16 +3216,11 @@ async function mostrarMisCompras() {
         return;
     }
 
-
-    const token =
-        obtenerToken();
-
+    const token = obtenerToken();
 
     if (!token) {
 
-        ventana.style.display =
-            "flex";
-
+        ventana.style.display = "flex";
 
         lista.innerHTML = `
             <p>
@@ -3107,17 +3231,13 @@ async function mostrarMisCompras() {
         return;
     }
 
-
     lista.innerHTML = `
         <p>
             Cargando compras...
         </p>
     `;
 
-
-    ventana.style.display =
-        "flex";
-
+    ventana.style.display = "flex";
 
     try {
 
@@ -3134,10 +3254,8 @@ async function mostrarMisCompras() {
                 }
             );
 
-
         const compras =
             await respuesta.json();
-
 
         console.log(
             "🧾 COMPRAS RECIBIDAS:",
@@ -3145,16 +3263,20 @@ async function mostrarMisCompras() {
         );
 
 
+
+        compras.forEach(compra => {
+    console.log(
+        "🔎 COMPRA:",
+        compra._id,
+        "ESTADO:",
+        compra.estado
+    );
+});
+
         if (respuesta.status === 401) {
 
-            localStorage.removeItem(
-                "token"
-            );
-
-            localStorage.removeItem(
-                "usuario"
-            );
-
+            localStorage.removeItem("token");
+            localStorage.removeItem("usuario");
 
             lista.innerHTML = `
                 <p>
@@ -3163,12 +3285,10 @@ async function mostrarMisCompras() {
                 </p>
             `;
 
-
             actualizarBotonesUsuario();
 
             return;
         }
-
 
         if (!respuesta.ok) {
 
@@ -3178,9 +3298,7 @@ async function mostrarMisCompras() {
             );
         }
 
-
         lista.innerHTML = "";
-
 
         if (
             !compras ||
@@ -3196,194 +3314,244 @@ async function mostrarMisCompras() {
             return;
         }
 
-
         compras.forEach(compra => {
 
             const compraElemento =
-                document.createElement(
-                    "div"
-                );
-
+                document.createElement("div");
 
             compraElemento.classList.add(
                 "compra-item"
             );
 
-
             let productosHTML = "";
-
-
-            // =====================================================
-            // PRODUCTOS DE LA COMPRA
-            // =====================================================
 
             if (
                 compra.productos &&
                 compra.productos.length > 0
             ) {
 
-                compra.productos.forEach(
-                    producto => {
+                compra.productos.forEach(producto => {
 
-                        const productoOriginal =
-                            productosGlobales.find(
-                                p =>
-                                    p._id ===
-                                    (
-                                        producto.producto ||
-                                        producto._id
-                                    )
-                            );
-
-
-                        const imagen =
-                            producto.imagen ||
-                            productoOriginal?.imagen ||
-                            "licuadora.jpg";
-
-
-                        const precio =
-                            Number(
-                                producto.precio
-                            ) || 0;
-
-
-                        const cantidad =
-                            Number(
-                                producto.cantidad
-                            ) || 1;
-
-
-                        const subtotal =
-                            producto.subtotal != null
-                                ? Number(
-                                    producto.subtotal
+                    const productoOriginal =
+                        productosGlobales.find(
+                            p =>
+                                p._id ===
+                                (
+                                    producto.producto ||
+                                    producto._id
                                 )
-                                : precio * cantidad;
+                        );
 
+                    const imagen =
+                        producto.imagen ||
+                        productoOriginal?.imagen ||
+                        "licuadora.jpg";
 
-                        productosHTML += `
+                    const precio =
+                        Number(producto.precio) || 0;
 
-                            <div class="producto-compra">
+                    const cantidad =
+                        Number(producto.cantidad) || 1;
 
-                                <img
-                                    class="imagen-compra"
-                                    src="${API_URL}/uploads/${imagen}"
-                                    alt="${producto.nombre}"
-                                >
+                    const subtotal =
+                        producto.subtotal != null
+                            ? Number(producto.subtotal)
+                            : precio * cantidad;
 
-                                <div
-                                    class="producto-compra-info"
-                                >
+                    productosHTML += `
+                        <div class="producto-compra">
 
-                                    <h3>
-                                        ${producto.nombre}
-                                    </h3>
+                            <img
+                                class="imagen-compra"
+                                src="${API_URL}/uploads/${imagen}"
+                                alt="${producto.nombre}"
+                            >
 
-                                    <p>
-                                        Precio:
-                                        $${precio.toLocaleString(
-                                            "es-CO"
-                                        )}
-                                    </p>
+                            <div class="producto-compra-info">
 
-                                    <p>
-                                        Cantidad:
-                                        <strong>
-                                            ${cantidad}
-                                        </strong>
-                                    </p>
+                                <h3>
+                                    ${producto.nombre}
+                                </h3>
 
-                                    <p>
-                                        Subtotal:
-                                        <strong>
-                                            $${subtotal.toLocaleString(
-                                                "es-CO"
-                                            )}
-                                        </strong>
-                                    </p>
+                                <p>
+                                    Precio:
+                                    $${precio.toLocaleString("es-CO")}
+                                </p>
 
-                                </div>
+                                <p>
+                                    Cantidad:
+                                    <strong>
+                                        ${cantidad}
+                                    </strong>
+                                </p>
+
+                                <p>
+                                    Subtotal:
+                                    <strong>
+                                        $${subtotal.toLocaleString("es-CO")}
+                                    </strong>
+                                </p>
 
                             </div>
-                        `;
-                    }
-                );
+
+                        </div>
+                    `;
+                });
             }
-
-
-            // =====================================================
-            // MEDIO DE PAGO
-            // =====================================================
 
             const medioPago =
                 compra.medioPago ||
                 "No especificado";
 
-
             let medioPagoTexto =
                 medioPago;
 
-
-            if (
-                medioPago === "tarjeta"
-            ) {
+            if (medioPago === "tarjeta") {
 
                 medioPagoTexto =
                     "💳 Tarjeta";
 
-            } else if (
-                medioPago === "nequi"
-            ) {
+            } else if (medioPago === "nequi") {
 
                 medioPagoTexto =
                     "📱 Nequi";
 
-            } else if (
-                medioPago === "breb"
-            ) {
+            } else if (medioPago === "breb") {
 
                 medioPagoTexto =
                     "📱 Llave Bre-B";
             }
-
-
-            // =====================================================
-            // ESTADO
-            // =====================================================
 
             const estado =
                 compra.estado ||
                 "Pendiente";
 
 
-            // =====================================================
-            // FECHA
-            // =====================================================
+
+
+
+                
+   
+             // =====================================================
+// BARRA DE PROGRESO DE LA COMPRA
+// =====================================================
+
+const estadosCompra = [
+    "Pendiente",
+    "Confirmada",
+    "En preparación",
+    "Enviada",
+    "Entregada"
+];
+
+const indiceEstado =
+    estadosCompra.indexOf(estado);
+
+let progresoHTML = "";
+
+if (estado === "Cancelada") {
+
+    progresoHTML = `
+        <div class="compra-cancelada">
+            ❌ Compra cancelada
+        </div>
+    `;
+
+} else {
+
+    progresoHTML = `
+        <div class="barra-progreso">
+
+            <div class="paso-progreso ${indiceEstado >= 0 ? "activo" : ""}">
+                <span>🛒</span>
+                <small>Compra</small>
+            </div>
+
+            <div class="linea-progreso ${indiceEstado >= 1 ? "activa" : ""}">
+            </div>
+
+            <div class="paso-progreso ${indiceEstado >= 1 ? "activo" : ""}">
+                <span>✅</span>
+                <small>Confirmada</small>
+            </div>
+
+            <div class="linea-progreso ${indiceEstado >= 2 ? "activa" : ""}">
+            </div>
+
+            <div class="paso-progreso ${indiceEstado >= 2 ? "activo" : ""}">
+                <span>📦</span>
+                <small>Preparando</small>
+            </div>
+
+            <div class="linea-progreso ${indiceEstado >= 3 ? "activa" : ""}">
+            </div>
+
+            <div class="paso-progreso ${indiceEstado >= 3 ? "activo" : ""}">
+                <span>🚚</span>
+                <small>Enviada</small>
+            </div>
+
+            <div class="linea-progreso ${indiceEstado >= 4 ? "activa" : ""}">
+            </div>
+
+            <div class="paso-progreso ${indiceEstado >= 4 ? "activo" : ""}">
+                <span>🏠</span>
+                <small>Entregada</small>
+            </div>
+
+        </div>
+    `;
+}
+
+
+// =====================================================
+// MENSAJE SEGÚN EL ESTADO
+// =====================================================
+
+let mensajeEstado = "";
+
+if (estado === "Pendiente") {
+
+    mensajeEstado =
+        "🕐 Tu compra está pendiente de confirmación.";
+
+} else if (estado === "Confirmada") {
+
+    mensajeEstado =
+        "✅ Tu compra fue confirmada.";
+
+} else if (estado === "En preparación") {
+
+    mensajeEstado =
+        "📦 Tu pedido está siendo preparado.";
+
+} else if (estado === "Enviada") {
+
+    mensajeEstado =
+        "🚚 Tu pedido está en camino.";
+
+} else if (estado === "Entregada") {
+
+    mensajeEstado =
+        "🎉 Tu pedido fue entregado.";
+
+} else if (estado === "Cancelada") {
+
+    mensajeEstado =
+        "❌ Esta compra fue cancelada.";
+}
+
+
+
 
             const fecha =
                 compra.fecha
-                    ? new Date(
-                        compra.fecha
-                    ).toLocaleDateString(
-                        "es-CO"
-                    )
+                    ? new Date(compra.fecha)
+                        .toLocaleDateString("es-CO")
                     : "Sin fecha";
 
-
-            // =====================================================
-            // TOTAL
-            // =====================================================
-
             const total =
-                Number(
-                    compra.total
-                ) || 0;
-
-
-            // =====================================================
-            // MOSTRAR COMPRA
-            // =====================================================
+                Number(compra.total) || 0;
 
             compraElemento.innerHTML = `
 
@@ -3399,19 +3567,14 @@ async function mostrarMisCompras() {
 
                 </div>
 
-
                 ${productosHTML}
-
 
                 <div class="compra-total">
 
                     Total:
-                    $${total.toLocaleString(
-                        "es-CO"
-                    )}
+                    $${total.toLocaleString("es-CO")}
 
                 </div>
-
 
                 <div class="compra-medio-pago">
 
@@ -3423,23 +3586,65 @@ async function mostrarMisCompras() {
 
                 </div>
 
+                <div class="compra-estado">
+               
 
-                <div
-                    class="
-                        compra-estado
-                        estado-${estado.toLowerCase()}
-                    "
+    <p>
+        <strong>Estado:</strong>
+        ${estado}
+    </p>
+
+    <p class="mensaje-estado">
+        ${mensajeEstado}
+    </p>
+
+    ${progresoHTML}
+
+    ${
+        estado === "Pendiente"
+            ? `
+                <button
+                    type="button"
+                    onclick="cambiarEstadoCompra('${compra._id}', 'Confirmada')"
                 >
+                    ✅ Confirmar compra
+                </button>
+            `
+            : estado === "Confirmada"
+            ? `
+                <button
+                    type="button"
+                    onclick="cambiarEstadoCompra('${compra._id}', 'En preparación')"
+                >
+                    📦 Pasar a preparación
+                </button>
+            `
+            : estado === "En preparación"
+            ? `
+                <button
+                    type="button"
+                    onclick="cambiarEstadoCompra('${compra._id}', 'Enviada')"
+                >
+                    🚚 Marcar como enviada
+                </button>
+            `
+            : estado === "Enviada"
+            ? `
+                <button
+                    type="button"
+                    onclick="cambiarEstadoCompra('${compra._id}', 'Entregada')"
+                >
+                    🏠 Marcar como entregada
+                </button>
+            `
+            : ""
+    }
 
-                    Estado:
+</div>
+  
 
-                    <strong>
-                        ${estado}
-                    </strong>
 
-                </div>
             `;
-
 
             lista.appendChild(
                 compraElemento
@@ -3447,14 +3652,12 @@ async function mostrarMisCompras() {
 
         });
 
-
     } catch (error) {
 
         console.error(
             "Error cargando mis compras:",
             error
         );
-
 
         lista.innerHTML = `
             <p>
@@ -3468,6 +3671,7 @@ async function mostrarMisCompras() {
 
 
 
+
 // =====================================================
 // CERRAR MIS COMPRAS
 // =====================================================
@@ -3475,346 +3679,137 @@ async function mostrarMisCompras() {
 function cerrarMisCompras() {
 
     const ventana =
-        document.getElementById(
-            "misCompras"
-        );
-
+        document.getElementById("misCompras");
 
     if (ventana) {
 
-        ventana.style.display =
-            "none";
+        ventana.style.display = "none";
+
     }
 }
-
-
 // =====================================================
-// IR A PRODUCTOS
+// CAMBIAR ESTADO DE COMPRA
 // =====================================================
 
-function irProductos() {
+async function cambiarEstadoCompra(
+    idCompra,
+    nuevoEstado
+) {
 
-    const productos =
-        document.getElementById(
-            "productos"
+    try {
+
+        const token =
+            localStorage.getItem("token");
+
+        if (!token) {
+
+            alert(
+                "Debes iniciar sesión."
+            );
+
+            return;
+        }
+
+        const respuesta =
+            await fetch(
+                `${API_URL}/compras/${idCompra}/estado`,
+                {
+                    method: "PUT",
+
+                    headers: {
+                        "Content-Type":
+                            "application/json",
+
+                        "Authorization":
+                            `Bearer ${token}`
+                    },
+
+                    body: JSON.stringify({
+                        estado: nuevoEstado
+                    })
+                }
+            );
+
+        const datos =
+            await respuesta.json();
+
+        if (!respuesta.ok) {
+
+            console.error(
+                "Error cambiando estado:",
+                datos
+            );
+
+            alert(
+                datos.mensaje ||
+                "No se pudo cambiar el estado."
+            );
+
+            return;
+        }
+
+        console.log(
+            "✅ ESTADO ACTUALIZADO:",
+            datos.compra
         );
 
+        alert(
+            `✅ Estado actualizado a: ${nuevoEstado}`
+        );
 
-    if (productos) {
+        await mostrarMisCompras();
 
-        productos.scrollIntoView({
-            behavior: "smooth"
-        });
+    } catch (error) {
+
+        console.error(
+            "❌ Error cambiando estado:",
+            error
+        );
+
+        alert(
+            "❌ Error de conexión con el servidor."
+        );
     }
 }
 
 
+
+
+
 // =====================================================
-// EVENTOS CUANDO CARGA LA PÁGINA
-// =====================================================
-
-document.addEventListener(
-    "DOMContentLoaded",
-    function () {
-
-        // -----------------------------------------
-        // BOTÓN CARRITO
-        // -----------------------------------------
-
-        const btnCarrito =
-            document.getElementById(
-                "btnCarrito"
-            );
-
-
-        if (btnCarrito) {
-
-            btnCarrito.addEventListener(
-                "click",
-                mostrarCarrito
-            );
-        }
-
-
-        // -----------------------------------------
-        // BOTÓN LOGIN
-        // -----------------------------------------
-
-        const btnLogin =
-            document.getElementById(
-                "btnLogin"
-            );
-
-
-        if (btnLogin) {
-
-            btnLogin.addEventListener(
-                "click",
-                abrirLogin
-            );
-        }
-
-
-        // -----------------------------------------
-        // BOTÓN REGISTRO
-        // -----------------------------------------
-
-        const btnRegistro =
-            document.getElementById(
-                "btnRegistro"
-            );
-
-
-        if (btnRegistro) {
-
-            btnRegistro.addEventListener(
-                "click",
-                abrirRegistro
-            );
-        }
-
-
-        // -----------------------------------------
-        // BOTÓN MI CUENTA
-        // -----------------------------------------
-
-        const btnMiCuenta =
-            document.getElementById(
-                "btnMiCuenta"
-            );
-
-
-        if (btnMiCuenta) {
-
-            btnMiCuenta.addEventListener(
-                "click",
-                abrirMiCuenta
-            );
-        }
-
-
-        // -----------------------------------------
-        // BOTÓN CAMBIAR CONTRASEÑA
-        // -----------------------------------------
-
-        const btnMostrarCambioPassword =
-            document.getElementById(
-                "btnMostrarCambioPassword"
-            );
-
-
-        if (btnMostrarCambioPassword) {
-
-            btnMostrarCambioPassword.addEventListener(
-                "click",
-                mostrarCambioPassword
-            );
-        }
-
-
-        // -----------------------------------------
-        // FORMULARIO CAMBIAR CONTRASEÑA
-        // -----------------------------------------
-
-        const formCambiarPassword =
-            document.getElementById(
-                "formCambiarPassword"
-            );
-
-
-        if (formCambiarPassword) {
-
-            formCambiarPassword.addEventListener(
-                "submit",
-                cambiarPassword
-            );
-        }
-
-
-        // -----------------------------------------
-        // FORMULARIO REGISTRO
-        // -----------------------------------------
-
-        const formRegistro =
-            document.getElementById(
-                "formRegistro"
-            );
-
-
-        if (formRegistro) {
-
-            formRegistro.addEventListener(
-                "submit",
-                registrarUsuario
-            );
-        }
-
-
-        // -----------------------------------------
-        // FORMULARIO LOGIN
-        // -----------------------------------------
-
-        const formLogin =
-            document.getElementById(
-                "formLogin"
-            );
-
-
-        if (formLogin) {
-
-            formLogin.addEventListener(
-                "submit",
-                iniciarSesion
-            );
-        }
-
-
-        // -----------------------------------------
-        // BOTÓN MIS COMPRAS
-        // -----------------------------------------
-
-        const btnMisCompras =
-            document.getElementById(
-                "btnMisCompras"
-            );
-
-
-        if (btnMisCompras) {
-
-            btnMisCompras.addEventListener(
-                "click",
-                mostrarMisCompras
-            );
-        }
-
-
-        // -----------------------------------------
-        // BOTÓN CERRAR SESIÓN
-        // -----------------------------------------
-        const btnCerrarSesion =
-            document.getElementById(
-                "btnCerrarSesion"
-            );
-
-
-        if (btnCerrarSesion) {
-
-            btnCerrarSesion.addEventListener(
-                "click",
-                cerrarSesion
-            );
-        }
-
-
-        // -----------------------------------------
-        // BOTÓN PUBLICAR SERVICIO
-        // -----------------------------------------
-
-        const btnPublicarServicio =
-            document.getElementById(
-                "btnPublicarServicio"
-            );
-
-
-        // =========================================
-// BOTÓN PUBLICAR SERVICIO
-// =========================================
-
-if (btnPublicarServicio) {
-
-    btnPublicarServicio.addEventListener(
-        "click",
-        abrirServicioModal
-    );
-
-}
-
-// ===============================
-// PUBLICAR PRODUCTO
-// ===============================
-
-const btnPublicarProducto =
-    document.getElementById("btnPublicarProducto");
-
-if (btnPublicarProducto) {
-
-    btnPublicarProducto.addEventListener(
-        "click",
-        abrirProductoModal
-    );
-
-}
-
-
-const formProducto =
-    document.getElementById("formProducto");
-
-if (formProducto) {
-
-    formProducto.addEventListener(
-        "submit",
-        publicarProducto
-    );
-
-}
-
-
-    
-
-
-
-// =========================================
-// FORMULARIO PUBLICAR SERVICIO
-// =========================================
-
-const formServicio =
-    document.getElementById("formServicio");
-
-if (formServicio) {
-
-    formServicio.addEventListener(
-        "submit",
-        publicarServicio
-    );
-
-}
-
-
-// =========================================
-// ACTUALIZAR BOTONES DEL USUARIO
-// =========================================
-
-actualizarBotonesUsuario();
-
-});
-// =====================================================
-// CERRAR DETALLE AL HACER CLIC AFUERA
+// EVENTOS DE LOS BOTONES
 // =====================================================
 
-document.addEventListener(
+document.getElementById("btnLogin")?.addEventListener(
     "click",
-    function (event) {
-
-        const detalle =
-            document.getElementById(
-                "detalleProducto"
-            );
-
-
-        if (
-            detalle &&
-            event.target === detalle
-        ) {
-
-            cerrarDetalle();
-        }
-    }
+    abrirLogin
 );
 
+document.getElementById("btnRegistro")?.addEventListener(
+    "click",
+    abrirRegistro
+);
 
-// =====================================================
-// INICIAR APLICACIÓN
-// =====================================================
+document.getElementById("btnCarrito")?.addEventListener(
+    "click",
+    mostrarCarrito
+);
 
-obtenerProductos();
-console.log("✅ app.js cargado correctamente");
+document.getElementById("btnMisCompras")?.addEventListener(
+    "click",
+    mostrarMisCompras
+);
+
+document.getElementById("btnMiCuenta")?.addEventListener(
+    "click",
+    abrirMiCuenta
+);
+
+document.getElementById("btnCerrarSesion")?.addEventListener(
+    "click",
+    cerrarSesion
+);
+document.getElementById("btnPublicarProducto")?.addEventListener(
+    "click",
+    abrirProductoModal
+);

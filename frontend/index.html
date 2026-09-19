@@ -35,18 +35,19 @@
     </nav>
 
     <div class="botones">
-
-        <button id="btnLogin" type="button">
-            Iniciar sesión
+        <button id="btnLogin" type="button" onclick="abrirLogin()">
+        Iniciar sesión
         </button>
 
-        <button id="btnRegistro" type="button">
-            Registrarse
-        </button>
+       <button id="btnRegistro" type="button" onclick="abrirRegistro()">
+       Registrarse
+       </button>
 
         <button id="btnCarrito" type="button">
             🛒 Carrito
         </button>
+
+         
 
         <button id="btnMisCompras" type="button">
             🧾 Mis compras
@@ -78,9 +79,8 @@
     <p>
         Compra, vende, ofrece servicios y ayuda a tu comunidad.
     </p>
-
-    <button onclick="irProductos()">
-        Ver productos
+    <button type="button" onclick="irProductos()">
+    Ver productos
     </button>
 
 </section>
@@ -141,7 +141,7 @@
             🛍️ Publicar producto
         </h2>
 
-        <form id="formProducto">
+        <form id="formProducto" onsubmit="publicarProducto(event)">
 
             <label for="productoNombre">
                 Nombre del producto
@@ -259,38 +259,37 @@
             Iniciar sesión
         </h2>
 
-        <form id="formLogin">
+        <form id="formLogin" onsubmit="iniciarSesion(event)">
 
-            <label for="loginCorreo">
-                Correo
-            </label>
+    <label for="loginCorreo">
+        Correo
+    </label>
 
-            <input
-                type="email"
-                id="loginCorreo"
-                placeholder="Ingrese su correo"
-                required
-            >
+    <input
+        type="email"
+        id="loginCorreo"
+        placeholder="Ingrese su correo"
+        required
+    >
 
-            <label for="loginPassword">
-                Contraseña
-            </label>
+    <label for="loginPassword">
+        Contraseña
+    </label>
 
-            <input
-                type="password"
-                id="loginPassword"
-                placeholder="Ingrese su contraseña"
-                required
-            >
+    <input
+        type="password"
+        id="loginPassword"
+        placeholder="Ingrese su contraseña"
+        required
+    >
 
-            <button
-                type="submit"
-                class="btn-login">
-                Iniciar sesión
-            </button>
+    <button
+        type="submit"
+        class="btn-login">
+        Iniciar sesión
+    </button>
 
-        </form>
-
+</form>
         <p id="mensajeLogin"></p>
 
     </div>
@@ -780,17 +779,24 @@
         >
             📍 Servicios más cercanos
         </button>
-
+        <button
+    type="button"
+    class="btn-servicios-cercanos"
+    onclick="obtenerServicios()"
+>
+    📋 Ver todos los servicios
+</button>
 
         <!-- PUBLICAR SERVICIO -->
 
         <button
-            type="button"
-            class="btn-publicar-servicio"
-            id="btnPublicarServicio"
-        >
-            ➕ Publicar servicio
-        </button>
+        type="button"
+        class="btn-publicar-servicio"
+        id="btnPublicarServicio"
+        onclick="abrirServicioModal()"
+>
+        ➕ Publicar servicio
+  </button>
 
     </div>
 
@@ -834,9 +840,7 @@
 
     <h2>🛠️ Publicar servicio</h2>
 
-    <form id="formServicio" enctype="multipart/form-data">
-
-        <!-- TÍTULO -->
+      <form id="formServicio" enctype="multipart/form-data" onsubmit="publicarServicio(event)">
 
         <label for="servicioTitulo">
             Título del servicio
@@ -1053,7 +1057,7 @@
     <p id="mensajeServicio"></p>
 
 </div>
-
+</div>
 
 <!-- ===============================
      DONACIONES

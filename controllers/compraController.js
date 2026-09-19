@@ -103,19 +103,19 @@ const crearCompra = async (req, res) => {
         // CREAR COMPRA
         // ===============================
 
-        const compra = new Compra({
+      const compra = new Compra({
 
-            usuario: req.usuario.id,
+    usuario: req.usuario.id,
 
-            productos: productosCompra,
+    productos: productosCompra,
 
-            total: total,
+    total: total,
 
-            medioPago: medioPago,
+    medioPago: medioPago,
 
-            estado: "Pendiente"
+    estado: "Pendiente"
 
-        });
+});
 
 
         // ===============================
@@ -201,12 +201,13 @@ const actualizarEstadoCompra = async (req, res) => {
         const { estado } = req.body;
 
         const estadosPermitidos = [
-            "Pendiente",
-            "Confirmada",
-            "Enviada",
-            "Entregada",
-            "Cancelada"
-        ];
+        "Pendiente",
+        "Confirmada",
+        "En preparación",
+        "Enviada",
+        "Entregada",
+        "Cancelada"
+    ];
 
         if (!estadosPermitidos.includes(estado)) {
 
@@ -221,6 +222,18 @@ const actualizarEstadoCompra = async (req, res) => {
             { estado: estado },
             { new: true }
         );
+
+console.log(
+    "🚨 ESTADO RECIBIDO DEL FRONTEND:",
+    estado
+);
+
+console.log(
+    "🚨 ESTADO GUARDADO EN MONGODB:",
+    compra.estado
+);
+
+
 
         if (!compra) {
 
