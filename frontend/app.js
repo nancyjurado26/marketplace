@@ -638,7 +638,7 @@ function calcularDistancia(
 
 
 
-        window.buscarServiciosCercanos = function () {
+window.buscarServiciosCercanos = function () {
 
     const mensaje =
         document.getElementById(
@@ -760,7 +760,7 @@ function calcularDistancia(
                 );
 
 
-                 
+
 
                 if (mensaje) {
 
@@ -957,8 +957,8 @@ function mostrarServicios(servicios) {
                 </strong>
 
                 $${Number(
-                    servicio.precio || 0
-                ).toLocaleString("es-CO")}
+            servicio.precio || 0
+        ).toLocaleString("es-CO")}
             </p>
 
             <p>
@@ -1430,37 +1430,34 @@ async function registrarUsuario(event) {
             "⏳ Registrando usuario...";
 
 
-        const respuesta = await fetch(
-            `${API_URL}/usuarios/registro`
-            {
-                method: "POST",
+       const respuesta = await fetch(
+    `${API_URL}/usuarios/registro`,
+    {
+        method: "POST",
 
-                headers: {
-                    "Content-Type": "application/json"
-                },
+        headers: {
+            "Content-Type": "application/json"
+        },
 
-                body: JSON.stringify({
-                    nombres,
-                    apellidos,
-                    correo,
-                    telefono,
-                    ciudad,
-                    direccion,
-                    password
-                })
-            }
-        );
-
-
+        body: JSON.stringify({
+            nombres,
+            apellidos,
+            correo,
+            telefono,
+            ciudad,
+            direccion,
+            password
+        })
+    }
+);
         const datos = await respuesta.json();
 
 
         if (!respuesta.ok) {
 
             mensaje.textContent =
-                `❌ ${
-                    datos.mensaje ||
-                    "No se pudo registrar el usuario."
+                `❌ ${datos.mensaje ||
+                "No se pudo registrar el usuario."
                 }`;
 
             return;
@@ -1618,8 +1615,8 @@ async function iniciarSesion(event) {
 
 
         const respuesta = await fetch(
-    `${API_URL}/usuarios/registro`,
-    {
+            `${API_URL}/usuarios/login`,
+            {
                 method: "POST",
 
                 headers: {
@@ -1647,9 +1644,8 @@ async function iniciarSesion(event) {
         if (!respuesta.ok) {
 
             mensaje.innerHTML =
-                `❌ ${
-                    datos.mensaje ||
-                    "Error al iniciar sesión."
+                `❌ ${datos.mensaje ||
+                "Error al iniciar sesión."
                 }`;
 
             return;
@@ -1682,8 +1678,7 @@ async function iniciarSesion(event) {
 
 
         alert(
-            `Bienvenido ${
-                datos.usuario?.nombres || ""
+            `Bienvenido ${datos.usuario?.nombres || ""
             }`
         );
 
@@ -1991,9 +1986,8 @@ async function publicarProducto(event) {
         if (!respuesta.ok) {
 
             mensaje.textContent =
-                `❌ ${
-                    datos.mensaje ||
-                    "No se pudo publicar el producto."
+                `❌ ${datos.mensaje ||
+                "No se pudo publicar el producto."
                 }`;
 
             return;
@@ -2163,7 +2157,7 @@ function mostrarProductos(productos) {
 
                 <p class="precio">
                     $${Number(producto.precio)
-                        .toLocaleString("es-CO")}
+                .toLocaleString("es-CO")}
                 </p>
 
                 <p class="categoria">
@@ -2261,7 +2255,7 @@ function verProducto(id) {
 
             <p class="precio">
                 $${Number(producto.precio)
-                    .toLocaleString("es-CO")}
+            .toLocaleString("es-CO")}
             </p>
 
             <p>
@@ -3122,11 +3116,11 @@ async function cambiarEstadoCompra(idCompra, nuevoEstado) {
 
 
         console.log(
-    "🚨 ID COMPRA:",
-    idCompra,
-    "🚨 NUEVO ESTADO:",
-    nuevoEstado
-);
+            "🚨 ID COMPRA:",
+            idCompra,
+            "🚨 NUEVO ESTADO:",
+            nuevoEstado
+        );
 
         const respuesta = await fetch(
             `${API_URL}/compras/${idCompra}/estado`,
@@ -3270,13 +3264,13 @@ async function mostrarMisCompras() {
 
 
         compras.forEach(compra => {
-    console.log(
-        "🔎 COMPRA:",
-        compra._id,
-        "ESTADO:",
-        compra.estado
-    );
-});
+            console.log(
+                "🔎 COMPRA:",
+                compra._id,
+                "ESTADO:",
+                compra.estado
+            );
+        });
 
         if (respuesta.status === 401) {
 
@@ -3435,36 +3429,36 @@ async function mostrarMisCompras() {
 
 
 
-                
-   
-             // =====================================================
-// BARRA DE PROGRESO DE LA COMPRA
-// =====================================================
 
-const estadosCompra = [
-    "Pendiente",
-    "Confirmada",
-    "En preparación",
-    "Enviada",
-    "Entregada"
-];
 
-const indiceEstado =
-    estadosCompra.indexOf(estado);
+            // =====================================================
+            // BARRA DE PROGRESO DE LA COMPRA
+            // =====================================================
 
-let progresoHTML = "";
+            const estadosCompra = [
+                "Pendiente",
+                "Confirmada",
+                "En preparación",
+                "Enviada",
+                "Entregada"
+            ];
 
-if (estado === "Cancelada") {
+            const indiceEstado =
+                estadosCompra.indexOf(estado);
 
-    progresoHTML = `
+            let progresoHTML = "";
+
+            if (estado === "Cancelada") {
+
+                progresoHTML = `
         <div class="compra-cancelada">
             ❌ Compra cancelada
         </div>
     `;
 
-} else {
+            } else {
 
-    progresoHTML = `
+                progresoHTML = `
         <div class="barra-progreso">
 
             <div class="paso-progreso ${indiceEstado >= 0 ? "activo" : ""}">
@@ -3506,45 +3500,45 @@ if (estado === "Cancelada") {
 
         </div>
     `;
-}
+            }
 
 
-// =====================================================
-// MENSAJE SEGÚN EL ESTADO
-// =====================================================
+            // =====================================================
+            // MENSAJE SEGÚN EL ESTADO
+            // =====================================================
 
-let mensajeEstado = "";
+            let mensajeEstado = "";
 
-if (estado === "Pendiente") {
+            if (estado === "Pendiente") {
 
-    mensajeEstado =
-        "🕐 Tu compra está pendiente de confirmación.";
+                mensajeEstado =
+                    "🕐 Tu compra está pendiente de confirmación.";
 
-} else if (estado === "Confirmada") {
+            } else if (estado === "Confirmada") {
 
-    mensajeEstado =
-        "✅ Tu compra fue confirmada.";
+                mensajeEstado =
+                    "✅ Tu compra fue confirmada.";
 
-} else if (estado === "En preparación") {
+            } else if (estado === "En preparación") {
 
-    mensajeEstado =
-        "📦 Tu pedido está siendo preparado.";
+                mensajeEstado =
+                    "📦 Tu pedido está siendo preparado.";
 
-} else if (estado === "Enviada") {
+            } else if (estado === "Enviada") {
 
-    mensajeEstado =
-        "🚚 Tu pedido está en camino.";
+                mensajeEstado =
+                    "🚚 Tu pedido está en camino.";
 
-} else if (estado === "Entregada") {
+            } else if (estado === "Entregada") {
 
-    mensajeEstado =
-        "🎉 Tu pedido fue entregado.";
+                mensajeEstado =
+                    "🎉 Tu pedido fue entregado.";
 
-} else if (estado === "Cancelada") {
+            } else if (estado === "Cancelada") {
 
-    mensajeEstado =
-        "❌ Esta compra fue cancelada.";
-}
+                mensajeEstado =
+                    "❌ Esta compra fue cancelada.";
+            }
 
 
 
@@ -3605,9 +3599,8 @@ if (estado === "Pendiente") {
 
     ${progresoHTML}
 
-    ${
-        estado === "Pendiente"
-            ? `
+    ${estado === "Pendiente"
+                    ? `
                 <button
                     type="button"
                     onclick="cambiarEstadoCompra('${compra._id}', 'Confirmada')"
@@ -3615,8 +3608,8 @@ if (estado === "Pendiente") {
                     ✅ Confirmar compra
                 </button>
             `
-            : estado === "Confirmada"
-            ? `
+                    : estado === "Confirmada"
+                        ? `
                 <button
                     type="button"
                     onclick="cambiarEstadoCompra('${compra._id}', 'En preparación')"
@@ -3624,8 +3617,8 @@ if (estado === "Pendiente") {
                     📦 Pasar a preparación
                 </button>
             `
-            : estado === "En preparación"
-            ? `
+                        : estado === "En preparación"
+                            ? `
                 <button
                     type="button"
                     onclick="cambiarEstadoCompra('${compra._id}', 'Enviada')"
@@ -3633,8 +3626,8 @@ if (estado === "Pendiente") {
                     🚚 Marcar como enviada
                 </button>
             `
-            : estado === "Enviada"
-            ? `
+                            : estado === "Enviada"
+                                ? `
                 <button
                     type="button"
                     onclick="cambiarEstadoCompra('${compra._id}', 'Entregada')"
@@ -3642,8 +3635,8 @@ if (estado === "Pendiente") {
                     🏠 Marcar como entregada
                 </button>
             `
-            : ""
-    }
+                                : ""
+                }
 
 </div>
   
