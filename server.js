@@ -3,10 +3,11 @@ const dotenv = require('dotenv');
 const cors = require('cors');
 const path = require('path');
 
-const conectarDB = require('./config/db');
-
+// 1. CARGAR DOTENV PRIMERO
 dotenv.config();
 
+// 2. AHORA SÍ IMPORTAR Y EJECUTAR LA BASE DE DATOS
+const conectarDB = require('./config/db');
 conectarDB();
 
 const app = express();
@@ -16,10 +17,8 @@ app.use(express.json());
 app.use(express.static(path.join(__dirname, 'frontend')));
 
 app.use((req, res, next) => {
-
     console.log("\n========== NUEVA PETICION ==========");
     console.log(`${req.method} ${req.url}`);
-
     next();
 });
 
@@ -41,8 +40,6 @@ app.get('/', (req, res) => {
 
 const PORT = process.env.PORT || 4000;
 
-app.listen(PORT,()=>{
-
+app.listen(PORT, () => {
     console.log(`Servidor en ${PORT}`);
-
 });
