@@ -1618,8 +1618,8 @@ async function iniciarSesion(event) {
 
 
         const respuesta = await fetch(
-            `${API_URL}/usuarios/login`,
-            {
+    `${API_URL}/usuarios/registro`,
+    {
                 method: "POST",
 
                 headers: {
