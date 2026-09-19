@@ -6,7 +6,7 @@ const API_URL =
         ? "http://localhost:4000"
         : window.location.origin;
 
-        
+
 let productosGlobales = [];
 let carrito = [];
 
@@ -1431,7 +1431,7 @@ async function registrarUsuario(event) {
 
 
         const respuesta = await fetch(
-            `${API_URL}/usuarios/registrar`,
+            `${API_URL}/usuarios/registro`
             {
                 method: "POST",
 
