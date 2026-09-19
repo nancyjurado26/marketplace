@@ -10,7 +10,7 @@ const {
 
     actualizarEstadoCompra
 
-} = require("../controllers/CompraController");
+} = require("../controllers/compraController");
 
 const verificarToken = require("../middleware/auth");
 
