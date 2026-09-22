@@ -1003,7 +1003,14 @@ function mostrarServicios(servicios) {
 
             ${textoDistancia}
 
-        `;
+<button
+    class="btn-solicitar-servicio"
+    onclick="solicitarServicio('${servicio._id}')"
+>
+    🤝 Solicitar servicio
+</button>
+
+`;
 
 
         contenedor.appendChild(
@@ -1012,6 +1019,62 @@ function mostrarServicios(servicios) {
 
     });
 }
+
+
+// =====================================================
+// SOLICITAR SERVICIO
+// =====================================================
+
+async function solicitarServicio(idServicio) {
+
+    const token = localStorage.getItem("token");
+
+    if (!token) {
+        alert("⚠️ Debes iniciar sesión para solicitar un servicio.");
+        return;
+    }
+
+    try {
+
+        const respuesta = await fetch(
+            `${API_URL}/servicios/solicitar/${idServicio}`,
+            {
+                method: "POST",
+                headers: {
+                    "Authorization": `Bearer ${token}`,
+                    "Content-Type": "application/json"
+                }
+            }
+        );
+
+        const datos = await respuesta.json();
+
+        if (!respuesta.ok) {
+            alert(
+                datos.mensaje ||
+                "❌ No se pudo solicitar el servicio."
+            );
+            return;
+        }
+
+        alert(
+            "✅ Solicitud de servicio enviada correctamente."
+        );
+
+    } catch (error) {
+
+        console.error(
+            "❌ Error al solicitar servicio:",
+            error
+        );
+
+        alert(
+            "❌ Error de conexión con el servidor."
+        );
+    }
+}
+
+
 
 
 // =====================================================
@@ -3811,3 +3874,514 @@ document.getElementById("btnPublicarProducto")?.addEventListener(
     "click",
     abrirProductoModal
 );
+
+
+
+
+// =====================================================
+// MOSTRAR MIS SOLICITUDES DE SERVICIOS
+// =====================================================
+
+async function mostrarMisSolicitudes() {
+
+    const token = localStorage.getItem("token");
+
+    if (!token) {
+        alert("⚠️ Debes iniciar sesión para ver tus solicitudes.");
+        return;
+    }
+
+    const ventana = document.getElementById("misSolicitudes");
+    const contenedor = document.getElementById("listaMisSolicitudes");
+
+    if (!ventana || !contenedor) {
+        console.error("❌ No se encontró la ventana de mis solicitudes.");
+        return;
+    }
+
+    ventana.style.display = "block";
+
+    contenedor.innerHTML = `
+        <p>⏳ Cargando solicitudes...</p>
+    `;
+
+    try {
+
+           const respuesta = await fetch(
+           `${API_URL}/contrataciones/mis-solicitudes`,
+            {
+                method: "GET",
+                headers: {
+                    "Authorization": `Bearer ${token}`
+                }
+            }
+        );
+
+        const solicitudes = await respuesta.json();
+
+
+
+        console.log("🛠️ SOLICITUDES RECIBIDAS:", solicitudes);
+        console.log("🛠️ RESPUESTA OK:", respuesta.ok);
+        console.log("🛠️ ESTADO HTTP:", respuesta.status);
+        console.log("🔎 PRIMERA SOLICITUD COMPLETA:", solicitudes[0]);
+
+
+
+
+
+        if (!respuesta.ok) {
+
+            contenedor.innerHTML = `
+                <p>
+                    ❌ ${solicitudes.mensaje || "No se pudieron obtener las solicitudes."}
+                </p>
+            `;
+
+            return;
+        }
+
+        if (!solicitudes || solicitudes.length === 0) {
+
+            contenedor.innerHTML = `
+                <p>
+                    📭 No tienes solicitudes de servicios todavía.
+                </p>
+            `;
+
+            return;
+        }
+
+        contenedor.innerHTML = "";
+
+        solicitudes.forEach(contratacion => {
+
+            const servicio = contratacion.servicio;
+            const proveedor = contratacion.proveedor;
+
+            const tarjeta = document.createElement("div");
+
+            tarjeta.className = "tarjeta-solicitud";
+
+            tarjeta.innerHTML = `
+
+                <h3>
+                    🛠️ ${servicio?.titulo || "Servicio"}
+                </h3>
+
+                <p>
+                    <strong>Proveedor:</strong>
+                    ${proveedor?.nombres || ""} ${proveedor?.apellidos || ""}
+                </p>
+
+                <p>
+                    <strong>Precio:</strong>
+                    $${Number(contratacion.precio || 0).toLocaleString("es-CO")}
+                </p>
+
+                <p>
+                    <strong>Estado:</strong>
+                    ${contratacion.estado || "Pendiente"}
+                </p>
+
+                <p>
+                    <strong>Fecha:</strong>
+                    ${
+                        contratacion.fechaSolicitud
+                            ? new Date(
+                                contratacion.fechaSolicitud
+                              ).toLocaleDateString("es-CO")
+                            : "No disponible"
+                    }
+                </p>
+
+            `;
+
+            contenedor.appendChild(tarjeta);
+
+        });
+
+    } catch (error) {
+
+        console.error(
+            "❌ Error obteniendo mis solicitudes:",
+            error
+        );
+
+        contenedor.innerHTML = `
+            <p>
+                ❌ Error de conexión con el servidor.
+            </p>
+        `;
+    }
+}
+
+// =====================================================
+// ABRIR SOLICITUDES RECIBIDAS DEL PROVEEDOR
+// =====================================================
+
+async function abrirSolicitudesRecibidas() {
+
+    const token = localStorage.getItem("token");
+
+    if (!token) {
+
+        alert("Debes iniciar sesión para ver las solicitudes recibidas.");
+
+        return;
+    }
+
+    const ventana =
+        document.getElementById("solicitudesRecibidas");
+
+    const contenedor =
+        document.getElementById("listaSolicitudesRecibidas");
+
+    if (!ventana || !contenedor) {
+
+        console.error(
+            "❌ No se encontró la ventana de solicitudes recibidas."
+        );
+
+        return;
+    }
+
+    ventana.style.display = "block";
+
+    contenedor.innerHTML = `
+        <p>⏳ Cargando solicitudes...</p>
+    `;
+
+    try {
+
+        const respuesta = await fetch(
+            `${API_URL}/contrataciones/recibidas`,
+            {
+                method: "GET",
+                headers: {
+                    "Authorization": `Bearer ${token}`
+                }
+            }
+        );
+
+        const solicitudes = await respuesta.json();
+
+        console.log(
+            "📥 SOLICITUDES RECIBIDAS DEL PROVEEDOR:",
+            solicitudes
+        );
+
+        console.log(
+            "📥 ESTADO HTTP:",
+            respuesta.status
+        );
+
+        if (!respuesta.ok) {
+
+            contenedor.innerHTML = `
+                <p>
+                    ❌ ${
+                        solicitudes.mensaje ||
+                        "No se pudieron obtener las solicitudes."
+                    }
+                </p>
+            `;
+
+            return;
+        }
+
+        if (!solicitudes || solicitudes.length === 0) {
+
+            contenedor.innerHTML = `
+                <div class="sin-solicitudes">
+                    <p>📭 No tienes solicitudes recibidas todavía.</p>
+                </div>
+            `;
+
+            return;
+        }
+
+        contenedor.innerHTML = "";
+
+        solicitudes.forEach(contratacion => {
+
+            const servicio = contratacion.servicio;
+            const cliente = contratacion.cliente;
+
+            const tarjeta =
+                document.createElement("div");
+
+            tarjeta.className =
+                "tarjeta-solicitud-recibida";
+
+            tarjeta.innerHTML = `
+
+                <h3>
+                    🛠️ ${servicio?.titulo || "Servicio"}
+                </h3>
+
+                <p>
+                    <strong>👤 Cliente:</strong>
+                    ${
+                        cliente?.nombres || ""
+                    }
+                    ${
+                        cliente?.apellidos || ""
+                    }
+                </p>
+
+                <p>
+                    <strong>💰 Precio:</strong>
+                    $${Number(
+                        contratacion.precio || 0
+                    ).toLocaleString("es-CO")}
+                </p>
+
+                <p>
+                    <strong>📌 Estado:</strong>
+                    ${contratacion.estado || "Pendiente"}
+                </p>
+
+                <p>
+                    <strong>📅 Fecha:</strong>
+                    ${
+                        contratacion.fechaSolicitud
+                            ? new Date(
+                                contratacion.fechaSolicitud
+                              ).toLocaleDateString("es-CO")
+                            : "No disponible"
+                    }
+                </p>
+
+                ${
+                    contratacion.estado === "Pendiente"
+                    ? `
+                        <div class="acciones-solicitud">
+
+                            <button
+                                type="button"
+                                onclick="aceptarSolicitudServicio('${contratacion._id}')"
+                            >
+                                ✅ Aceptar
+                            </button>
+
+                            <button
+                                type="button"
+                                onclick="rechazarSolicitudServicio('${contratacion._id}')"
+                            >
+                                ❌ Rechazar
+                            </button>
+
+                        </div>
+                    `
+                    : `
+                        <p>
+                            ${
+                                contratacion.estado === "Aceptada"
+                                    ? "✅ Solicitud aceptada"
+                                    : contratacion.estado === "Rechazada"
+                                        ? "❌ Solicitud rechazada"
+                                        : ""
+                            }
+                        </p>
+                    `
+                }
+
+            `;
+
+            contenedor.appendChild(tarjeta);
+
+        });
+
+    } catch (error) {
+
+        console.error(
+            "❌ Error obteniendo solicitudes recibidas:",
+            error
+        );
+
+        contenedor.innerHTML = `
+            <p>
+                ❌ Error de conexión con el servidor.
+            </p>
+        `;
+    }
+}
+
+
+
+
+// =====================================================
+// ACEPTAR SOLICITUD DE SERVICIO
+// =====================================================
+
+async function aceptarSolicitudServicio(id) {
+
+    const token = localStorage.getItem("token");
+
+    if (!token) {
+        alert("Debes iniciar sesión.");
+        return;
+    }
+
+    const confirmar =
+        confirm("¿Deseas aceptar esta solicitud de servicio?");
+
+    if (!confirmar) {
+        return;
+    }
+
+    try {
+
+        const respuesta = await fetch(
+            `${API_URL}/contrataciones/aceptar/${id}`,
+            {
+                method: "PUT",
+                headers: {
+                    "Authorization": `Bearer ${token}`,
+                    "Content-Type": "application/json"
+                }
+            }
+        );
+
+        const resultado = await respuesta.json();
+
+        console.log(
+            "✅ RESPUESTA ACEPTAR:",
+            resultado
+        );
+
+        if (!respuesta.ok) {
+
+            alert(
+                resultado.mensaje ||
+                "No se pudo aceptar la solicitud."
+            );
+
+            return;
+        }
+
+        alert("✅ Solicitud aceptada correctamente.");
+
+        // Volver a cargar las solicitudes
+        await abrirSolicitudesRecibidas();
+
+    } catch (error) {
+
+        console.error(
+            "❌ Error aceptando solicitud:",
+            error
+        );
+
+        alert(
+            "❌ Error de conexión con el servidor."
+        );
+    }
+}
+
+
+// =====================================================
+// RECHAZAR SOLICITUD DE SERVICIO
+// =====================================================
+
+async function rechazarSolicitudServicio(id) {
+
+    const token = localStorage.getItem("token");
+
+    if (!token) {
+        alert("Debes iniciar sesión.");
+        return;
+    }
+
+    const confirmar =
+        confirm("¿Deseas rechazar esta solicitud de servicio?");
+
+    if (!confirmar) {
+        return;
+    }
+
+    try {
+
+        const respuesta = await fetch(
+            `${API_URL}/contrataciones/rechazar/${id}`,
+            {
+                method: "PUT",
+                headers: {
+                    "Authorization": `Bearer ${token}`,
+                    "Content-Type": "application/json"
+                }
+            }
+        );
+
+        const resultado = await respuesta.json();
+
+        console.log(
+            "❌ RESPUESTA RECHAZAR:",
+            resultado
+        );
+
+        if (!respuesta.ok) {
+
+            alert(
+                resultado.mensaje ||
+                "No se pudo rechazar la solicitud."
+            );
+
+            return;
+        }
+
+        alert("❌ Solicitud rechazada.");
+
+        // Volver a cargar las solicitudes
+        await abrirSolicitudesRecibidas();
+
+    } catch (error) {
+
+        console.error(
+            "❌ Error rechazando solicitud:",
+            error
+        );
+
+        alert(
+            "❌ Error de conexión con el servidor."
+        );
+    }
+}
+
+
+
+// =====================================================
+// CERRAR SOLICITUDES RECIBIDAS
+// =====================================================
+
+function cerrarSolicitudesRecibidas() {
+
+    const ventana =
+        document.getElementById("solicitudesRecibidas");
+
+    if (ventana) {
+
+        ventana.style.display = "none";
+
+    }
+}
+
+
+
+
+
+
+
+// =====================================================
+// CERRAR MIS SOLICITUDES
+// =====================================================
+
+function cerrarMisSolicitudes() {
+
+    const ventana =
+        document.getElementById("misSolicitudes");
+
+    if (ventana) {
+        ventana.style.display = "none";
+    }
+}

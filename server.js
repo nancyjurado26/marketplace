@@ -26,6 +26,9 @@ const userRoutes = require('./routes/users');
 const serviceRoutes = require('./routes/services');
 const productRoutes = require('./routes/products');
 const compraRoutes = require("./routes/compras");
+const contratacionesRoutes = require('./routes/contrataciones');
+
+
 
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
@@ -33,6 +36,8 @@ app.use('/usuarios', userRoutes);
 app.use('/servicios', serviceRoutes);
 app.use('/productos', productRoutes);
 app.use("/compras", compraRoutes);
+app.use('/contrataciones', contratacionesRoutes);
+
 
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'frontend', 'index.html'));

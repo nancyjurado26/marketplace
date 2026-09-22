@@ -2938,3 +2938,102 @@ footer {
         height: 4px;
     }
 }
+
+
+/* =====================================================
+   MIS SOLICITUDES
+   ===================================================== */
+
+#misSolicitudes {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 90%;
+    max-width: 650px;
+    max-height: 80vh;
+    overflow-y: auto;
+    background: white;
+    padding: 25px;
+    border-radius: 15px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+    z-index: 9999;
+}
+
+#listaMisSolicitudes {
+    width: 100%;
+}
+
+.tarjeta-solicitud {
+    background: #f8f9fa;
+    border: 1px solid #ddd;
+    border-radius: 12px;
+    padding: 18px;
+    margin-bottom: 15px;
+}
+
+.tarjeta-solicitud h3 {
+    margin-top: 0;
+    margin-bottom: 15px;
+}
+
+.tarjeta-solicitud p {
+    margin: 8px 0;
+}
+
+
+/* =====================================================
+   SOLICITUDES RECIBIDAS DEL PROVEEDOR
+   ===================================================== */
+
+#solicitudesRecibidas {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 90%;
+    max-width: 700px;
+    max-height: 80vh;
+    overflow-y: auto;
+    background: white;
+    padding: 25px;
+    border-radius: 15px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+    z-index: 9999;
+}
+
+#listaSolicitudesRecibidas {
+    width: 100%;
+}
+
+.tarjeta-solicitud-recibida {
+    background: #f8f9fa;
+    border: 1px solid #ddd;
+    border-radius: 12px;
+    padding: 18px;
+    margin-bottom: 15px;
+}
+
+.tarjeta-solicitud-recibida h3 {
+    margin-top: 0;
+    margin-bottom: 15px;
+}
+
+.tarjeta-solicitud-recibida p {
+    margin: 8px 0;
+}
+
+.cerrar-solicitudes {
+    float: right;
+    border: none;
+    background: transparent;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+.sin-solicitudes {
+    text-align: center;
+    padding: 30px;
+}

@@ -1,4 +1,134 @@
 const Service = require('../models/Service');
+const Contratacion = require('../models/contratacion');
+// ===============================
+// Solicitar servicio
+// ===============================
+const solicitarServicio = async (req, res) => {
+
+    try {
+
+        const servicio = await Service.findById(
+            req.params.idServicio
+        );
+   
+         console.log("🔎 SERVICIO ENCONTRADO:", servicio);
+         console.log("🔎 PROPIETARIO DEL SERVICIO:", servicio.usuario);
+
+
+        if (!servicio) {
+
+            return res.status(404).json({
+                mensaje: "Servicio no encontrado"
+            });
+
+        }
+
+        // Verificar que el servicio esté disponible
+        if (servicio.estado !== "Disponible") {
+
+            return res.status(400).json({
+                mensaje:
+                    "Este servicio no está disponible actualmente"
+            });
+
+        }
+
+        // Evitar que el propietario solicite
+        // su propio servicio
+        if (
+            servicio.usuario &&
+            servicio.usuario.toString() === req.usuario.id.toString()
+        ) {
+
+            return res.status(400).json({
+                mensaje:
+                    "No puedes solicitar tu propio servicio"
+            });
+
+        }
+
+        // Verificar si ya existe una contratación activa
+        const contratacionExistente =
+            await Contratacion.findOne({
+
+                servicio: servicio._id,
+
+                cliente: req.usuario.id,
+
+                estado: {
+                    $in: [
+                        "Pendiente",
+                        "Aceptada",
+                        "En proceso"
+                    ]
+                }
+
+            });
+
+        if (contratacionExistente) {
+
+            return res.status(400).json({
+                mensaje:
+                    "Ya tienes una solicitud activa para este servicio"
+            });
+
+        }
+
+        // Crear la contratación
+        const contratacion =
+            new Contratacion({
+
+                servicio: servicio._id,
+
+                proveedor: servicio.usuario,
+
+                cliente: req.usuario.id,
+
+                precio: servicio.precio,
+
+                mensaje: "",
+
+                estado: "Pendiente"
+
+            });
+
+        await contratacion.save();
+
+        console.log(
+            "✅ CONTRATACIÓN CREADA:",
+            contratacion._id
+        );
+
+        res.status(201).json({
+
+            mensaje:
+                "Solicitud de servicio enviada correctamente",
+
+            contratacion
+
+        });
+
+    } catch (error) {
+
+        console.error(
+            "❌ Error al solicitar servicio:",
+            error
+        );
+
+        res.status(500).json({
+
+            mensaje:
+                "Error al solicitar el servicio",
+
+            error: error.message
+
+        });
+
+    }
+
+};
+
+
 
 // ===============================
 // Publicar servicio
@@ -446,6 +576,8 @@ const busquedaAvanzada = async (req, res) => {
 
 };
 
+
+
 // ===============================
 // Exportar funciones
 // ===============================
@@ -462,5 +594,21 @@ module.exports = {
     eliminarServicio,
     obtenerCategorias,
     obtenerServiciosConUbicacion
+
+};
+module.exports = {
+
+    publicarServicio,
+    obtenerServicios,
+    buscarPorCategoria,
+    buscarPorBarrio,
+    buscarPorMunicipio,
+    buscarPorEstado,
+    busquedaAvanzada,
+    editarServicio,
+    eliminarServicio,
+    obtenerCategorias,
+    obtenerServiciosConUbicacion,
+    solicitarServicio
 
 };

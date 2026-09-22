@@ -6,6 +6,8 @@ const upload = require('../config/multer');
 
 const verificarToken = require('../middleware/auth');
 
+
+
 const {
     publicarServicio,
     obtenerServicios,
@@ -17,9 +19,9 @@ const {
     editarServicio,
     eliminarServicio,
     obtenerCategorias,
-    obtenerServiciosConUbicacion
+    obtenerServiciosConUbicacion,
+    solicitarServicio
 } = require('../controllers/ServiceController');
-
 
 // ========================================
 // RUTAS PÚBLICAS
@@ -71,6 +73,13 @@ router.put(
 );
 
 
+// Solicitar servicio
+router.post(
+    '/solicitar/:idServicio',
+    verificarToken,
+    solicitarServicio
+);
+
 // Eliminar servicio
 router.delete(
     '/eliminar/:id',
@@ -78,4 +87,4 @@ router.delete(
     eliminarServicio
 );
 
-module.exports = router;
+module.exports = router;  

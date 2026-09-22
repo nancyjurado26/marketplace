@@ -15,7 +15,6 @@
 </head>
 
 <body>
-
 ```
 <!-- ===============================
      ENCABEZADO
@@ -51,6 +50,16 @@
 
         <button id="btnMisCompras" type="button">
             🧾 Mis compras
+        </button>
+        
+
+        <button id="btnSolicitudesRecibidas" onclick="abrirSolicitudesRecibidas()">
+      📥 Solicitudes recibidas  
+
+        </button>
+
+        <button id="btnMisSolicitudes" type="button" onclick="mostrarMisSolicitudes()">
+    🛠️ Mis solicitudes
         </button>
 
         <button id="btnMiCuenta" type="button">
@@ -753,10 +762,6 @@
 </div>
 
 
-
-<!-- ===============================
-     SERVICIOS
-     =============================== -->
 <!-- ===============================
      SERVICIOS
      =============================== -->
@@ -1057,6 +1062,67 @@
 
 </div>
 </div>
+<!-- =====================================================
+     MIS SOLICITUDES
+     ===================================================== -->
+
+<div id="misSolicitudes" class="modal">
+
+    <div class="modal-contenido">
+
+        <button
+            type="button"
+            class="cerrar-modal"
+            onclick="cerrarMisSolicitudes()">
+            ×
+        </button>
+
+        <h2>🛠️ Mis solicitudes de servicios</h2>
+
+        <div id="listaMisSolicitudes">
+
+            <p>
+                Cargando solicitudes...
+            </p>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- =====================================================
+     SOLICITUDES RECIBIDAS DEL PROVEEDOR
+     ===================================================== -->
+
+<div id="solicitudesRecibidas" class="modal">
+
+    <div class="modal-contenido">
+
+        <button
+            type="button"
+            class="cerrar-modal"
+            onclick="cerrarSolicitudesRecibidas()">
+            ×
+        </button>
+
+        <h2>📥 Solicitudes recibidas</h2>
+
+        <div id="listaSolicitudesRecibidas">
+
+            <p>
+                Cargando solicitudes...
+            </p>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
 
 <!-- ===============================
      DONACIONES
