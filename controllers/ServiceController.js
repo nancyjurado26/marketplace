@@ -1,8 +1,11 @@
 const Service = require('../models/Service');
 const Contratacion = require('../models/contratacion');
-// ===============================
-// Solicitar servicio
-// ===============================
+
+
+// =====================================================
+// SOLICITAR SERVICIO
+// =====================================================
+
 const solicitarServicio = async (req, res) => {
 
     try {
@@ -10,10 +13,18 @@ const solicitarServicio = async (req, res) => {
         const servicio = await Service.findById(
             req.params.idServicio
         );
-   
-         console.log("🔎 SERVICIO ENCONTRADO:", servicio);
-         console.log("🔎 PROPIETARIO DEL SERVICIO:", servicio.usuario);
 
+        console.log(
+            "🔎 SERVICIO ENCONTRADO:",
+            servicio
+        );
+
+        if (servicio) {
+            console.log(
+                "🔎 PROPIETARIO DEL SERVICIO:",
+                servicio.usuario
+            );
+        }
 
         if (!servicio) {
 
@@ -37,7 +48,8 @@ const solicitarServicio = async (req, res) => {
         // su propio servicio
         if (
             servicio.usuario &&
-            servicio.usuario.toString() === req.usuario.id.toString()
+            servicio.usuario.toString() ===
+            req.usuario.id.toString()
         ) {
 
             return res.status(400).json({
@@ -129,64 +141,106 @@ const solicitarServicio = async (req, res) => {
 };
 
 
+// =====================================================
+// PUBLICAR SERVICIO
+// =====================================================
 
-// ===============================
-// Publicar servicio
-// ===============================
 const publicarServicio = async (req, res) => {
 
     try {
 
-        console.log("========== DATOS RECIBIDOS ==========");
-        console.log("BODY:", req.body);
-        console.log("FILES:", req.files);
-        console.log("USUARIO:", req.usuario);
-        console.log("=====================================");
+        console.log(
+            "========== DATOS RECIBIDOS =========="
+        );
+
+        console.log(
+            "BODY:",
+            req.body
+        );
+
+        console.log(
+            "FILES:",
+            req.files
+        );
+
+        console.log(
+            "USUARIO:",
+            req.usuario
+        );
+
+        console.log(
+            "====================================="
+        );
 
         const imagenes = req.files
             ? req.files.map(file => file.filename)
             : [];
 
         const servicio = new Service({
-    titulo: req.body.titulo,
-    descripcion: req.body.descripcion,
-    categoria: req.body.categoria,
-    municipio: req.body.municipio,
-    barrio: req.body.barrio,
-    direccion: req.body.direccion,
 
-    // ===============================
-    // GEOLOCALIZACIÓN
-    // ===============================
+            titulo: req.body.titulo,
 
-    ubicacion: {
-        latitud: req.body.latitud
-            ? Number(req.body.latitud)
-            : null,
+            descripcion: req.body.descripcion,
 
-        longitud: req.body.longitud
-            ? Number(req.body.longitud)
-            : null
-    },
+            categoria: req.body.categoria,
 
-    precio: req.body.precio,
-    duracion: req.body.duracion,
-    estado: req.body.estado,
-    imagenes,
-    usuario: req.usuario.id
-});
+            municipio: req.body.municipio,
+
+            barrio: req.body.barrio,
+
+            direccion: req.body.direccion,
+
+            // =================================================
+            // GEOLOCALIZACIÓN
+            // =================================================
+
+            ubicacion: {
+
+                latitud: req.body.latitud
+                    ? Number(req.body.latitud)
+                    : null,
+
+                longitud: req.body.longitud
+                    ? Number(req.body.longitud)
+                    : null
+
+            },
+
+            precio: req.body.precio,
+
+            duracion: req.body.duracion,
+
+            estado: req.body.estado,
+
+            imagenes,
+
+            // Propietario del servicio
+            usuario: req.usuario.id
+
+        });
 
         await servicio.save();
 
         res.status(201).json({
-            mensaje: "Servicio publicado correctamente",
+
+            mensaje:
+                "Servicio publicado correctamente",
+
             servicio
+
         });
 
     } catch (error) {
 
+        console.error(
+            "❌ Error publicando servicio:",
+            error
+        );
+
         res.status(500).json({
+
             mensaje: error.message
+
         });
 
     }
@@ -194,34 +248,58 @@ const publicarServicio = async (req, res) => {
 };
 
 
-// ===============================
-// Obtener todos los servicios
-// ===============================
+// =====================================================
+// OBTENER TODOS LOS SERVICIOS
+// =====================================================
+
 const obtenerServicios = async (req, res) => {
 
     try {
 
-        const servicios = await Service.find()
-            .populate('usuario', 'nombres apellidos correo');
+        const servicios =
+            await Service.find()
+                .populate(
+                    'usuario',
+                    'nombres apellidos correo'
+                );
 
-        const resultado = servicios.map(servicio => {
+        const resultado =
+            servicios.map(servicio => {
 
-            const obj = servicio.toObject();
+                const obj =
+                    servicio.toObject();
 
-            obj.imagenes = obj.imagenes.map(img =>
-                `${req.protocol}://${req.get('host')}/uploads/${img}`
-            );
+                obj.imagenes =
+                    (obj.imagenes || []).map(img => {
 
-            return obj;
+                        if (
+                            img.startsWith("http://") ||
+                            img.startsWith("https://")
+                        ) {
+                            return img;
+                        }
 
-        });
+                        return `${req.protocol}://${req.get('host')}/uploads/${img}`;
+
+                    });
+
+                return obj;
+
+            });
 
         res.json(resultado);
 
     } catch (error) {
 
+        console.error(
+            "❌ Error obteniendo servicios:",
+            error
+        );
+
         res.status(500).json({
+
             mensaje: error.message
+
         });
 
     }
@@ -229,23 +307,110 @@ const obtenerServicios = async (req, res) => {
 };
 
 
-// ===============================
-// Buscar por categoría
-// ===============================
+// =====================================================
+// OBTENER MIS SERVICIOS
+// =====================================================
+
+const obtenerMisServicios = async (req, res) => {
+
+    try {
+
+        console.log(
+            "🛠️ USUARIO SOLICITANDO MIS SERVICIOS:",
+            req.usuario.id
+        );
+
+        const servicios =
+            await Service.find({
+
+                usuario: req.usuario.id
+
+            })
+            .populate(
+                'usuario',
+                'nombres apellidos correo'
+            )
+            .sort({
+                fechaPublicacion: -1
+            });
+
+        const resultado =
+            servicios.map(servicio => {
+
+                const obj =
+                    servicio.toObject();
+
+                obj.imagenes =
+                    (obj.imagenes || []).map(img => {
+
+                        if (
+                            img.startsWith("http://") ||
+                            img.startsWith("https://")
+                        ) {
+                            return img;
+                        }
+
+                        return `${req.protocol}://${req.get('host')}/uploads/${img}`;
+
+                    });
+
+                return obj;
+
+            });
+
+        console.log(
+            "🛠️ MIS SERVICIOS ENCONTRADOS:",
+            resultado.length
+        );
+
+        res.json(resultado);
+
+    } catch (error) {
+
+        console.error(
+            "❌ Error obteniendo mis servicios:",
+            error
+        );
+
+        res.status(500).json({
+
+            mensaje: error.message
+
+        });
+
+    }
+
+};
+
+
+// =====================================================
+// BUSCAR POR CATEGORÍA
+// =====================================================
+
 const buscarPorCategoria = async (req, res) => {
 
     try {
 
-        const servicios = await Service.find({
-            categoria: req.params.categoria
-        }).populate('usuario', 'nombres apellidos correo');
+        const servicios =
+            await Service.find({
+
+                categoria:
+                    req.params.categoria
+
+            })
+            .populate(
+                'usuario',
+                'nombres apellidos correo'
+            );
 
         res.json(servicios);
 
     } catch (error) {
 
         res.status(500).json({
+
             mensaje: error.message
+
         });
 
     }
@@ -253,23 +418,34 @@ const buscarPorCategoria = async (req, res) => {
 };
 
 
-// ===============================
-// Buscar por barrio
-// ===============================
+// =====================================================
+// BUSCAR POR BARRIO
+// =====================================================
+
 const buscarPorBarrio = async (req, res) => {
 
     try {
 
-        const servicios = await Service.find({
-            barrio: req.params.barrio
-        }).populate('usuario', 'nombres apellidos correo');
+        const servicios =
+            await Service.find({
+
+                barrio:
+                    req.params.barrio
+
+            })
+            .populate(
+                'usuario',
+                'nombres apellidos correo'
+            );
 
         res.json(servicios);
 
     } catch (error) {
 
         res.status(500).json({
+
             mensaje: error.message
+
         });
 
     }
@@ -277,23 +453,34 @@ const buscarPorBarrio = async (req, res) => {
 };
 
 
-// ===============================
-// Buscar por municipio
-// ===============================
+// =====================================================
+// BUSCAR POR MUNICIPIO
+// =====================================================
+
 const buscarPorMunicipio = async (req, res) => {
 
     try {
 
-        const servicios = await Service.find({
-            municipio: req.params.municipio
-        }).populate('usuario', 'nombres apellidos correo');
+        const servicios =
+            await Service.find({
+
+                municipio:
+                    req.params.municipio
+
+            })
+            .populate(
+                'usuario',
+                'nombres apellidos correo'
+            );
 
         res.json(servicios);
 
     } catch (error) {
 
         res.status(500).json({
+
             mensaje: error.message
+
         });
 
     }
@@ -301,23 +488,34 @@ const buscarPorMunicipio = async (req, res) => {
 };
 
 
-// ===============================
-// Buscar por estado
-// ===============================
+// =====================================================
+// BUSCAR POR ESTADO
+// =====================================================
+
 const buscarPorEstado = async (req, res) => {
 
     try {
 
-        const servicios = await Service.find({
-            estado: req.params.estado
-        }).populate('usuario', 'nombres apellidos correo');
+        const servicios =
+            await Service.find({
+
+                estado:
+                    req.params.estado
+
+            })
+            .populate(
+                'usuario',
+                'nombres apellidos correo'
+            );
 
         res.json(servicios);
 
     } catch (error) {
 
         res.status(500).json({
+
             mensaje: error.message
+
         });
 
     }
@@ -325,19 +523,26 @@ const buscarPorEstado = async (req, res) => {
 };
 
 
-// ===============================
-// Editar servicio
-// ===============================
+// =====================================================
+// EDITAR SERVICIO
+// =====================================================
+
 const editarServicio = async (req, res) => {
 
     try {
 
-        const servicio = await Service.findById(req.params.id);
+        const servicio =
+            await Service.findById(
+                req.params.id
+            );
 
         if (!servicio) {
 
             return res.status(404).json({
-                mensaje: "Servicio no encontrado"
+
+                mensaje:
+                    "Servicio no encontrado"
+
             });
 
         }
@@ -345,32 +550,53 @@ const editarServicio = async (req, res) => {
         // Verificar propietario
         if (
             !servicio.usuario ||
-            servicio.usuario.toString() !== req.usuario.id
+            servicio.usuario.toString() !==
+            req.usuario.id.toString()
         ) {
 
             return res.status(403).json({
-                mensaje: "No tienes permiso para editar este servicio"
+
+                mensaje:
+                    "No tienes permiso para editar este servicio"
+
             });
 
         }
 
         // Actualizar datos
-        Object.assign(servicio, req.body);
+        Object.assign(
+            servicio,
+            req.body
+        );
 
-        // Evitar que puedan cambiar el propietario
-        servicio.usuario = req.usuario.id;
+        // Evitar que puedan cambiar
+        // el propietario
+        servicio.usuario =
+            req.usuario.id;
 
         await servicio.save();
 
         res.json({
-            mensaje: "Servicio actualizado correctamente",
+
+            mensaje:
+                "Servicio actualizado correctamente",
+
             servicio
+
         });
 
     } catch (error) {
 
+        console.error(
+            "❌ Error editando servicio:",
+            error
+        );
+
         res.status(500).json({
-            mensaje: error.message
+
+            mensaje:
+                error.message
+
         });
 
     }
@@ -378,19 +604,26 @@ const editarServicio = async (req, res) => {
 };
 
 
-// ===============================
-// Eliminar servicio
-// ===============================
+// =====================================================
+// ELIMINAR SERVICIO
+// =====================================================
+
 const eliminarServicio = async (req, res) => {
 
     try {
 
-        const servicio = await Service.findById(req.params.id);
+        const servicio =
+            await Service.findById(
+                req.params.id
+            );
 
         if (!servicio) {
 
             return res.status(404).json({
-                mensaje: "Servicio no encontrado"
+
+                mensaje:
+                    "Servicio no encontrado"
+
             });
 
         }
@@ -398,25 +631,42 @@ const eliminarServicio = async (req, res) => {
         // Verificar propietario
         if (
             !servicio.usuario ||
-            servicio.usuario.toString() !== req.usuario.id
+            servicio.usuario.toString() !==
+            req.usuario.id.toString()
         ) {
 
             return res.status(403).json({
-                mensaje: "No tienes permiso para eliminar este servicio"
+
+                mensaje:
+                    "No tienes permiso para eliminar este servicio"
+
             });
 
         }
 
-        await Service.findByIdAndDelete(req.params.id);
+        await Service.findByIdAndDelete(
+            req.params.id
+        );
 
         res.json({
-            mensaje: "Servicio eliminado correctamente"
+
+            mensaje:
+                "Servicio eliminado correctamente"
+
         });
 
     } catch (error) {
 
+        console.error(
+            "❌ Error eliminando servicio:",
+            error
+        );
+
         res.status(500).json({
-            mensaje: error.message
+
+            mensaje:
+                error.message
+
         });
 
     }
@@ -424,191 +674,263 @@ const eliminarServicio = async (req, res) => {
 };
 
 
-// ===============================
-// Obtener categorías
-// ===============================
+// =====================================================
+// OBTENER CATEGORÍAS
+// =====================================================
+
 const obtenerCategorias = (req, res) => {
 
     res.json([
+
         "Salud",
+
         "Hogar",
+
         "Educación",
+
         "Tecnología",
+
         "Mascotas",
+
         "Transporte",
+
         "Belleza",
+
         "Construcción",
+
         "Emergencias",
+
         "Otros"
+
     ]);
 
 };
 
 
-// ===============================
-// Obtener servicios con ubicación
-// ===============================
-const obtenerServiciosConUbicacion = async (req, res) => {
+// =====================================================
+// OBTENER SERVICIOS CON UBICACIÓN
+// =====================================================
 
-    try {
+const obtenerServiciosConUbicacion =
+    async (req, res) => {
 
-        const servicios = await Service.find({
-            "ubicacion.latitud": {
-                $ne: null
-            },
-            "ubicacion.longitud": {
-                $ne: null
-            }
-        })
-        .populate(
-            "usuario",
-            "nombres apellidos correo"
-        )
-        .sort({
-            fechaPublicacion: -1
-        });
+        try {
 
-        const serviciosConUbicacion = servicios.map(servicio => {
+            const servicios =
+                await Service.find({
 
-            const servicioObjeto =
-                servicio.toObject();
+                    "ubicacion.latitud": {
+                        $ne: null
+                    },
 
-            servicioObjeto.imagenes =
-                (servicioObjeto.imagenes || []).map(imagen => {
-
-                    if (
-                        imagen.startsWith("http://") ||
-                        imagen.startsWith("https://")
-                    ) {
-                        return imagen;
+                    "ubicacion.longitud": {
+                        $ne: null
                     }
 
-                    return `${req.protocol}://${req.get("host")}/uploads/${imagen}`;
+                })
+                .populate(
+                    "usuario",
+                    "nombres apellidos correo"
+                )
+                .sort({
+                    fechaPublicacion: -1
+                });
+
+            const serviciosConUbicacion =
+                servicios.map(servicio => {
+
+                    const servicioObjeto =
+                        servicio.toObject();
+
+                    servicioObjeto.imagenes =
+                        (
+                            servicioObjeto.imagenes ||
+                            []
+                        ).map(imagen => {
+
+                            if (
+                                imagen.startsWith(
+                                    "http://"
+                                ) ||
+                                imagen.startsWith(
+                                    "https://"
+                                )
+                            ) {
+
+                                return imagen;
+
+                            }
+
+                            return `${req.protocol}://${req.get('host')}/uploads/${imagen}`;
+
+                        });
+
+                    return servicioObjeto;
 
                 });
 
-            return servicioObjeto;
+            res.status(200).json(
+                serviciosConUbicacion
+            );
 
-        });
+        } catch (error) {
 
-        res.status(200).json(
-            serviciosConUbicacion
-        );
+            console.error(
+                "❌ Error obteniendo servicios con ubicación:",
+                error
+            );
 
-    } catch (error) {
+            res.status(500).json({
 
-        console.error(
-            "Error obteniendo servicios con ubicación:",
-            error
-        );
+                mensaje:
+                    "Error obteniendo servicios con ubicación",
 
-        res.status(500).json({
-            mensaje:
-                "Error obteniendo servicios con ubicación",
-            error: error.message
-        });
+                error:
+                    error.message
 
-    }
+            });
 
-};
-
-// ===============================
-// Búsqueda avanzada
-// ===============================
-// ===============================
-// Búsqueda avanzada
-// ===============================
-const busquedaAvanzada = async (req, res) => {
-
-    try {
-
-        const filtro = {};
-
-        // Categoría
-        if (req.query.categoria) {
-            filtro.categoria = req.query.categoria;
         }
 
-        // Municipio
-        if (req.query.municipio) {
-            filtro.municipio = req.query.municipio;
+    };
+
+
+// =====================================================
+// BÚSQUEDA AVANZADA
+// =====================================================
+
+const busquedaAvanzada =
+    async (req, res) => {
+
+        try {
+
+            const filtro = {};
+
+            // Categoría
+            if (req.query.categoria) {
+
+                filtro.categoria =
+                    req.query.categoria;
+
+            }
+
+            // Municipio
+            if (req.query.municipio) {
+
+                filtro.municipio =
+                    req.query.municipio;
+
+            }
+
+            // Barrio
+            if (req.query.barrio) {
+
+                filtro.barrio =
+                    req.query.barrio;
+
+            }
+
+            // Estado
+            if (req.query.estado) {
+
+                filtro.estado =
+                    req.query.estado;
+
+            }
+
+            // Precio mínimo
+            if (req.query.precioMin) {
+
+                filtro.precio = {
+
+                    ...filtro.precio,
+
+                    $gte:
+                        Number(
+                            req.query.precioMin
+                        )
+
+                };
+
+            }
+
+            // Precio máximo
+            if (req.query.precioMax) {
+
+                filtro.precio = {
+
+                    ...filtro.precio,
+
+                    $lte:
+                        Number(
+                            req.query.precioMax
+                        )
+
+                };
+
+            }
+
+            const servicios =
+                await Service.find(filtro)
+                    .populate(
+                        'usuario',
+                        'nombres apellidos correo'
+                    )
+                    .sort({
+                        fechaPublicacion: -1
+                    });
+
+            res.json(servicios);
+
+        } catch (error) {
+
+            console.error(
+                "❌ Error en búsqueda avanzada:",
+                error
+            );
+
+            res.status(500).json({
+
+                mensaje:
+                    error.message
+
+            });
+
         }
 
-        // Barrio
-        if (req.query.barrio) {
-            filtro.barrio = req.query.barrio;
-        }
-
-        // Estado
-        if (req.query.estado) {
-            filtro.estado = req.query.estado;
-        }
-
-        // Precio mínimo
-        if (req.query.precioMin) {
-            filtro.precio = {
-                ...filtro.precio,
-                $gte: Number(req.query.precioMin)
-            };
-        }
-
-        // Precio máximo
-        if (req.query.precioMax) {
-            filtro.precio = {
-                ...filtro.precio,
-                $lte: Number(req.query.precioMax)
-            };
-        }
-
-        const servicios = await Service.find(filtro)
-            .populate('usuario', 'nombres apellidos correo')
-            .sort({ fechaPublicacion: -1 });
-
-        res.json(servicios);
-
-    } catch (error) {
-
-        res.status(500).json({
-            mensaje: error.message
-        });
-
-    }
-
-};
+    };
 
 
+// =====================================================
+// EXPORTAR FUNCIONES
+// =====================================================
 
-// ===============================
-// Exportar funciones
-// ===============================
 module.exports = {
 
     publicarServicio,
-    obtenerServicios,
-    buscarPorCategoria,
-    buscarPorBarrio,
-    buscarPorMunicipio,
-    buscarPorEstado,
-    busquedaAvanzada,
-    editarServicio,
-    eliminarServicio,
-    obtenerCategorias,
-    obtenerServiciosConUbicacion
 
-};
-module.exports = {
-
-    publicarServicio,
     obtenerServicios,
+
+    obtenerMisServicios,
+
     buscarPorCategoria,
+
     buscarPorBarrio,
+
     buscarPorMunicipio,
+
     buscarPorEstado,
+
     busquedaAvanzada,
+
     editarServicio,
+
     eliminarServicio,
+
     obtenerCategorias,
+
     obtenerServiciosConUbicacion,
+
     solicitarServicio
 
 };

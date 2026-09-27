@@ -1,770 +1,616 @@
+
 <!DOCTYPE html>
 
-<html lang="es">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SOKO Marketplace</title>
 
-```
-<title>Marketplace</title>
-
-<link rel="stylesheet" href="styles.css">
-```
-
+    <link rel="stylesheet" href="styles.css">
 </head>
 
 <body>
-```
-<!-- ===============================
-     ENCABEZADO
-     =============================== -->
 
-<header>
+    <!-- =========================================
+         ENCABEZADO
+         ========================================= -->
 
-    <div class="logo">
-        MARKETPLACE
-    </div>
+    <header>
 
-    <nav>
-        <a href="#">Inicio</a>
-        <a href="#productos">Productos</a>
-        <a href="#servicios">Servicios</a>
-        <a href="#donaciones">Donaciones</a>
-    </nav>
-
+           
     <div class="botones">
-        <button id="btnLogin" type="button" onclick="abrirLogin()">
-        Iniciar sesión
-        </button>
 
-       <button id="btnRegistro" type="button" onclick="abrirRegistro()">
-       Registrarse
-       </button>
+      
+            <button onclick="abrirLogin()">
+                Iniciar sesión
+            </button>
 
-        <button id="btnCarrito" type="button">
-            🛒 Carrito
-        </button>
+            <button onclick="abrirRegistro()">
+                Crear cuenta
+            </button>
 
-         
+            <button onclick="abrirMiCuenta()">
+                Mi cuenta
+            </button>
 
-        <button id="btnMisCompras" type="button">
-            🧾 Mis compras
-        </button>
+            <button onclick="abrirCarrito()">
+                Carrito
+            </button>
+
+            <button onclick="abrirMisCompras()">
+                Mis compras
+            </button>
+
+            
+            <button onclick="document.getElementById('servicios').scrollIntoView({ behavior: 'smooth' })">
+          Servicios
+           </button>
         
+           <button onclick="abrirMisServicios()">
+        Mis servicios
+           </button>
+          </div>
 
-        <button id="btnSolicitudesRecibidas" onclick="abrirSolicitudesRecibidas()">
-      📥 Solicitudes recibidas  
-
-        </button>
-
-        <button id="btnMisSolicitudes" type="button" onclick="mostrarMisSolicitudes()">
-    🛠️ Mis solicitudes
-        </button>
-
-        <button id="btnMiCuenta" type="button">
-            👤 Mi cuenta
-        </button>
-
-        <button id="btnCerrarSesion" type="button">
-            🚪 Cerrar sesión
-        </button>
-
-    </div>
-
-</header>
+    </header>
 
 
-<!-- ===============================
-     PRESENTACIÓN
+    <!-- =========================================
+         SECCIÓN PRINCIPAL
+         ========================================= -->
+
+         <!-- ===============================
+     HERO
      =============================== -->
 
 <section class="hero">
 
-    <h1>
-        Bienvenido a Marketplace
-    </h1>
+    <div class="hero-contenido">
 
-    <p>
-        Compra, vende, ofrece servicios y ayuda a tu comunidad.
-    </p>
-    <button type="button" onclick="irProductos()">
+        <img src="logo-soko.png" alt="SOKO" class="hero-logo">
+
+        <h2>Bienvenido a SOKO</h2>
+
+       <button onclick="document.getElementById('productos').scrollIntoView({ behavior: 'smooth' })">
     Ver productos
-    </button>
+</button>
+
+    </div>
 
 </section>
 
+    <!-- =========================================
+         PRODUCTOS
+         ========================================= -->
 
-<!-- ===============================
+    <!-- =========================================
      PRODUCTOS
-     =============================== -->
-
-
+     ========================================= -->
 
 <section id="productos">
 
     <h2>
-        🛍️ Productos disponibles
+        Productos
     </h2>
 
-    <div class="botones-productos">
-
-        <button
-            type="button"
-            class="btn-publicar-producto"
-            id="btnPublicarProducto"
-        >
-            ➕ Publicar producto
-        </button>
-
-    </div>
-
-
-    <div id="listaProductos">
-
-        <p>
-            Cargando productos...
-        </p>
-
-    </div>
+    <div id="listaProductos"></div>
 
 </section>
 
-<!-- ===============================
-     MODAL PUBLICAR PRODUCTO
-     =============================== -->
 
-<div id="productoModal" class="modal">
-
-    <div class="modal-contenido">
-
-        <button
-            type="button"
-            class="cerrar-modal"
-            onclick="cerrarProductoModal()"
-        >
-            ×
-        </button>
-
-        <h2>
-            🛍️ Publicar producto
-        </h2>
-
-        <form id="formProducto" onsubmit="publicarProducto(event)">
-
-            <label for="productoNombre">
-                Nombre del producto
-            </label>
-
-            <input
-                type="text"
-                id="productoNombre"
-                placeholder="Ej: Licuadora"
-                required
-            >
-
-
-            <label for="productoDescripcion">
-                Descripción
-            </label>
-
-            <textarea
-                id="productoDescripcion"
-                placeholder="Describe el producto"
-                required
-            ></textarea>
-
-
-            <label for="productoPrecio">
-                Precio
-            </label>
-
-            <input
-                type="number"
-                id="productoPrecio"
-                placeholder="Ej: 150000"
-                min="0"
-                required
-            >
-
-
-            <label for="productoCategoria">
-                Categoría
-            </label>
-
-            <input
-                type="text"
-                id="productoCategoria"
-                placeholder="Ej: Electrodomésticos"
-                required
-            >
-
-
-            <label for="productoStock">
-                Cantidad disponible
-            </label>
-
-            <input
-                type="number"
-                id="productoStock"
-                placeholder="Ej: 5"
-                min="1"
-                required
-            >
-
-
-            <label for="productoImagen">Imagen del producto</label>
-
-           <input
-           type="file"
-           id="productoImagen"
-           accept="image/*"
-           required
->
-
-
-            <button
-                type="submit"
-                class="btn-guardar-producto"
-            >
-                Publicar producto
-            </button>
-
-        </form>
-
-        <p id="mensajeProducto"></p>
-
-    </div>
-
-</div>
-
-
-
-
-
-<!-- ===============================
+<!-- =========================================
      DETALLE DEL PRODUCTO
-     =============================== -->
+     ========================================= -->
 
-<div id="detalleProducto" class="detalle-producto"></div>
+<div id="detalleProducto" class="modal">
 
-
-<!-- ===============================
-     MODAL LOGIN
-     =============================== -->
-
-<div id="loginModal" class="modal">
-
-    <div class="modal-contenido">
+</div>
+<div class="botones-servicios">
 
         <button
             type="button"
-            class="cerrar-modal"
-            onclick="cerrarLogin()">
-            ×
+            class="btn-servicios-cercanos"
+            onclick="buscarServiciosCercanos()">
+            📍 Servicios más cercanos
         </button>
 
-        <h2>
-            Iniciar sesión
-        </h2>
+        <button
+            type="button"
+            class="btn-servicios-cercanos"
+            onclick="obtenerServicios()">
+            📋 Ver todos los servicios
+        </button>
 
-        <form id="formLogin" onsubmit="iniciarSesion(event)">
-
-    <label for="loginCorreo">
-        Correo
-    </label>
-
-    <input
-        type="email"
-        id="loginCorreo"
-        placeholder="Ingrese su correo"
-        required
-    >
-
-    <label for="loginPassword">
-        Contraseña
-    </label>
-
-    <input
-        type="password"
-        id="loginPassword"
-        placeholder="Ingrese su contraseña"
-        required
-    >
-
-    <button
-        type="submit"
-        class="btn-login">
-        Iniciar sesión
-    </button>
-
-</form>
-        <p id="mensajeLogin"></p>
+        <button
+            type="button"
+            class="btn-publicar-servicio"
+            id="btnPublicarServicio"
+            onclick="abrirServicioModal()">
+            ➕ Publicar servicio
+        </button>
 
     </div>
 
-</div>
+    <!-- =========================================
+         SERVICIOS
+         ========================================= -->
+
+    <!-- =========================================
+     SERVICIOS
+     ========================================= -->
+
+<section id="servicios">
+
+    <h2>
+        Servicios
+    </h2>
+
+    <div id="listaServicios"></div>
+
+</section>
 
 
-<!-- ===============================
-     MODAL REGISTRO
-     =============================== -->
+    <!-- =========================================
+         MODAL LOGIN
+         ========================================= -->
 
-<div id="registroModal" class="modal">
+    <div id="loginModal" class="modal">
 
-    <div class="modal-contenido">
+        <div class="modal-contenido">
 
-        <button
-            type="button"
-            class="cerrar-modal"
-            onclick="cerrarRegistro()">
-            ×
-        </button>
+            <span
+                class="cerrar-modal"
+                onclick="cerrarLogin()">
+                &times;
+            </span>
 
-        <h2>
-            📝 Crear cuenta
-        </h2>
+            <h2>
+                Iniciar sesión
+            </h2>
 
-        <form id="formRegistro" onsubmit="registrarUsuario(event)">
-            <label for="registroNombres">
-                Nombres
-            </label>
-
-            <input
-                type="text"
-                id="registroNombres"
-                placeholder="Ingrese sus nombres"
-                required
-            >
-
-            <label for="registroApellidos">
-                Apellidos
-            </label>
-
-            <input
-                type="text"
-                id="registroApellidos"
-                placeholder="Ingrese sus apellidos"
-                required
-            >
-
-            <label for="registroCorreo">
+            <label for="loginCorreo">
                 Correo
             </label>
 
             <input
                 type="email"
-                id="registroCorreo"
-                placeholder="Ingrese su correo"
-                required
-            >
+                id="loginCorreo"
+                placeholder="Ingrese su correo">
 
-            <label for="registroTelefono">
-                Teléfono
-            </label>
 
-            <input
-                type="tel"
-                id="registroTelefono"
-                placeholder="Ingrese su teléfono"
-                required
-            >
-
-            <label for="registroCiudad">
-                Ciudad
-            </label>
-
-            <input
-                type="text"
-                id="registroCiudad"
-                placeholder="Ingrese su ciudad"
-                required
-            >
-
-            <label for="registroDireccion">
-                Dirección
-            </label>
-
-            <input
-                type="text"
-                id="registroDireccion"
-                placeholder="Ingrese su dirección"
-                required
-            >
-
-            <label for="registroPassword">
+            <label for="loginPassword">
                 Contraseña
             </label>
 
             <input
                 type="password"
-                id="registroPassword"
-                placeholder="Mínimo 6 caracteres"
-                required
-            >
+                id="loginPassword"
+                placeholder="Ingrese su contraseña">
 
-            <label for="registroConfirmarPassword">
-                Confirmar contraseña
-            </label>
 
-            <input
-                type="password"
-                id="registroConfirmarPassword"
-                placeholder="Repita la contraseña"
-                required
-            >
+            <div id="mensajeLogin"></div>
+
+
+            <button
+                class="btn-login"
+                onclick="iniciarSesion(event)">
+
+                Iniciar sesión
+
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <!-- =========================================
+         MODAL CREAR CUENTA
+         ========================================= -->
+
+    
+<!-- =========================================
+     MODAL CREAR CUENTA
+     ========================================= -->
+
+<div id="registroModal" class="modal">
+
+    <div class="modal-contenido registro-contenido">
+
+        <span
+            class="cerrar-modal"
+            onclick="cerrarRegistro()">
+            &times;
+        </span>
+
+        <h2>Crear cuenta</h2>
+
+
+        <form id="formRegistro" onsubmit="registrarUsuario(event)">
+
+            <div class="registro-grid">
+
+
+                <!-- 1. NOMBRES -->
+
+                <div class="campo-registro">
+
+                    <label for="registroNombres">
+                        Nombre
+                    </label>
+
+                    <input
+                        type="text"
+                        id="registroNombres"
+                        placeholder="Ingrese su nombre"
+                        required>
+
+                </div>
+
+
+                <!-- 2. APELLIDOS -->
+
+                <div class="campo-registro">
+
+                    <label for="registroApellidos">
+                        Apellido
+                    </label>
+
+                    <input
+                        type="text"
+                        id="registroApellidos"
+                        placeholder="Ingrese su apellido"
+                        required>
+
+                </div>
+
+
+                <!-- 3. CORREO -->
+
+                <div class="campo-registro">
+
+                    <label for="registroCorreo">
+                        Correo electrónico
+                    </label>
+
+                    <input
+                        type="email"
+                        id="registroCorreo"
+                        placeholder="ejemplo@correo.com"
+                        required>
+
+                </div>
+
+
+                <!-- 4. TELÉFONO -->
+
+                <div class="campo-registro">
+
+                    <label for="registroTelefono">
+                        Teléfono
+                    </label>
+
+                    <input
+                        type="tel"
+                        id="registroTelefono"
+                        placeholder="Ingrese su teléfono"
+                        required>
+
+                </div>
+
+
+                <!-- 5. CIUDAD -->
+
+                <div class="campo-registro">
+
+                    <label for="registroCiudad">
+                        Ciudad
+                    </label>
+
+                    <input
+                        type="text"
+                        id="registroCiudad"
+                        placeholder="Ingrese su ciudad"
+                        required>
+
+                </div>
+
+
+                <!-- 6. DIRECCIÓN -->
+
+                <div class="campo-registro">
+
+                    <label for="registroDireccion">
+                        Dirección
+                    </label>
+
+                    <input
+                        type="text"
+                        id="registroDireccion"
+                        placeholder="Ingrese su dirección"
+                        required>
+
+                </div>
+
+
+                <!-- 7. CONTRASEÑA -->
+
+                <div class="campo-registro">
+
+                    <label for="registroPassword">
+                        Contraseña
+                    </label>
+
+                    <input
+                        type="password"
+                        id="registroPassword"
+                        placeholder="Ingrese su contraseña"
+                        required>
+
+                </div>
+
+
+                <!-- 8. CONFIRMAR CONTRASEÑA -->
+
+                <div class="campo-registro">
+
+                    <label for="registroConfirmarPassword">
+                        Confirmar contraseña
+                    </label>
+
+                    <input
+                        type="password"
+                        id="registroConfirmarPassword"
+                        placeholder="Repita su contraseña"
+                        required>
+
+                </div>
+
+            </div>
+
+
+            <!-- MENSAJE -->
+
+            <div id="mensajeRegistro"></div>
+
+
+            <!-- BOTÓN -->
 
             <button
                 type="submit"
-                class="btn-login">
-                📝 Registrarse
+                class="btn-login btn-crear-cuenta">
+
+                Crear cuenta
+
             </button>
 
         </form>
 
-        <p id="mensajeRegistro"></p>
-
     </div>
 
 </div>
 
 
-<!-- ===============================
-     MI CUENTA
-     =============================== -->
+    <!-- =========================================
+         MODAL MI CUENTA
+         ========================================= -->
 
-<div id="miCuenta" class="modal">
+    <div id="miCuenta" class="modal">
+
+        <div class="modal-contenido">
+
+            <span
+                class="cerrar-modal"
+                onclick="cerrarMiCuenta()">
+                &times;
+            </span>
+
+            <h2>
+                Mi cuenta
+            </h2>
+
+            
+<p>
+    <strong>Nombre:</strong>
+    <span id="miNombre"></span>
+</p>
+
+<p>
+    <strong>Correo:</strong>
+    <span id="miCorreo"></span>
+</p>
+
+<p>
+    <strong>Teléfono:</strong>
+    <span id="miTelefono"></span>
+</p>
+
+<p>
+    <strong>Ciudad:</strong>
+    <span id="miCiudad"></span>
+</p>
+
+<p>
+    <strong>Dirección:</strong>
+    <span id="miDireccion"></span>
+</p>
+
+            <button onclick="cerrarSesion()">
+                Cerrar sesión
+            </button>
+
+        </div>
+
+    </div>
+
+
+
+     
+  <!-- =========================================
+     MODAL CARRITO
+     ========================================= -->
+
+<div id="carrito" class="modal">
 
     <div class="modal-contenido">
 
-        <button
-            type="button"
+        <span
             class="cerrar-modal"
-            onclick="cerrarMiCuenta()">
-            ×
-        </button>
-
-        <h2>
-            👤 Mi cuenta
-        </h2>
-
-        <!-- DATOS DEL USUARIO -->
-
-        <div id="datosCuenta">
-
-            <h3>
-                Mis datos
-            </h3>
-
-            <p>
-                <strong>Nombres:</strong>
-                <span id="cuentaNombres"></span>
-            </p>
-
-            <p>
-                <strong>Apellidos:</strong>
-                <span id="cuentaApellidos"></span>
-            </p>
-
-            <p>
-                <strong>Correo:</strong>
-                <span id="cuentaCorreo"></span>
-            </p>
-
-            <p>
-                <strong>Teléfono:</strong>
-                <span id="cuentaTelefono"></span>
-            </p>
-
-            <p>
-                <strong>Ciudad:</strong>
-                <span id="cuentaCiudad"></span>
-            </p>
-
-            <p>
-                <strong>Dirección:</strong>
-                <span id="cuentaDireccion"></span>
-            </p>
-
-        </div>
-
-
-        <!-- BOTÓN CAMBIAR CONTRASEÑA -->
-
-        <button
-            type="button"
-            id="btnMostrarCambioPassword">
-            🔐 Cambiar contraseña
-        </button>
-
-
-        <!-- CAMBIO DE CONTRASEÑA -->
-
-        <div
-            id="seccionCambioPassword"
-            style="display: none;">
-
-            <h3>
-                Cambiar contraseña
-            </h3>
-
-            <form id="formCambiarPassword">
-
-                <label for="passwordActual">
-                    Contraseña actual
-                </label>
-
-                <input
-                    type="password"
-                    id="passwordActual"
-                    placeholder="Ingrese su contraseña actual"
-                    required
-                >
-
-                <label for="nuevaPassword">
-                    Nueva contraseña
-                </label>
-
-                <input
-                    type="password"
-                    id="nuevaPassword"
-                    placeholder="Ingrese la nueva contraseña"
-                    required
-                >
-
-                <label for="confirmarPassword">
-                    Confirmar nueva contraseña
-                </label>
-
-                <input
-                    type="password"
-                    id="confirmarPassword"
-                    placeholder="Repita la nueva contraseña"
-                    required
-                >
-
-                <button
-                    type="submit"
-                    class="btn-login">
-                    🔐 Cambiar contraseña
-                </button>
-
-            </form>
-
-            <p id="mensajePassword"></p>
-
-        </div>
-
-    </div>
-
-</div>
-
-
-<!-- ===============================
-     CARRITO
-     =============================== -->
-
-<div id="carrito" class="carrito">
-
-    <div class="carrito-contenido">
-
-        <button
-            class="cerrar-carrito"
             onclick="cerrarCarrito()">
-            ✕
-        </button>
+            &times;
+        </span>
 
         <h2>
-            🛒 Mi carrito
+            Carrito
         </h2>
 
-        <div id="listaCarrito">
+        <!-- LISTA DE PRODUCTOS -->
 
-            <p>
-                El carrito está vacío.
-            </p>
+        <div id="listaCarrito"></div>
+
+        <!-- TOTAL -->
+
+        <div class="total-carrito">
+
+            <strong>
+                Total:
+            </strong>
+
+            <span id="totalCarrito">
+                $0
+            </span>
 
         </div>
+      
 
-        <div id="totalCarrito">
-            Total: $0
-        </div>
+        <!-- BOTÓN COMPRAR -->
 
         <button
-        id="btnFinalizarCompra"
-        type="button"
-        onclick="abrirPagoModal()">
-         💳 Finalizar compra
+            type="button"
+            onclick="procesarCompra()">
+
+            Comprar
+
         </button>
 
     </div>
 
 </div>
 
-
-
-<!-- ===============================
+  <!-- =========================================
      MODAL MEDIO DE PAGO
-     =============================== -->
+     ========================================= -->
 
-  <div id="pagoModal">
+<div id="pagoModal" class="modal">
 
-    <div class="pago-contenido">
+    <div class="modal-contenido">
 
-        <button
-            type="button"
+        <span
             class="cerrar-modal"
-            onclick="cerrarPagoModal()"
-        >
-            ×
-        </button>
+            onclick="cerrarPago()">
+            &times;
+        </span>
 
-        <h2>💳 Medio de pago</h2>
+        <h2>
+            Selecciona tu medio de pago
+        </h2>
 
-        <p>
-            Selecciona cómo deseas realizar tu pago:
-        </p>
+        <label>
+            <input
+                type="radio"
+                name="medioPago"
+                value="tarjeta">
+            💳 Tarjeta
+        </label>
 
-        <div class="opciones-pago">
+        <br><br>
 
-            <!-- TARJETA -->
-            <label class="opcion-pago">
+        <label>
+            <input
+                type="radio"
+                name="medioPago"
+                value="nequi">
+            📱 Nequi
+        </label>
 
-                <input
-                    type="radio"
-                    name="medioPago"
-                    value="tarjeta"
-                >
+        <br><br>
 
-                <span>
-                    💳 Tarjeta
-                </span>
-
-            </label>
-
-
-            <!-- NEQUI -->
-            <label class="opcion-pago">
-
-                <input
-                    type="radio"
-                    name="medioPago"
-                    value="nequi"
-                >
-
-                <span>
-                    📱 Nequi
-                </span>
-
-            </label>
-
-
-            <!-- BRE-B -->
-            <label class="opcion-pago">
-
-                <input
-                    type="radio"
-                    name="medioPago"
-                    value="breb"
-                >
-
-                <span>
-                    📱 Llave Bre-B
-                </span>
-
-            </label>
-
-        </div>
-
-
-        <button
-            type="button"
-            class="btn-continuar-pago"
-            onclick="continuarPago()"
-        >
-            Continuar con el pago
-        </button>
+        <label>
+            <input
+                type="radio"
+                name="medioPago"
+                value="breb">
+            🔑 Llave Bre-B
+        </label>
 
         <p id="mensajePago"></p>
 
-    </div>
-
-</div>
-
-
-
-
-<!-- ===============================
-     CONFIRMACIÓN DE COMPRA
-     =============================== -->
-
-<div id="confirmacionCompra" class="confirmacion-compra">
-
-    <div class="confirmacion-contenido">
-
         <button
-            class="cerrar-confirmacion"
-            onclick="cerrarConfirmacion()">
-            ✕
-        </button>
-
-        <h2>
-            ✅ Confirmar compra
-        </h2>
-
-        <p id="resumenCompra"></p>
-
-        <button
-            class="btn-confirmar"
-            onclick="confirmarCompra()">
-            ✅ Confirmar compra
-        </button>
-
-        <button
-            class="btn-cancelar"
-            onclick="cerrarConfirmacion()">
-            Cancelar
+            type="button"
+            onclick="continuarPago()">
+            Continuar
         </button>
 
     </div>
 
 </div>
 
+    <!-- =========================================
+         MODAL MIS COMPRAS
+         ========================================= -->
 
-<!-- ===============================
-     MIS COMPRAS
-     =============================== -->
+    <div id="misComprasModal" class="modal">
 
-<div id="misCompras" class="mis-compras">
+        <div class="modal-contenido">
 
-    <div class="mis-compras-contenido">
+            <span
+                class="cerrar-modal"
+                onclick="cerrarMisCompras()">
+                &times;
+            </span>
 
-        <button
-            class="cerrar-mis-compras"
-            onclick="cerrarMisCompras()">
-            ✕
-        </button>
+            <h2>
+                Mis compras
+            </h2>
 
-        <h2>
-            🧾 Mis compras
-        </h2>
-
-        <div id="listaMisCompras">
-
-            <p>
-                Cargando compras...
-            </p>
+            <div id="listaMisCompras"></div>
 
         </div>
 
     </div>
 
+
+
+    <!-- =========================================
+     MIS SERVICIOS
+     ========================================= -->
+
+<div id="misServiciosModal" class="modal">
+
+    <div class="modal-contenido">
+
+        <span
+            class="cerrar-modal"
+            onclick="cerrarMisServicios()"
+        >
+            &times;
+        </span>
+
+        <h2>Mis servicios</h2>
+
+        <div id="listaMisServicios"></div>
+
+    </div>
+
 </div>
 
+    <!-- =========================================
+         MODAL SERVICIOS
+         ========================================= -->
 
-<!-- ===============================
+<!-- =========================================
      SERVICIOS
-     =============================== -->
+     ========================================= -->
 
 <section id="servicios">
 
@@ -772,390 +618,205 @@
         🛠️ Servicios
     </h2>
 
-    <div class="botones-servicios">
-
-        <!-- SERVICIOS MÁS CERCANOS -->
-
-        <button
-            type="button"
-            class="btn-servicios-cercanos"
-            onclick="buscarServiciosCercanos()"
-        >
-            📍 Servicios más cercanos
-        </button>
-        <button
-    type="button"
-    class="btn-servicios-cercanos"
-    onclick="obtenerServicios()"
->
-    📋 Ver todos los servicios
-</button>
-
-        <!-- PUBLICAR SERVICIO -->
-
-        <button
-        type="button"
-        class="btn-publicar-servicio"
-        id="btnPublicarServicio"
-        onclick="abrirServicioModal()"
->
-        ➕ Publicar servicio
-  </button>
-
-    </div>
-
-
+    
     <p id="mensajeServiciosCercanos"></p>
-
 
     <p>
         Encuentra y publica servicios para tu comunidad.
     </p>
-
-
-    <!-- LISTA DE SERVICIOS -->
-
-    <div id="listaServicios">
-
-        <p>
-            Cargando servicios...
-        </p>
-
-    </div>
-
+<div id="listaServicios">
+</div>
 </section>
 
 
-
-<!-- ===============================
+<!-- =========================================
      MODAL PUBLICAR SERVICIO
-     =============================== -->
+     ========================================= -->
 
 <div id="servicioModal" class="modal">
 
-<div class="modal-contenido">
-
-    <button
-        type="button"
-        class="cerrar-modal"
-        onclick="cerrarServicioModal()">
-        ×
-    </button>
-
-    <h2>🛠️ Publicar servicio</h2>
-
-      <form id="formServicio" enctype="multipart/form-data" onsubmit="publicarServicio(event)">
-
-        <label for="servicioTitulo">
-            Título del servicio
-        </label>
-
-        <input
-            type="text"
-            id="servicioTitulo"
-            name="titulo"
-            placeholder="Ej: Reparación de computadores"
-            required
-        >
-
-
-        <!-- DESCRIPCIÓN -->
-
-        <label for="servicioDescripcion">
-            Descripción
-        </label>
-
-        <textarea
-            id="servicioDescripcion"
-            name="descripcion"
-            placeholder="Describe el servicio que ofreces"
-            required></textarea>
-
-
-        <!-- CATEGORÍA -->
-
-        <label for="servicioCategoria">
-            Categoría
-        </label>
-
-        <select
-            id="servicioCategoria"
-            name="categoria"
-            required>
-
-            <option value="">
-                Selecciona una categoría
-            </option>
-
-            <option value="Salud">Salud</option>
-            <option value="Hogar">Hogar</option>
-            <option value="Educación">Educación</option>
-            <option value="Tecnología">Tecnología</option>
-            <option value="Mascotas">Mascotas</option>
-            <option value="Transporte">Transporte</option>
-            <option value="Belleza">Belleza</option>
-            <option value="Construcción">Construcción</option>
-            <option value="Emergencias">Emergencias</option>
-            <option value="Otros">Otros</option>
-
-        </select>
-
-
-        <!-- MUNICIPIO -->
-
-        <label for="servicioMunicipio">
-            Municipio
-        </label>
-
-        <input
-            type="text"
-            id="servicioMunicipio"
-            name="municipio"
-            placeholder="Ej: San Gil"
-            required
-        >
-
-
-        <!-- BARRIO -->
-
-        <label for="servicioBarrio">
-            Barrio
-        </label>
-
-        <input
-            type="text"
-            id="servicioBarrio"
-            name="barrio"
-            placeholder="Ej: Centro"
-            required
-        >
-
-
-        <!-- DIRECCIÓN -->
-
-        <label for="servicioDireccion">
-            Dirección
-        </label>
-
-        <input
-            type="text"
-            id="servicioDireccion"
-            name="direccion"
-            placeholder="Ej: Calle 10 # 5-20"
-            required
-        >
-         <!-- ===============================
-     UBICACIÓN
-     =============================== -->
-
-<button
-    type="button"
-    class="btn-login"
-    onclick="obtenerUbicacionServicio()">
-    📍 Usar mi ubicación
-</button>
-
-<p id="mensajeUbicacion"></p>
-
-<input
-    type="hidden"
-    id="servicioLatitud"
-    name="latitud"
->
-
-<input
-    type="hidden"
-    id="servicioLongitud"
-    name="longitud"
->
-
-        <!-- PRECIO -->
-
-        <label for="servicioPrecio">
-            Precio
-        </label>
-
-        <input
-            type="number"
-            id="servicioPrecio"
-            name="precio"
-            placeholder="Ej: 50000"
-            min="0"
-            required
-        >
-
-
-        <!-- DURACIÓN -->
-
-        <label for="servicioDuracion">
-            Duración
-        </label>
-
-        <input
-            type="text"
-            id="servicioDuracion"
-            name="duracion"
-            placeholder="Ej: 2 horas"
-            required
-        >
-
-
-        <!-- ESTADO -->
-
-        <label for="servicioEstado">
-            Estado
-        </label>
-
-        <select
-            id="servicioEstado"
-            name="estado"
-            required>
-
-            <option value="Disponible">
-                Disponible
-            </option>
-
-            <option value="En proceso">
-                En proceso
-            </option>
-
-            <option value="Finalizado">
-                Finalizado
-            </option>
-
-        </select>
-
-
-        <!-- IMÁGENES -->
-
-        <label for="servicioImagenes">
-            Imágenes del servicio
-        </label>
-
-        <input
-            type="file"
-            id="servicioImagenes"
-            name="imagenes"
-            accept="image/*"
-            multiple
-        >
-
-        <small>
-            Puedes seleccionar hasta 5 imágenes.
-        </small>
-
-
-        <!-- BOTÓN -->
+    <div class="modal-contenido">
 
         <button
-            type="submit"
-            class="btn-login">
+            type="button"
+            class="cerrar-modal"
+            onclick="cerrarServicioModal()">
+            ×
+        </button>
+
+        <h2>
             🛠️ Publicar servicio
-        </button>
+        </h2>
 
-    </form>
+        <form
+            id="formServicio"
+            enctype="multipart/form-data"
+            onsubmit="publicarServicio(event)">
+
+            <label for="servicioTitulo">
+                Título del servicio
+            </label>
+
+            <input
+                type="text"
+                id="servicioTitulo"
+                name="titulo"
+                required>
 
 
-    <!-- MENSAJE -->
+            <label for="servicioDescripcion">
+                Descripción
+            </label>
 
-    <p id="mensajeServicio"></p>
+            <textarea
+                id="servicioDescripcion"
+                name="descripcion"
+                required></textarea>
 
-</div>
-</div>
-<!-- =====================================================
-     MIS SOLICITUDES
-     ===================================================== -->
 
-<div id="misSolicitudes" class="modal">
+            <label for="servicioCategoria">
+                Categoría
+            </label>
 
-    <div class="modal-contenido">
+            <select
+                id="servicioCategoria"
+                name="categoria"
+                required>
 
-        <button
-            type="button"
-            class="cerrar-modal"
-            onclick="cerrarMisSolicitudes()">
-            ×
-        </button>
+                <option value="">
+                    Seleccione una categoría
+                </option>
 
-        <h2>🛠️ Mis solicitudes de servicios</h2>
+                <option value="Salud">Salud</option>
+                <option value="Hogar">Hogar</option>
+                <option value="Educación">Educación</option>
+                <option value="Tecnología">Tecnología</option>
+                <option value="Mascotas">Mascotas</option>
+                <option value="Transporte">Transporte</option>
+                <option value="Belleza">Belleza</option>
+                <option value="Construcción">Construcción</option>
+                <option value="Emergencias">Emergencias</option>
+                <option value="Otros">Otros</option>
 
-        <div id="listaMisSolicitudes">
+            </select>
 
-            <p>
-                Cargando solicitudes...
-            </p>
 
-        </div>
+            <label for="servicioMunicipio">
+                Municipio
+            </label>
+
+            <input
+                type="text"
+                id="servicioMunicipio"
+                name="municipio"
+                required>
+
+
+            <label for="servicioBarrio">
+                Barrio
+            </label>
+
+            <input
+                type="text"
+                id="servicioBarrio"
+                name="barrio"
+                required>
+
+
+            <label for="servicioDireccion">
+                Dirección
+            </label>
+
+            <input
+                type="text"
+                id="servicioDireccion"
+                name="direccion"
+                required>
+
+
+            <label for="servicioPrecio">
+                Precio
+            </label>
+
+            <input
+                type="number"
+                id="servicioPrecio"
+                name="precio"
+                required>
+
+
+            <label for="servicioDuracion">
+                Duración
+            </label>
+
+            <input
+                type="text"
+                id="servicioDuracion"
+                name="duracion"
+                required>
+
+
+            <label for="servicioEstado">
+                Estado
+            </label>
+
+            <select
+                id="servicioEstado"
+                name="estado"
+                required>
+
+                <option value="Disponible">
+                    Disponible
+                </option>
+
+                <option value="No disponible">
+                    No disponible
+                </option>
+
+            </select>
+
+
+            <label for="servicioImagenes">
+                Imágenes
+            </label>
+
+            <input
+                type="file"
+                id="servicioImagenes"
+                name="imagenes"
+                multiple>
+
+
+            <input
+                type="hidden"
+                id="servicioLatitud"
+                name="latitud">
+
+            <input
+                type="hidden"
+                id="servicioLongitud"
+                name="longitud">
+
+
+            <div id="mensajeServicio"></div>
+
+
+            <button
+                type="submit">
+                Publicar servicio
+            </button>
+
+        </form>
 
     </div>
 
 </div>
 
+    <!-- =========================================
+         JAVASCRIPT
+         ========================================= -->
 
-<!-- =====================================================
-     SOLICITUDES RECIBIDAS DEL PROVEEDOR
-     ===================================================== -->
-
-<div id="solicitudesRecibidas" class="modal">
-
-    <div class="modal-contenido">
-
-        <button
-            type="button"
-            class="cerrar-modal"
-            onclick="cerrarSolicitudesRecibidas()">
-            ×
-        </button>
-
-        <h2>📥 Solicitudes recibidas</h2>
-
-        <div id="listaSolicitudesRecibidas">
-
-            <p>
-                Cargando solicitudes...
-            </p>
-
-        </div>
-
-    </div>
-
-</div>
-
-
-
-
-<!-- ===============================
-     DONACIONES
-     =============================== -->
-
-<section id="donaciones">
-
-    <h2>
-        Donaciones
-    </h2>
-
-    <p>
-        Ayuda a personas de nuestra comunidad.
-    </p>
-
-</section>
-
-
-<!-- ===============================
-     PIE DE PÁGINA
-     =============================== -->
-
-<footer>
-
-    <p>
-        © 2026 Marketplace
-    </p>
-
-</footer>
-
-
-<script src="app.js"></script>
-
+    <script src="app.js"></script>
 
 </body>
 

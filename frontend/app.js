@@ -19,6 +19,51 @@ let serviciosGlobales = [];
 
 
 // =====================================================
+// ABRIR MODAL DE SERVICIOS
+// =====================================================
+
+// =====================================================
+// ABRIR MODAL DE SERVICIOS
+// =====================================================
+
+function abrirServicios() {
+
+    console.log("🛠️ ABRIENDO MODAL SERVICIOS");
+
+    const modal =
+        document.getElementById("serviciosModal");
+
+    if (!modal) {
+
+        console.error(
+            "❌ No existe #serviciosModal"
+        );
+
+        return;
+    }
+
+    modal.style.display = "flex";
+}
+
+
+// =====================================================
+// CERRAR MODAL DE SERVICIOS
+// =====================================================
+
+function cerrarServicios() {
+
+    const modal =
+        document.getElementById("serviciosModal");
+
+    if (modal) {
+
+        modal.style.display = "none";
+
+    }
+}
+
+
+//========================================
 // ABRIR MODAL PUBLICAR SERVICIO
 // =====================================================
 
@@ -2545,9 +2590,16 @@ function mostrarCarrito() {
 
             item.innerHTML = `
 
-                <h3>
-                    ${producto.nombre}
-                </h3>
+    <img
+        src="${API_URL}/uploads/${producto.imagen}"
+        alt="${producto.nombre}"
+        class="imagen-carrito"
+        onerror="this.style.display='none'"
+    >
+
+    <h3>
+        ${producto.nombre}
+    </h3>
 
                 <p>
                     Precio:
@@ -3264,7 +3316,8 @@ async function mostrarMisCompras() {
     console.log("🧾 ABRIENDO MIS COMPRAS");
 
     const ventana =
-        document.getElementById("misCompras");
+       
+    document.getElementById("misComprasModal");
 
     const lista =
         document.getElementById("listaMisCompras");
@@ -3506,6 +3559,8 @@ async function mostrarMisCompras() {
                 "Entregada"
             ];
 
+        
+
             const indiceEstado =
                 estadosCompra.indexOf(estado);
 
@@ -3736,16 +3791,255 @@ async function mostrarMisCompras() {
 // =====================================================
 // CERRAR MIS COMPRAS
 // =====================================================
-
 function cerrarMisCompras() {
 
-    const ventana =
-        document.getElementById("misCompras");
+    const modal =
+        document.getElementById("misComprasModal");
 
-    if (ventana) {
+    if (modal) {
+        modal.style.display = "none";
+    }
 
-        ventana.style.display = "none";
+}
 
+// =====================================================
+// MIS SERVICIOS
+// =====================================================
+// =====================================================
+// MIS SERVICIOS
+// =====================================================
+
+function abrirMisServicios() {
+
+    console.log("🛠️ BOTÓN MIS SERVICIOS");
+
+    const token = obtenerToken();
+
+    if (!token) {
+
+        alert("⚠️ Debes iniciar sesión para ver tus servicios.");
+
+        abrirLogin();
+
+        return;
+    }
+
+    const modal =
+        document.getElementById("misServiciosModal");
+
+    if (!modal) {
+
+        console.error(
+            "❌ No se encontró el modal misServiciosModal"
+        );
+
+        return;
+    }
+
+    modal.style.display = "flex";
+
+    mostrarMisServicios();
+
+}
+
+
+function cerrarMisServicios() {
+
+    const modal =
+        document.getElementById("misServiciosModal");
+
+    if (modal) {
+
+        modal.style.display = "none";
+
+    }
+
+}
+
+
+function cerrarMisServicios() {
+
+    const modal =
+        document.getElementById("misServiciosModal");
+
+    if (modal) {
+
+        modal.style.display = "none";
+
+    }
+
+}
+
+
+// =====================================================
+// MOSTRAR MIS SERVICIOS
+// =====================================================
+
+async function mostrarMisServicios() {
+
+    const lista =
+        document.getElementById("listaMisServicios");
+
+    if (!lista) {
+
+        console.error(
+            "❌ No se encontró listaMisServicios"
+        );
+
+        return;
+    }
+
+    const token = obtenerToken();
+
+    if (!token) {
+
+        alert(
+            "⚠️ Debes iniciar sesión."
+        );
+
+        return;
+    }
+
+    lista.innerHTML = `
+        <p>⏳ Cargando mis servicios...</p>
+    `;
+
+    try {
+
+        const respuesta =
+            await fetch(
+                `${API_URL}/servicios/mis-servicios`,
+                {
+                    method: "GET",
+
+                    headers: {
+                        "Authorization":
+                            `Bearer ${token}`
+                    }
+                }
+            );
+
+        const datos =
+            await respuesta.json();
+
+        console.log(
+            "🛠️ MIS SERVICIOS:",
+            datos
+        );
+
+        if (!respuesta.ok) {
+
+            console.error(
+                "❌ Error obteniendo mis servicios:",
+                datos
+            );
+
+            lista.innerHTML = `
+                <p>
+                    ❌ No se pudieron cargar tus servicios.
+                </p>
+            `;
+
+            return;
+        }
+
+        const servicios =
+            Array.isArray(datos)
+                ? datos
+                : datos.servicios || [];
+
+        if (servicios.length === 0) {
+
+            lista.innerHTML = `
+                <p>
+                    📭 No tienes servicios publicados.
+                </p>
+            `;
+
+            return;
+        }
+
+        lista.innerHTML = "";
+
+        servicios.forEach(servicio => {
+
+            const tarjeta =
+                document.createElement("div");
+
+            tarjeta.classList.add(
+                "servicio"
+            );
+
+            tarjeta.innerHTML = `
+
+    <h3>
+        ${servicio.titulo || "Sin título"}
+    </h3>
+
+    <p>
+        <strong>Descripción:</strong>
+        ${servicio.descripcion || "Sin descripción"}
+    </p>
+
+    <p>
+        <strong>Categoría:</strong>
+        ${servicio.categoria || "Sin categoría"}
+    </p>
+
+    <p>
+        <strong>💰 Precio:</strong>
+        $${Number(servicio.precio || 0).toLocaleString("es-CO")}
+    </p>
+
+    <p>
+        <strong>📍 Municipio:</strong>
+        ${servicio.municipio || "No especificado"}
+    </p>
+
+    <p>
+        <strong>🏘️ Barrio:</strong>
+        ${servicio.barrio || "No especificado"}
+    </p>
+
+    <p>
+        <strong>🏠 Dirección:</strong>
+        ${servicio.direccion || "No especificada"}
+    </p>
+
+    <p>
+        <strong>⏱️ Duración:</strong>
+        ${servicio.duracion || "No especificada"}
+    </p>
+
+    <p>
+        <strong>Estado:</strong>
+        ${servicio.estado || "Disponible"}
+    </p>
+
+    <button
+        type="button"
+        onclick="eliminarMiServicio('${servicio._id}')">
+        🗑️ Eliminar servicio
+    </button>
+
+`;
+
+            lista.appendChild(tarjeta);
+
+        });
+
+    } catch (error) {
+
+        console.error(
+            "❌ Error cargando mis servicios:",
+            error
+        );
+
+        lista.innerHTML = `
+            <p>
+                ❌ Error de conexión con el servidor.
+            </p>
+        `;
     }
 }
 // =====================================================
@@ -4383,5 +4677,227 @@ function cerrarMisSolicitudes() {
 
     if (ventana) {
         ventana.style.display = "none";
+    }
+}
+
+
+
+
+// ===============================
+// ABRIR Y CERRAR CARRITO
+// ===============================
+
+function abrirCarrito() {
+    mostrarCarrito(); // ya tienes esta función funcionando
+}
+
+function cerrarCarrito() {
+    document.getElementById("carrito").style.display = "none";
+}
+
+
+// ===============================
+// ABRIR Y CERRAR MIS COMPRAS
+// ===============================
+function abrirMisCompras() {
+
+    console.log("🛍️ BOTÓN MIS COMPRAS");
+
+    mostrarMisCompras();
+
+}
+// ===============================
+// ABRIR Y CERRAR SOLICITUDES
+// ===============================
+
+function abrirSolicitudesRecibidas() {
+    document.getElementById("solicitudesRecibidas").style.display = "flex";
+}
+
+function abrirMisSolicitudes() {
+    document.getElementById("misSolicitudes").style.display = "flex";
+}
+
+
+// ===============================
+// ABRIR Y CERRAR MI CUENTA
+// ===============================
+
+function abrirMiCuenta() {
+
+    const modal = document.getElementById("miCuenta");
+
+    // Obtener usuario guardado después del login
+    const usuarioGuardado = localStorage.getItem("usuario");
+
+    if (!usuarioGuardado) {
+
+        alert("⚠️ Debes iniciar sesión para ver tu cuenta.");
+
+        abrirLogin();
+
+        return;
+    }
+
+    try {
+
+        const usuario = JSON.parse(usuarioGuardado);
+
+        // Mostrar los datos
+        document.getElementById("miNombre").textContent =
+            `${usuario.nombres || ""} ${usuario.apellidos || ""}`.trim();
+
+        document.getElementById("miCorreo").textContent =
+            usuario.correo || "";
+
+        // Mostrar los datos adicionales si existen
+        const miTelefono = document.getElementById("miTelefono");
+        const miCiudad = document.getElementById("miCiudad");
+        const miDireccion = document.getElementById("miDireccion");
+
+        if (miTelefono) {
+            miTelefono.textContent = usuario.telefono || "";
+        }
+
+        if (miCiudad) {
+            miCiudad.textContent = usuario.ciudad || "";
+        }
+
+        if (miDireccion) {
+            miDireccion.textContent = usuario.direccion || "";
+        }
+
+        modal.style.display = "flex";
+
+    } catch (error) {
+
+        console.error(
+            "❌ Error leyendo los datos del usuario:",
+            error
+        );
+
+        alert("⚠️ No se pudieron cargar los datos de la cuenta.");
+
+    }
+
+}
+
+
+function cerrarMiCuenta() {
+
+    document.getElementById("miCuenta").style.display = "none";
+
+}
+// =====================================================
+// PROCESAR COMPRA DESDE EL CARRITO
+// =====================================================
+
+function procesarCompra() {
+
+    if (carrito.length === 0) {
+
+        alert("🛒 El carrito está vacío.");
+
+        return;
+    }
+
+    const token = obtenerToken();
+
+    if (!token) {
+
+        alert(
+            "⚠️ Debes iniciar sesión para realizar una compra."
+        );
+
+        abrirLogin();
+
+        return;
+    }
+
+    // Cerrar carrito
+    const carritoModal =
+        document.getElementById("carrito");
+
+    if (carritoModal) {
+        carritoModal.style.display = "none";
+    }
+
+    // Abrir selección de medio de pago
+    abrirPagoModal();
+}
+
+
+
+
+
+// =====================================================
+// ELIMINAR MI SERVICIO
+// =====================================================
+
+async function eliminarMiServicio(id) {
+
+    const token = obtenerToken();
+
+    if (!token) {
+
+        alert("⚠️ Debes iniciar sesión.");
+
+        abrirLogin();
+
+        return;
+    }
+
+    const confirmar = confirm(
+        "⚠️ ¿Estás seguro de que deseas eliminar este servicio?"
+    );
+
+    if (!confirmar) {
+        return;
+    }
+
+    try {
+
+        const respuesta = await fetch(
+            `${API_URL}/servicios/eliminar/${id}`,
+            {
+                method: "DELETE",
+
+                headers: {
+                    "Authorization": `Bearer ${token}`
+                }
+            }
+        );
+
+        const datos = await respuesta.json();
+
+        console.log(
+            "🗑️ RESPUESTA ELIMINAR SERVICIO:",
+            datos
+        );
+
+        if (!respuesta.ok) {
+
+            alert(
+                datos.mensaje ||
+                "❌ No se pudo eliminar el servicio."
+            );
+
+            return;
+        }
+
+        alert("✅ Servicio eliminado correctamente.");
+
+        mostrarMisServicios();
+
+        obtenerServicios();
+
+    } catch (error) {
+
+        console.error(
+            "❌ Error eliminando servicio:",
+            error
+        );
+
+        alert("❌ Error de conexión con el servidor.");
     }
 }

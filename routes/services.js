@@ -7,10 +7,10 @@ const upload = require('../config/multer');
 const verificarToken = require('../middleware/auth');
 
 
-
 const {
     publicarServicio,
     obtenerServicios,
+    obtenerMisServicios,
     buscarPorCategoria,
     buscarPorBarrio,
     buscarPorMunicipio,
@@ -23,33 +23,71 @@ const {
     solicitarServicio
 } = require('../controllers/ServiceController');
 
+
 // ========================================
 // RUTAS PÚBLICAS
 // ========================================
 
 // Buscar por barrio
-router.get('/barrio/:barrio', buscarPorBarrio);
+router.get(
+    '/barrio/:barrio',
+    buscarPorBarrio
+);
 
 // Buscar por municipio
-router.get('/municipio/:municipio', buscarPorMunicipio);
+router.get(
+    '/municipio/:municipio',
+    buscarPorMunicipio
+);
 
 // Buscar por estado
-router.get('/estado/:estado', buscarPorEstado);
+router.get(
+    '/estado/:estado',
+    buscarPorEstado
+);
 
 // Búsqueda avanzada
-router.get('/busqueda', busquedaAvanzada);
+router.get(
+    '/busqueda',
+    busquedaAvanzada
+);
 
 // Obtener todos los servicios
-router.get('/', obtenerServicios);
+router.get(
+    '/',
+    obtenerServicios
+);
 
 // Obtener categorías
-router.get('/categorias', obtenerCategorias);
+router.get(
+    '/categorias',
+    obtenerCategorias
+);
 
 // Obtener servicios con ubicación
-router.get('/ubicacion', obtenerServiciosConUbicacion);
+router.get(
+    '/ubicacion',
+    obtenerServiciosConUbicacion
+);
 
 // Buscar por categoría
-router.get('/categoria/:categoria', buscarPorCategoria);
+router.get(
+    '/categoria/:categoria',
+    buscarPorCategoria
+);
+
+
+// ========================================
+// MIS SERVICIOS
+// ========================================
+
+// Obtener los servicios publicados
+// por el usuario que inició sesión
+router.get(
+    '/mis-servicios',
+    verificarToken,
+    obtenerMisServicios
+);
 
 
 // ========================================
@@ -80,6 +118,7 @@ router.post(
     solicitarServicio
 );
 
+
 // Eliminar servicio
 router.delete(
     '/eliminar/:id',
@@ -87,4 +126,5 @@ router.delete(
     eliminarServicio
 );
 
-module.exports = router;  
+
+module.exports = router;

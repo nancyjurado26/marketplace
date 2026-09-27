@@ -1,448 +1,132 @@
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
+/* ===============================
+   ESTILOS GENERALES
+   =============================== */
 
 body {
     font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
     background-color: #f5f5f5;
-    color: #333;
 }
-
-/* ===============================
-   ENCABEZADO
-   =============================== */
 
 header {
     background-color: #1f2937;
     color: white;
-
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-
-    padding: 15px 30px;
-
-    gap: 25px;
-
-    box-shadow:
-        0 2px 8px rgba(0, 0, 0, 0.15);
+    padding: 20px;
+    text-align: center;
 }
-
-
-/* LOGO */
-
-.logo {
-    font-size: 24px;
-    font-weight: bold;
-
-    letter-spacing: 1px;
-
-    white-space: nowrap;
-
-    flex-shrink: 0;
-}
-
-
-/* MENÚ */
-
-nav {
-    display: flex;
-
-    align-items: center;
-
-    justify-content: center;
-
-    gap: 22px;
-
-    flex: 1;
-}
-
-nav a {
-    color: white;
-
-    text-decoration: none;
-
-    font-weight: 500;
-
-    white-space: nowrap;
-}
-
-nav a:hover {
-    text-decoration: underline;
-}
-
-
-/* BOTONES */
 
 .botones {
-    display: flex;
-
-    align-items: center;
-
-    gap: 8px;
-
-    flex-shrink: 0;
+    margin-top: 10px;
 }
-
 .botones button {
-    background-color: white;
-
-    color: #1f2937;
-
-    padding: 9px 12px;
-
-    white-space: nowrap;
-
+    margin: 4px;
+    padding: 7px 12px;
     border: none;
-
-    border-radius: 6px;
-
+    background-color: white;
+    color: #1f2937;
     cursor: pointer;
-
-    font-size: 14px;
+    border-radius: 5px;
+    font-size: 16px;
+    font-weight: 600;
 }
 
 .botones button:hover {
-    background-color: #e5e7eb;
-}
-/* ===============================
-   HERO
-   =============================== */
-
-.hero {
-    text-align: center;
-
-    padding: 100px 20px;
-
-    background-color: #e5e7eb;
-}
-
-.hero h1 {
-    font-size: 42px;
-    margin-bottom: 20px;
-}
-
-.hero p {
-    font-size: 20px;
-    margin-bottom: 30px;
-}
-
-.hero button {
     background-color: #2563eb;
     color: white;
-    font-size: 16px;
 }
-
-.hero button:hover {
-    background-color: #1d4ed8;
-}
-
-
-/* ===============================
-   SECCIONES
-   =============================== */
 
 section {
-    padding: 60px 50px;
+    padding: 20px;
 }
 
-section h2 {
+h2 {
     text-align: center;
-    margin-bottom: 35px;
-    font-size: 30px;
 }
-
 
 /* ===============================
    PRODUCTOS
    =============================== */
 
-#productos {
-    background-color: #f5f5f5;
-}
-
 #listaProductos {
     display: grid;
-
-    grid-template-columns:
-        repeat(auto-fit, minmax(260px, 300px));
-
-    gap: 25px;
-
-    max-width: 1200px;
-
-    margin: auto;
-
-    justify-content: center;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
 }
-
-
-/* ===============================
-   TARJETAS DE PRODUCTOS
-   =============================== */
 
 .producto {
     background-color: white;
-
-    border-radius: 14px;
-
-    overflow: hidden;
-
-    box-shadow:
-        0 4px 12px rgba(0, 0, 0, 0.10);
-
-    border: 1px solid #e5e7eb;
-
-    transition:
-        transform 0.2s ease,
-        box-shadow 0.2s ease;
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
 }
-
-.producto:hover {
-    transform: translateY(-5px);
-
-    box-shadow:
-        0 8px 20px rgba(0, 0, 0, 0.15);
-}
-
-
-/* IMAGEN */
 
 .producto img {
     width: 100%;
-
-    height: 220px;
-
-    object-fit: contain;
-
-    display: block;
-
-    background-color: #f8fafc;
-
-    padding: 15px;
+    height: 200px;
+    object-fit: cover;
 }
-
-
-/* CONTENIDO */
-
-.producto-contenido {
-    padding: 18px;
-}
-
-.producto h3 {
-    font-size: 19px;
-
-    margin-bottom: 10px;
-
-    color: #111827;
-
-    font-weight: 700;
-
-    line-height: 1.3;
-}
-
-.producto p {
-    margin-bottom: 10px;
-
-    line-height: 1.5;
-}
-
-
-/* PRECIO */
-
-.producto .precio {
-    font-size: 22px;
-
-    font-weight: bold;
-
-    color: #2563eb;
-
-    margin-top: 15px;
-
-    margin-bottom: 15px;
-}
-
-
-/* INFORMACIÓN */
-
-.producto .categoria,
-.producto .stock {
-    font-size: 14px;
-
-    color: #555;
-}
-
-
-/* BOTÓN */
 
 .producto button {
     width: 100%;
-
-    margin-top: 15px;
-
+    padding: 10px;
     background-color: #2563eb;
-
     color: white;
-
-    font-size: 15px;
-
-    font-weight: bold;
-
-    padding: 11px;
-
-    border-radius: 8px;
-
-    transition:
-        background-color 0.2s ease,
-        transform 0.2s ease;
-}
-
-.producto button:hover {
-    background-color: #1d4ed8;
-
-    transform: translateY(-2px);
+    border: none;
+    border-radius: 5px;
+    margin-top: 10px;
 }
 
 
-/* ===============================
-   SERVICIOS
-   =============================== */
-
-#servicios {
-    background-color: #e5e7eb;
-}
 /* ===============================
    SERVICIOS
    =============================== */
 
 #listaServicios {
-    width: 90%;
-    max-width: 1200px;
-    margin: 30px auto;
-
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 25px;
+    gap: 15px;
+    width: 100%;
+    padding: 15px 0;
 }
-
-
-/* TARJETA DEL SERVICIO */
 
 .servicio {
     background-color: white;
-    border-radius: 12px;
-    overflow: hidden;
-
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.10);
-
-    border: 1px solid #e5e7eb;
-
-    display: flex;
-    flex-direction: column;
-
-    transition: transform 0.2s ease,
-                box-shadow 0.2s ease;
-}
-
-
-/* EFECTO AL PASAR EL MOUSE */
-
-.servicio:hover {
-    transform: translateY(-4px);
-
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
-}
-
-
-/* ===============================
-   IMÁGENES DEL SERVICIO
-   =============================== */
-
-.servicio-imagenes {
+    padding: 12px;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     width: 100%;
-    height: 200px;
-
-    display: flex;
-    overflow: hidden;
-
-    background-color: #f8fafc;
 }
 
-
-.servicio-imagenes img {
+.servicio img {
     width: 100%;
-    height: 200px;
-
+    height: 130px;
     object-fit: cover;
+    border-radius: 8px;
+}
 
-    display: block;
+.servicio button {
+    width: 100%;
+    padding: 10px;
+    background-color: #16a34a;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    margin-top: 10px;
 }
 
 
-/* ===============================
-   CONTENIDO
-   =============================== */
 
-.servicio-contenido {
-    padding: 20px;
 
-    display: flex;
-    flex-direction: column;
-
-    gap: 8px;
+#servicios h2 {
+    text-align: center;
+    font-size: 32px;
+    color: #222;
+    margin-bottom: 25px;
 }
-
-
-/* TÍTULO */
-
-.servicio-contenido h3 {
-    margin: 0 0 8px 0;
-
-    font-size: 20px;
-
-    color: #1f2937;
-}
-
-
-/* TEXTOS */
-
-.servicio-contenido p {
-    margin: 0;
-
-    font-size: 14px;
-
-    line-height: 1.5;
-
-    color: #4b5563;
-}
-
-
-/* PRECIO */
-
-.servicio-contenido .precio {
-    font-size: 18px;
-
-    color: #111827;
-
-    margin-top: 5px;
-}
-
-
-/* ESTADO */
-
-.servicio-contenido p:last-child {
-    font-weight: 500;
-}
-
-
-/* ===============================
-   RESPONSIVE
-   =============================== */
-
-
-/* TABLET */
+/* =========================================
+   ADAPTACIÓN PARA PANTALLAS PEQUEÑAS
+   ========================================= */
 
 @media (max-width: 900px) {
 
@@ -452,585 +136,282 @@ section h2 {
 
 }
 
-
-/* CELULAR */
-
 @media (max-width: 600px) {
 
     #listaServicios {
         grid-template-columns: 1fr;
-        width: 95%;
     }
 
 }
+/* =========================================
+   MODALES
+   ========================================= */
 
-/* ===============================
-   DONACIONES
-   =============================== */
-
-#donaciones {
-    text-align: center;
-
-    background-color: white;
-}
-
-
-/* ===============================
-   PIE DE PÁGINA
-   =============================== */
-
-footer {
-    text-align: center;
-
-    padding: 25px;
-
-    background-color: #1f2937;
-
-    color: white;
-}
-
-
-/* ==================================================
-   DETALLE DEL PRODUCTO
-   ================================================== */
-
-#detalleProducto {
-    display: none;
-
-    position: fixed;
-
-    top: 0;
-    left: 0;
-
-    width: 100vw;
-    height: 100vh;
-
-    background-color: rgba(0, 0, 0, 0.65);
-
-    align-items: center;
-    justify-content: center;
-
-    padding: 20px;
-
-    z-index: 1000;
-}
-
-.detalle-contenido {
-    position: relative;
-
-    background-color: white;
-
-    width: 100%;
-    max-width: 700px;
-
-    max-height: 90vh;
-
-    overflow-y: auto;
-
-    border-radius: 18px;
-
-    padding: 35px;
-
-    box-shadow:
-        0 15px 40px rgba(0, 0, 0, 0.30);
-
-    animation: aparecerDetalle 0.25s ease;
-}
-
-
-/* ANIMACIÓN */
-
-@keyframes aparecerDetalle {
-
-    from {
-        opacity: 0;
-
-        transform:
-            translateY(-20px)
-            scale(0.97);
-    }
-
-    to {
-        opacity: 1;
-
-        transform:
-            translateY(0)
-            scale(1);
-    }
-}
-
-
-/* ===============================
-   BOTÓN CERRAR DETALLE
-   =============================== */
-
-.cerrar-detalle {
-    position: absolute;
-
-    top: 15px;
-    right: 15px;
-
-    width: 42px;
-    height: 42px;
-
-    border: none;
-
-    border-radius: 50%;
-
-    background-color: #ef4444;
-
-    color: white;
-
-    font-size: 22px;
-
-    font-weight: bold;
-
-    cursor: pointer;
-
-    align-items: center;
-
-    justify-content: center;
-
-    z-index: 10;
-}
-
-.cerrar-detalle:hover {
-    background-color: #dc2626;
-
-    transform: scale(1.05);
-}
-
-
-/* ===============================
-   MODAL LOGIN
-   =============================== */
 
 .modal {
     display: none;
-
     position: fixed;
-
-    top: 0;
+    z-index: 1000;
     left: 0;
-
+    top: 0;
     width: 100%;
     height: 100%;
+    overflow-y: auto;
+    background-color: rgba(0, 0, 0, 0.55);
 
-    background: rgba(0, 0, 0, 0.6);
-
-    justify-content: center;
-
-    align-items: center;
-
-    z-index: 1000;
-}
-
-/* ===============================
-   CONTENIDO DEL MODAL LOGIN
-   =============================== */
-
-#loginModal .modal-contenido {
-    background-color: #ffffff !important;
-
-    width: 90%;
-    max-width: 420px;
-
-    padding: 30px;
-
-    border-radius: 16px;
-
-    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.35);
-
-    position: relative;
-
-    opacity: 1 !important;
-
-    color: #111827;
-
+    padding: 40px 20px;
     box-sizing: border-box;
 }
 
 
-/* TÍTULO LOGIN */
+/* =========================================
+   CONTENIDO DEL MODAL
+   ========================================= */
 
-#loginModal .modal-contenido h2 {
-    color: #111827;
+.modal-contenido {
+    position: relative;
+    width: 90%;
+    max-width: 500px;
+    margin: 0 auto;
+    padding: 30px;
+    background-color: white;
+    border-radius: 15px;
+    box-sizing: border-box;
+}
 
-    margin-bottom: 20px;
+/* =========================================
+   BOTÓN PUBLICAR SERVICIO
+   ========================================= */
+.btn-publicar-servicio {
+    padding: 12px 20px;
+    background-color: #16a34a;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+}
 
+.btn-publicar-servicio:hover {
+    background-color: #15803d;
+}
+
+#serviciosModal .modal-contenido > button:hover {
+    background-color: #15803d;
+}
+/* =========================================
+   FORMULARIO CREAR CUENTA
+   ========================================= */
+
+.registro-contenido {
+    width: 100%;
+    max-width: 850px;
+    padding: 40px 45px;
+    margin: 0 auto;
+}
+
+
+.registro-contenido h2 {
+    text-align: center;
+    font-size: 32px;
+    margin-top: 0;
+    margin-bottom: 30px;
+}
+
+
+/* =========================================
+   CAMPOS
+   ========================================= */
+
+.registro-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 22px 25px;
+    width: 100%;
+}
+
+
+.campo-registro {
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+}
+
+
+.campo-registro label {
+    font-size: 16px;
+    font-weight: bold;
+    margin-bottom: 8px;
+    color: #333;
+}
+
+
+.campo-registro input {
+    width: 100%;
+    height: 48px;
+    padding: 10px 14px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 16px;
+    box-sizing: border-box;
+}
+
+
+.campo-registro input:focus {
+    outline: none;
+    border-color: #333;
+}
+
+
+/* =========================================
+   BOTÓN CREAR CUENTA
+   ========================================= */
+
+.btn-crear-cuenta {
+    width: 100%;
+    height: 52px;
+    margin-top: 30px;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+
+/* =========================================
+   BOTÓN CERRAR
+   ========================================= */
+
+.cerrar-modal {
+    position: absolute;
+    top: 12px;
+    right: 18px;
+    font-size: 30px;
+    font-weight: bold;
+    cursor: pointer;
+    line-height: 1;
+}
+
+
+/* =========================================
+   MENSAJE REGISTRO
+   ========================================= */
+
+#mensajeRegistro {
+    margin-top: 15px;
     text-align: center;
 }
 
 
-/* CAMPOS DEL LOGIN */
+/* =========================================
+   CELULARES
+   ========================================= */
 
-#loginModal .modal-contenido input {
-    width: 100%;
+@media (max-width: 700px) {
 
-    padding: 12px;
+    .modal {
+        padding: 20px 10px;
+    }
 
-    margin-bottom: 15px;
+    .registro-contenido {
+        width: 100%;
+        padding: 30px 20px;
+    }
 
-    box-sizing: border-box;
+    .registro-grid {
+        grid-template-columns: 1fr;
+        gap: 18px;
+    }
 
-    background-color: #ffffff;
+    .registro-contenido h2 {
+        font-size: 27px;
+    }
 
-    color: #111827;
-
-    border: 1px solid #d1d5db;
-
-    border-radius: 8px;
-
-    opacity: 1;
 }
 
-
-/* BOTÓN LOGIN */
-
-#loginModal .btn-login {
-    width: 100%;
-
-    padding: 13px;
-
-    border: none;
-
-    border-radius: 8px;
-
-    background-color: #2563eb;
-
-    color: white;
-
-    font-size: 16px;
-
-    font-weight: bold;
-
-    cursor: pointer;
-
-    opacity: 1;
-}
-
-
-/* BOTÓN CERRAR LOGIN */
-
-#loginModal .cerrar-modal {
-    position: absolute;
-
-    top: 10px;
-    right: 15px;
-
-    border: none;
-
-    background: transparent;
-
-    color: #111827;
-
-    font-size: 28px;
-
-    cursor: pointer;
-
-    opacity: 1;
-}
 /* ===============================
-   IMAGEN DEL DETALLE
+   FORMULARIOS
    =============================== */
 
-.detalle-contenido img {
+input, textarea {
     width: 100%;
-
-    height: 320px;
-
-    object-fit: contain;
-
-    display: block;
-
-    margin: 0 auto 25px;
-
-    background-color: #f8fafc;
-
-    border-radius: 12px;
-
-    border: 1px solid #e5e7eb;
-}
-/* TÍTULO */
-
-.detalle-contenido h2 {
-    font-size: 30px;
-
-    color: #111827;
-
+    padding: 10px;
+    margin-top: 5px;
     margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
 }
 
-
-/* DESCRIPCIÓN */
-
-.detalle-contenido p {
-    font-size: 16px;
-
-    line-height: 1.6;
-
-    color: #4b5563;
-
-    margin-bottom: 12px;
-}
-
-
-/* PRECIO */
-
-.detalle-contenido .precio {
-    font-size: 28px;
-
-    font-weight: bold;
-
-    color: #2563eb;
-
-    margin: 20px 0;
-}
-
-
-/* INFORMACIÓN */
-
-.detalle-contenido strong {
-    color: #111827;
-}
-
-
-/* BOTÓN COMPRAR */
-
-.detalle-contenido .btn-comprar {
+.btn-login {
     width: 100%;
-
-    margin-top: 20px;
-
-    padding: 14px;
-
-    border-radius: 8px;
-
-    background-color: #16a34a;
-
+    padding: 10px;
+    background-color: #2563eb;
     color: white;
-
-    font-size: 17px;
-
-    font-weight: bold;
-
-    cursor: pointer;
-}
-
-.detalle-contenido .btn-comprar:hover {
-    background-color: #15803d;
-}
-
-
-/* ==================================================
-   CARRITO
-   ================================================== */
-
-#carrito {
-    display: none;
-
-    position: fixed !important;
-
-    top: 0 !important;
-    left: 0 !important;
-
-    right: 0 !important;
-    bottom: 0 !important;
-
-    width: 100vw !important;
-    height: 100vh !important;
-
-    margin: 0 !important;
-
-    padding: 20px !important;
-
-    background-color: rgba(0, 0, 0, 0.65);
-
-    align-items: center !important;
-
-    justify-content: center !important;
-
-    z-index: 9999 !important;
-}
-
-/* ==================================================
-   MIS COMPRAS
-   ================================================== */
-
-#misCompras {
-    display: none;
-
-    position: fixed;
-
-    top: 0;
-    left: 0;
-
-    width: 100vw;
-    height: 100vh;
-
-    background-color: rgba(0, 0, 0, 0.65);
-
-    align-items: center;
-    justify-content: center;
-
-    padding: 20px;
-
-    z-index: 10000;
-}
-
-
-/* VENTANA */
-
-#misCompras .mis-compras-contenido {
-
-    position: relative;
-
-    width: 90%;
-    max-width: 700px;
-
-    max-height: 85vh;
-
-    overflow-y: auto;
-
-    padding: 30px;
-
-    background-color: white;
-
-    border-radius: 18px;
-
-    box-shadow:
-        0 15px 40px rgba(0, 0, 0, 0.30);
-}
-
-
-/* TÍTULO */
-
-#misCompras h2 {
-
-    margin-bottom: 25px;
-
-    font-size: 28px;
-
-    color: #111827;
-
-}
-
-
-/* BOTÓN CERRAR */
-
-#misCompras .cerrar-mis-compras {
-
-    position: absolute;
-
-    top: 15px;
-    right: 15px;
-
-    width: 40px;
-    height: 40px;
-
     border: none;
+    border-radius: 5px;
+}
 
-    border-radius: 50%;
+/* ===============================
+   CARRITO Y COMPRAS
+   =============================== */
+/* ===============================
+   CARRITO Y COMPRAS
+   =============================== */
 
-    background-color: #ef4444;
-
-    color: white;
-
-    font-size: 20px;
-
-    cursor: pointer;
-
+#listaCarrito div {
+    background-color: white;
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 5px;
 }
 
 
-#misCompras .cerrar-mis-compras:hover {
+/* ===============================
+   MIS COMPRAS
+   =============================== */
 
-    background-color: #dc2626;
-
+#listaMisCompras {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+    width: 100%;
+    padding: 10px 0;
 }
-
-
-/* COMPRA */
 
 .compra-item {
-
-    margin-bottom: 20px;
-
-    padding: 20px;
-
-    border: 1px solid #e5e7eb;
-
-    border-radius: 12px;
-
-    background-color: #f8fafc;
-
+    width: 100%;
+    background: white;
+    border: 1px solid #ddd;
+    border-radius: 15px;
+    padding: 22px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
 }
-
-
-/* CABECERA */
 
 .compra-cabecera {
-
     display: flex;
-
     justify-content: space-between;
-
     align-items: center;
-
+    padding-bottom: 15px;
     margin-bottom: 15px;
-
-    padding-bottom: 12px;
-
-    border-bottom: 1px solid #e5e7eb;
-
+    border-bottom: 1px solid #ddd;
 }
-
-
-/* PRODUCTO */
-
-.producto-compra {
-
-    padding: 12px 0;
-
-    border-bottom: 1px solid #e5e7eb;
-
-}
-
-
-.producto-compra h3 {
-
-    margin-bottom: 8px;
-
-    color: #111827;
-
-}
-
-
-.producto-compra p {
-
-    margin-bottom: 6px;
-
-    color: #4b5563;
-
-}
-
 
 .producto-compra {
     display: flex;
     align-items: center;
-    gap: 20px;
-    padding: 15px 0;
-    border-bottom: 1px solid #e5e7eb;
+    gap: 18px;
+    padding: 15px;
+    margin-bottom: 12px;
+    background: #f8f8f8;
+    border-radius: 10px;
 }
 
 .imagen-compra {
-    width: 120px;
-    height: 120px;
-    object-fit: contain;
-    background-color: #f8fafc;
+    width: 90px;
+    height: 90px;
+    object-fit: cover;
     border-radius: 10px;
-    border: 1px solid #e5e7eb;
-    flex-shrink: 0;
+    border: 1px solid #ddd;
 }
 
 .producto-compra-info {
@@ -1038,2002 +419,648 @@ footer {
 }
 
 .producto-compra-info h3 {
-    margin-bottom: 10px;
-    color: #111827;
+    margin-bottom: 8px;
 }
 
 .producto-compra-info p {
-    margin-bottom: 6px;
+    margin: 4px 0;
 }
-
-
-
-
-
-/* TOTAL */
 
 .compra-total {
-
-    margin-top: 15px;
-
-    font-size: 22px;
-
+    text-align: right;
+    font-size: 19px;
     font-weight: bold;
-
-    color: #2563eb;
-
+    margin-top: 15px;
+    padding-top: 15px;
+    border-top: 1px solid #ddd;
 }
 
-
-/* ESTADO */
-
-.compra-estado {
-
+.compra-medio-pago {
     margin-top: 10px;
-
-    color: #4b5563;
-
 }
-
-
-/* RESPONSIVE */
-
-@media (max-width: 768px) {
-
-    #misCompras {
-
-        padding: 10px;
-
-    }
-
-    #misCompras .mis-compras-contenido {
-
-        width: 95%;
-
-        padding: 25px 20px;
-
-    }
-
-    .compra-cabecera {
-
-        flex-direction: column;
-
-        align-items: flex-start;
-
-        gap: 5px;
-
-    }
-
-}
-
-
-
-
-
-
-/* VENTANA */
-
-#carrito .carrito-contenido {
-    position: relative !important;
-
-    width: 90% !important;
-
-    max-width: 600px !important;
-
-    max-height: 80vh !important;
-
-    overflow-y: auto !important;
-
-    margin: 0 auto !important;
-
-    padding: 30px !important;
-
-    background-color: white;
-
-    border-radius: 18px;
-
-    box-shadow:
-        0 15px 40px rgba(0, 0, 0, 0.30);
-}
-
-
-/* TÍTULO */
-
-#carrito .carrito-contenido h2 {
-    margin-bottom: 25px;
-
-    font-size: 28px;
-
-    color: #111827;
-}
-
-
-/* BOTÓN CERRAR */
-
-#carrito .cerrar-carrito {
-    position: absolute;
-
-    top: 15px;
-    right: 15px;
-
-    width: 40px;
-    height: 40px;
-
-    padding: 0;
-
-    border: none;
-
-    border-radius: 50%;
-
-    background-color: #ef4444;
-
-    color: white;
-
-    font-size: 20px;
-
-    cursor: pointer;
-}
-
-#carrito .cerrar-carrito:hover {
-    background-color: #dc2626;
-}
-
-
-/* PRODUCTO DEL CARRITO */
-
-#carrito .item-carrito {
-    padding: 15px 0;
-
-    margin-bottom: 10px;
-
-    border-bottom: 1px solid #e5e7eb;
-}
-
-#carrito .item-carrito h3 {
-    margin-bottom: 8px;
-
-    color: #111827;
-}
-
-#carrito .item-carrito p {
-    margin-bottom: 10px;
-
-    font-size: 18px;
-
-    font-weight: bold;
-
-    color: #2563eb;
-}
-
-
-/* BOTÓN ELIMINAR */
-
-#carrito .item-carrito button {
-    padding: 8px 14px;
-
-    border: none;
-
-    border-radius: 6px;
-
-    background-color: #ef4444;
-
-    color: white;
-
-    cursor: pointer;
-}
-
-#carrito .item-carrito button:hover {
-    background-color: #dc2626;
-}
-
-
-/* TOTAL */
-
-#carrito #totalCarrito {
-    margin-top: 25px;
-
-    padding-top: 20px;
-
-    border-top: 2px solid #e5e7eb;
-
-    font-size: 24px;
-
-    font-weight: bold;
-
-    color: #111827;
-}
-
-
-/* ==================================================
-   RESPONSIVE
-   ================================================== */
-
-@media (max-width: 768px) {
-
-    header {
-        flex-direction: column;
-
-        gap: 20px;
-
-        padding: 20px;
-    }
-
-    nav {
-        gap: 15px;
-    }
-
-    section {
-        padding: 40px 20px;
-    }
-
-    .hero {
-        padding: 70px 20px;
-    }
-
-    .hero h1 {
-        font-size: 32px;
-    }
-
-    #carrito {
-        padding: 10px !important;
-    }
-
-    #carrito .carrito-contenido {
-        width: 95% !important;
-
-        padding: 25px 20px !important;
-    }
-
-    .detalle-contenido {
-        padding: 25px 20px;
-    }
-
-    .detalle-contenido h2 {
-        font-size: 23px;
-    }
-
-    .detalle-contenido img {
-        height: 240px;
-    }
-
-    .detalle-contenido .precio {
-        font-size: 24px;
-    }
-}
-/* ===============================
-   CONTROLES DE CANTIDAD
-   =============================== */
-
-.cantidad-carrito {
-    display: flex;
-    align-items: center;
-    gap: 15px;
-    margin: 15px 0;
-}
-
-.cantidad-carrito button {
-    width: 35px;
-    height: 35px;
-
-    padding: 0;
-
-    background-color: #2563eb;
-    color: white;
-
-    font-size: 22px;
-    font-weight: bold;
-
-    border-radius: 6px;
-
-    cursor: pointer;
-}
-
-.cantidad-carrito button:hover {
-    background-color: #1d4ed8;
-}
-
-.cantidad-carrito span {
-    min-width: 30px;
-
-    text-align: center;
-
-    font-size: 18px;
-    font-weight: bold;
-}
-
-/* ===============================
-   BOTÓN FINALIZAR COMPRA
-   =============================== */
-
-#btnFinalizarCompra {
-    width: 100%;
-    margin-top: 20px;
-    padding: 14px;
-
-    border: none;
-    border-radius: 8px;
-
-    background-color: #16a34a;
-    color: white;
-
-    font-size: 17px;
-    font-weight: bold;
-
-    cursor: pointer;
-}
-
-#btnFinalizarCompra:hover {
-    background-color: #15803d;
-}
-/* ===============================
-   CONFIRMACIÓN DE COMPRA
-   =============================== */
-
-#confirmacionCompra {
-    display: none;
-
-    position: fixed;
-
-    top: 0;
-    left: 0;
-
-    width: 100vw;
-    height: 100vh;
-
-    background-color: rgba(0, 0, 0, 0.65);
-
-    align-items: center;
-    justify-content: center;
-
-    padding: 20px;
-
-    z-index: 12000;
-}
-
-.confirmacion-contenido {
-    position: relative;
-
-    width: 100%;
-    max-width: 500px;
-
-    background-color: white;
-
-    border-radius: 18px;
-
-    padding: 35px;
-
-    text-align: center;
-
-    box-shadow:
-        0 15px 40px rgba(0, 0, 0, 0.30);
-}
-
-.confirmacion-contenido h2 {
-    margin-bottom: 20px;
-
-    color: #111827;
-
-    font-size: 28px;
-}
-
-#resumenCompra {
-    margin-bottom: 25px;
-
-    font-size: 18px;
-
-    line-height: 1.6;
-
-    color: #4b5563;
-}
-
-.cerrar-confirmacion {
-    position: absolute;
-
-    top: 15px;
-    right: 15px;
-
-    width: 40px;
-    height: 40px;
-
-    border: none;
-
-    border-radius: 50%;
-
-    background-color: #ef4444;
-
-    color: white;
-
-    font-size: 20px;
-
-    cursor: pointer;
-}
-
-.btn-confirmar {
-    width: 100%;
-
-    padding: 13px;
-
-    margin-bottom: 10px;
-
-    border: none;
-
-    border-radius: 8px;
-
-    background-color: #16a34a;
-
-    color: white;
-
-    font-size: 16px;
-
-    font-weight: bold;
-
-    cursor: pointer;
-}
-
-.btn-cancelar {
-    width: 100%;
-
-    padding: 13px;
-
-    border: none;
-
-    border-radius: 8px;
-
-    background-color: #6b7280;
-
-    color: white;
-
-    font-size: 16px;
-
-    cursor: pointer;
-}
-/* ===============================
-   ESTADOS DE LAS COMPRAS
-   =============================== */
 
 .compra-estado {
-    margin-top: 15px;
-    padding: 10px 15px;
-    border-radius: 8px;
-    font-weight: bold;
-    text-align: center;
-}
-
-/* Pendiente */
-.estado-pendiente {
-    background-color: #fef3c7;
-    color: #92400e;
-}
-
-/* Confirmada */
-.estado-confirmada {
-    background-color: #dcfce7;
-    color: #166534;
-}
-
-/* Enviada */
-.estado-enviada {
-    background-color: #dbeafe;
-    color: #1e40af;
-}
-
-/* Entregada */
-.estado-entregada {
-    background-color: #d1fae5;
-    color: #065f46;
-}
-
-/* Cancelada */
-.estado-cancelada {
-    background-color: #fee2e2;
-    color: #991b1b;
-}
-
-/* =====================================================
-   MI CUENTA
-   ===================================================== */
-
-#miCuenta {
-    display: none;
-    position: fixed;
-    z-index: 1000;
-
-    top: 0;
-    left: 0;
-
-    width: 100%;
-    height: 100%;
-
-    background: rgba(0, 0, 0, 0.6);
-
-    justify-content: center;
-    align-items: center;
-}
-
-
-/* CONTENIDO DEL MODAL */
-
-#miCuenta .modal-contenido {
-
-    position: relative;
-
-    width: 400px;
-    max-width: 90%;
-
-    background: white;
-
-    padding: 30px;
-
-    border-radius: 12px;
-
-    box-shadow: 0 5px 25px rgba(0, 0, 0, 0.3);
-
-    box-sizing: border-box;
-}
-
-
-/* TÍTULO */
-
-#miCuenta h2 {
-
-    text-align: center;
-
-    margin-top: 0;
-    margin-bottom: 20px;
-}
-
-
-/* SUBTÍTULO */
-
-#miCuenta h3 {
-
-    text-align: center;
-
-    margin-bottom: 20px;
-}
-
-
-/* FORMULARIO */
-
-#miCuenta form {
-
-    display: flex;
-
-    flex-direction: column;
-
-    gap: 10px;
-}
-
-
-/* ETIQUETAS */
-
-#miCuenta label {
-
-    font-weight: bold;
-
-    margin-top: 5px;
-}
-
-
-/* CAMPOS */
-
-#miCuenta input {
-
-    width: 100%;
-
-    padding: 10px;
-
-    border: 1px solid #ccc;
-
-    border-radius: 6px;
-
-    box-sizing: border-box;
-
-    font-size: 14px;
-}
-
-
-/* BOTÓN CAMBIAR CONTRASEÑA */
-
-#miCuenta .btn-login {
-
-    margin-top: 15px;
-
-    width: 100%;
-
-    padding: 12px;
-
-    border: none;
-
-    border-radius: 6px;
-
-    cursor: pointer;
-
-    font-size: 15px;
-}
-
-
-/* BOTÓN CERRAR */
-
-#miCuenta .cerrar-modal {
-
-    position: absolute;
-
-    top: 10px;
-    right: 10px;
-
-    width: 30px;
-    height: 30px;
-
-    border: none;
-
-    background: transparent;
-
-    font-size: 24px;
-
-    cursor: pointer;
-}
-
-
-/* MENSAJE */
-
-#mensajePassword {
-
-    text-align: center;
-
-    margin-top: 15px;
-
-    font-weight: bold;
-}
-
-/* =====================================================
-   MODAL PUBLICAR SERVICIO
-   ===================================================== */
-
-#servicioModal {
-    display: none;
-
-    position: fixed;
-
-    top: 0;
-    left: 0;
-
-    width: 100%;
-    height: 100%;
-
-    background-color: rgba(0, 0, 0, 0.65);
-
-    justify-content: center;
-    align-items: center;
-
-    padding: 20px;
-
-    z-index: 11000;
-}
-
-
-/* CONTENIDO DEL MODAL */
-
-#servicioModal .modal-contenido {
-
-    position: relative;
-
-    width: 100%;
-    max-width: 550px;
-
-    max-height: 90vh;
-
-    overflow-y: auto;
-
-    background-color: #ffffff;
-
-    color: #111827;
-
-    padding: 30px;
-
-    border-radius: 18px;
-
-    box-shadow:
-        0 15px 40px rgba(0, 0, 0, 0.30);
-
-    box-sizing: border-box;
-}
-
-
-/* TÍTULO */
-
-#servicioModal .modal-contenido h2 {
-
-    text-align: center;
-
-    margin-top: 0;
-
-    margin-bottom: 25px;
-
-    font-size: 28px;
-
-    color: #111827;
-}
-
-
-/* FORMULARIO */
-
-#servicioModal form {
-
-    display: flex;
-
-    flex-direction: column;
-
-    gap: 8px;
-}
-
-
-/* ETIQUETAS */
-
-#servicioModal label {
-
-    display: block;
-
-    margin-top: 8px;
-
-    margin-bottom: 4px;
-
-    font-weight: bold;
-
-    color: #374151;
-}
-
-
-/* CAMPOS */
-
-#servicioModal input,
-#servicioModal textarea {
-
-    width: 100%;
-
-    padding: 12px;
-
-    border: 1px solid #d1d5db;
-
-    border-radius: 8px;
-
-    background-color: #ffffff;
-
-    color: #111827;
-
-    font-size: 15px;
-
-    box-sizing: border-box;
-}
-
-
-/* DESCRIPCIÓN */
-
-#servicioModal textarea {
-
-    min-height: 120px;
-
-    resize: vertical;
-
-    font-family: Arial, sans-serif;
-}
-
-
-/* CAMPO IMAGEN */
-
-#servicioModal input[type="file"] {
-
-    padding: 10px;
-
-    background-color: #f9fafb;
-
-    cursor: pointer;
-}
-
-
-/* TEXTO PEQUEÑO */
-
-#servicioModal small {
-
-    display: block;
-
-    margin-top: 3px;
-
-    margin-bottom: 10px;
-
-    color: #6b7280;
-
-    font-size: 13px;
-}
-
-
-/* BOTÓN PUBLICAR */
-
-#servicioModal .btn-login {
-
-    width: 100%;
-
-    margin-top: 15px;
-
-    padding: 13px;
-
-    border: none;
-
-    border-radius: 8px;
-
-    background-color: #2563eb;
-
-    color: white;
-
-    font-size: 16px;
-
-    font-weight: bold;
-
-    cursor: pointer;
-}
-
-
-#servicioModal .btn-login:hover {
-
-    background-color: #1d4ed8;
-}
-
-
-/* BOTÓN CERRAR */
-
-#servicioModal .cerrar-modal {
-
-    position: absolute;
-
-    top: 10px;
-
-    right: 15px;
-
-    border: none;
-
-    background: transparent;
-
-    color: #111827;
-
-    font-size: 28px;
-
-    font-weight: bold;
-
-    cursor: pointer;
-
-    z-index: 10;
-}
-
-
-#servicioModal .cerrar-modal:hover {
-
-    color: #ef4444;
-}
-
-
-/* MENSAJE */
-
-#mensajeServicio {
-
-    text-align: center;
-
-    margin-top: 15px;
-
-    font-weight: bold;
-
-    color: #111827;
-}
-
-
-/* =====================================================
-   RESPONSIVE SERVICIOS
-   ===================================================== */
-
-@media (max-width: 600px) {
-
-    #servicioModal {
-
-        padding: 10px;
-    }
-
-    #servicioModal .modal-contenido {
-
-        width: 95%;
-
-        padding: 25px 20px;
-
-        max-height: 95vh;
-    }
-
-}
-
-/* =====================================================
-   BOTONES DE SERVICIOS
-   ===================================================== */
-
-.botones-servicios {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 15px;
-    flex-wrap: wrap;
-    margin: 20px 0;
-}
-
-
-/* BOTÓN SERVICIOS MÁS CERCANOS */
-/* =====================================================
-   BOTONES DE SERVICIOS
-   ===================================================== */
-
-.botones-servicios {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 18px;
-    flex-wrap: wrap;
-    margin: 25px 0;
-}
-
-
-/* SERVICIOS MÁS CERCANOS */
-
-#servicios .btn-servicios-cercanos {
-    width: auto;
-    padding: 14px 24px;
-
-    border: none;
-    border-radius: 10px;
-
-    background: #2563eb;
-    color: #ffffff;
-
-    font-size: 16px;
-    font-weight: bold;
-
-    cursor: pointer;
-
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
-
-    transition: all 0.2s ease;
-}
-
-
-#servicios .btn-servicios-cercanos:hover {
-    background: #1d4ed8;
-    transform: translateY(-2px);
-
-    box-shadow: 0 6px 14px rgba(0, 0, 0, 0.20);
-}
-
-
-/* PUBLICAR SERVICIO */
-
-#servicios .btn-publicar-servicio {
-    width: auto;
-    padding: 14px 24px;
-
-    border: none;
-    border-radius: 10px;
-
-    background: #16a34a;
-    color: #ffffff;
-
-    font-size: 16px;
-    font-weight: bold;
-
-    cursor: pointer;
-
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
-
-    transition: all 0.2s ease;
-}
-
-
-#servicios .btn-publicar-servicio:hover {
-    background: #15803d;
-    transform: translateY(-2px);
-
-    box-shadow: 0 6px 14px rgba(0, 0, 0, 0.20);
-}
-
-
-/* MENSAJE */
-
-#mensajeServiciosCercanos {
-    text-align: center;
-    margin: 12px 0 20px;
-
-    color: #475569;
-    font-size: 15px;
-}
-
-/* =====================================================
-   BOTÓN PUBLICAR PRODUCTO
-   ===================================================== */
-
-.botones-productos {
-    display: flex;
-    justify-content: center;
-    margin: 20px 0;
-}
-
-#productos .btn-publicar-producto {
-    border: none;
-    border-radius: 10px;
-
-    padding: 14px 24px;
-
-    background: #f59e0b;
-    color: white;
-
-    font-size: 16px;
-    font-weight: bold;
-
-    cursor: pointer;
-
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
-
-    transition: all 0.2s ease;
-}
-
-#productos .btn-publicar-producto:hover {
-    background: #d97706;
-
-    transform: translateY(-2px);
-
-    box-shadow: 0 6px 14px rgba(0, 0, 0, 0.20);
-}
-
-#productos .btn-publicar-producto:active {
-    transform: translateY(0);
-}
-
-
-/* =====================================================
-   MODAL PUBLICAR PRODUCTO
-   ===================================================== */
-
-#productoModal {
-    display: none;
-
-    position: fixed;
-    z-index: 10000;
-
-    left: 0;
-    top: 0;
-
-    width: 100%;
-    height: 100%;
-
-    background-color: rgba(0, 0, 0, 0.60);
-
-    justify-content: center;
-    align-items: center;
-
-    padding: 20px;
-}
-
-
-/* CONTENIDO DEL MODAL */
-
-#productoModal .modal-contenido {
-
-    position: relative;
-
-    width: 100%;
-    max-width: 550px;
-
-    max-height: 90vh;
-
-    overflow-y: auto;
-
-    background-color: #ffffff;
-
-    color: #111827;
-
-    padding: 30px;
-
-    border-radius: 14px;
-
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.30);
-}
-
-
-/* TÍTULO */
-
-#productoModal h2 {
-
-    margin-top: 0;
-    margin-bottom: 25px;
-
-    color: #111827;
-
-    text-align: center;
-
-}
-
-
-/* ETIQUETAS */
-
-#productoModal label {
-
-    display: block;
-
-    margin-top: 15px;
-    margin-bottom: 6px;
-
-    color: #374151;
-
-    font-weight: bold;
-
-}
-
-
-/* INPUTS */
-
-#productoModal input,
-#productoModal textarea {
-
-    width: 100%;
-
-    padding: 12px;
-
-    border: 1px solid #d1d5db;
-
-    border-radius: 8px;
-
-    background-color: #ffffff;
-
-    color: #111827;
-
-    font-size: 15px;
-
-    box-sizing: border-box;
-
-}
-
-
-/* TEXTAREA */
-
-#productoModal textarea {
-
-    min-height: 100px;
-
-    resize: vertical;
-
-}
-
-
-/* PLACEHOLDER */
-
-#productoModal input::placeholder,
-#productoModal textarea::placeholder {
-
-    color: #9ca3af;
-
-}
-
-
-/* BOTÓN CERRAR */
-
-#productoModal .cerrar-modal {
-
-    position: absolute;
-
-    top: 10px;
-    right: 15px;
-
-    border: none;
-
-    background: transparent;
-
-    color: #111827;
-
-    font-size: 30px;
-
-    font-weight: bold;
-
-    cursor: pointer;
-
-}
-
-
-/* BOTÓN PUBLICAR */
-
-#productoModal .btn-guardar-producto {
-
-    width: 100%;
-
-    margin-top: 25px;
-
-    padding: 14px;
-
-    border: none;
-
-    border-radius: 9px;
-
-    background-color: #16a34a;
-
-    color: #ffffff;
-
-    font-size: 16px;
-
-    font-weight: bold;
-
-    cursor: pointer;
-
-}
-
-
-#productoModal .btn-guardar-producto:hover {
-
-    background-color: #15803d;
-
-}
-
-
-/* MENSAJE */
-
-#productoModal #mensajeProducto {
-
-    margin-top: 15px;
-
-    text-align: center;
-
-    color: #374151;
-
-    font-weight: bold;
-
-}
-
-/* =====================================
-   MODAL MEDIO DE PAGO
-   ===================================== */
-
-#pagoModal {
-
-    display: none;
-
-    position: fixed;
-
-    z-index: 20000;
-
-    left: 0;
-    top: 0;
-
-    width: 100%;
-    height: 100%;
-
-    background-color: rgba(0, 0, 0, 0.60);
-
-    justify-content: center;
-    align-items: center;
-
-    padding: 20px;
-
-    box-sizing: border-box;
-}
-
-
-/* CONTENIDO */
-
-#pagoModal .pago-contenido {
-
-    position: relative;
-
-    width: 100%;
-    max-width: 450px;
-
-    background-color: #ffffff;
-
-    color: #111827;
-
-    padding: 30px;
-
-    border-radius: 14px;
-
-    box-shadow:
-        0 10px 30px rgba(0, 0, 0, 0.30);
-
-    box-sizing: border-box;
-}
-
-
-/* TÍTULO */
-
-#pagoModal h2 {
-
-    margin-top: 0;
-
-    margin-bottom: 15px;
-
-    text-align: center;
-
-    color: #111827;
-}
-
-
-/* TEXTO */
-
-#pagoModal p {
-
-    color: #374151;
-
-    text-align: center;
-
-}
-
-
-/* OPCIONES */
-
-#pagoModal .opciones-pago {
-
-    margin-top: 25px;
-
-    display: flex;
-
-    flex-direction: column;
-
-    gap: 12px;
-}
-
-
-/* CADA OPCIÓN */
-
-#pagoModal .opcion-pago {
-
-    display: flex;
-
-    align-items: center;
-
-    gap: 12px;
-
+    margin-top: 18px;
     padding: 15px;
-
-    border: 1px solid #d1d5db;
-
+    background: #f5f5f5;
     border-radius: 10px;
-
-    background-color: #f9fafb;
-
-    color: #111827;
-
-    cursor: pointer;
 }
 
-
-/* RADIO */
-
-#pagoModal .opcion-pago input {
-
-    width: 18px;
-    height: 18px;
+.compra-estado p {
+    margin: 6px 0;
 }
 
-
-/* TEXTO DE LA OPCIÓN */
-
-#pagoModal .opcion-pago span {
-
-    color: #111827;
-
+.mensaje-estado {
     font-weight: bold;
 }
-
-
-/* BOTÓN CONTINUAR */
-
-#pagoModal .btn-continuar-pago {
-
-    width: 100%;
-
-    margin-top: 25px;
-
-    padding: 14px;
-
-    border: none;
-
-    border-radius: 9px;
-
-    background-color: #16a34a;
-
-    color: white;
-
-    font-size: 16px;
-
-    font-weight: bold;
-
-    cursor: pointer;
-}
-
-
-#pagoModal .btn-continuar-pago:hover {
-
-    background-color: #15803d;
-}
-
-
-/* BOTÓN CERRAR */
-
-#pagoModal .cerrar-modal {
-
-    position: absolute;
-
-    top: 10px;
-    right: 15px;
-
-    border: none;
-
-    background: transparent;
-
-    color: #111827;
-
-    font-size: 30px;
-
-    font-weight: bold;
-
-    cursor: pointer;
-}
-
-
-/* MENSAJE */
-
-#pagoModal #mensajePago {
-
-    margin-top: 15px;
-
-    color: #374151;
-
-    font-weight: bold;
-}
-
-
-/* =====================================================
-   MODAL REGISTRO
-   ===================================================== */
-
-#registroModal {
-    display: none;
-
-    position: fixed;
-
-    top: 0;
-    left: 0;
-
-    width: 100%;
-    height: 100%;
-
-    background-color: rgba(0, 0, 0, 0.65);
-
-    justify-content: center;
-    align-items: center;
-
-    padding: 20px;
-
-    z-index: 11000;
-}
-
-
-/* VENTANA DEL REGISTRO */
-
-#registroModal .modal-contenido {
-
-    position: relative;
-
-    width: 100%;
-    max-width: 500px;
-
-    max-height: 90vh;
-
-    overflow-y: auto;
-
-    padding: 30px;
-
-    background-color: #ffffff;
-
-    color: #111827;
-
-    border-radius: 18px;
-
-    box-shadow:
-        0 15px 40px rgba(0, 0, 0, 0.30);
-
-    box-sizing: border-box;
-
-    opacity: 1;
-}
-
-
-/* TÍTULO */
-
-#registroModal .modal-contenido h2 {
-
-    text-align: center;
-
-    margin-top: 0;
-    margin-bottom: 25px;
-
-    color: #111827;
-
-    font-size: 28px;
-}
-
-
-/* FORMULARIO */
-
-#registroModal form {
-
-    display: flex;
-
-    flex-direction: column;
-
-    gap: 8px;
-}
-
-
-/* ETIQUETAS */
-
-#registroModal label {
-
-    display: block;
-
-    margin-top: 8px;
-    margin-bottom: 4px;
-
-    color: #374151;
-
-    font-weight: bold;
-}
-
-
-/* CAMPOS */
-
-#registroModal input {
-
-    width: 100%;
-
-    padding: 12px;
-
-    border: 1px solid #d1d5db;
-
-    border-radius: 8px;
-
-    background-color: #ffffff;
-
-    color: #111827;
-
-    font-size: 15px;
-
-    box-sizing: border-box;
-
-    opacity: 1;
-}
-
-
-/* PLACEHOLDER */
-
-#registroModal input::placeholder {
-
-    color: #9ca3af;
-
-}
-
-
-/* BOTÓN REGISTRARSE */
-
-#registroModal .btn-login {
-
-    width: 100%;
-
-    margin-top: 15px;
-
-    padding: 13px;
-
-    border: none;
-
-    border-radius: 8px;
-
-    background-color: #2563eb;
-
-    color: white;
-
-    font-size: 16px;
-
-    font-weight: bold;
-
-    cursor: pointer;
-
-    opacity: 1;
-}
-
-
-#registroModal .btn-login:hover {
-
-    background-color: #1d4ed8;
-
-}
-
-
-/* BOTÓN CERRAR */
-
-#registroModal .cerrar-modal {
-
-    position: absolute;
-
-    top: 10px;
-    right: 15px;
-
-    width: 35px;
-    height: 35px;
-
-    border: none;
-
-    background: transparent;
-
-    color: #111827;
-
-    font-size: 28px;
-
-    font-weight: bold;
-
-    cursor: pointer;
-
-    opacity: 1;
-}
-
-
-#registroModal .cerrar-modal:hover {
-
-    color: #ef4444;
-}
-
-
-/* MENSAJE */
-
-#mensajeRegistro {
-
-    text-align: center;
-
-    margin-top: 15px;
-
-    color: #111827;
-
-    font-weight: bold;
-}
-
-
-/* REGISTRO EN CELULAR */
-
-@media (max-width: 600px) {
-
-    #registroModal {
-
-        padding: 10px;
-    }
-
-    #registroModal .modal-contenido {
-
-        width: 95%;
-
-        padding: 25px 20px;
-
-        max-height: 95vh;
-    }
-
-}
-
-/* =====================================================
-   BARRA DE PROGRESO DE MIS COMPRAS
-   ===================================================== */
 
 .barra-progreso {
     display: flex;
     align-items: center;
-    justify-content: center;
-    width: 100%;
-    margin: 25px 0 15px;
+    justify-content: space-between;
+    margin-top: 20px;
+    gap: 5px;
 }
 
 .paso-progreso {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    min-width: 70px;
     text-align: center;
-    opacity: 0.4;
+    min-width: 60px;
 }
 
 .paso-progreso span {
+    display: block;
     font-size: 22px;
     margin-bottom: 5px;
 }
 
 .paso-progreso small {
+    display: block;
     font-size: 11px;
-    font-weight: bold;
-}
-
-.paso-progreso.activo {
-    opacity: 1;
 }
 
 .linea-progreso {
-    width: 45px;
     height: 4px;
-    background: #ccc;
-    margin-bottom: 20px;
+    flex: 1;
+    background: #ddd;
 }
 
 .linea-progreso.activa {
     background: #28a745;
 }
 
-.mensaje-estado {
-    text-align: center;
-    font-weight: bold;
-    margin: 15px 0;
-}
-
 .compra-cancelada {
-    text-align: center;
+    margin-top: 15px;
+    padding: 12px;
+    background: #f8d7da;
+    border-radius: 8px;
     font-weight: bold;
-    margin: 20px 0;
 }
-/* =====================================================
-   BARRA DE PROGRESO DE MIS COMPRAS
-   ===================================================== */
 
-.barra-progreso {
-    display: flex;
-    align-items: center;
-    justify-content: center;
+
+
+
+
+/* Cuando el JS hace display:flex, el modal se muestra */
+.modal[style*="display: flex"] {
+    display: flex !important;
+}
+
+
+
+
+/* =========================================
+   FORMULARIO CREAR CUENTA SOKO
+   ========================================= */
+
+.registro-contenido {
+    width: 90%;
+    max-width: 850px;
+    padding: 40px 45px;
+    margin: auto;
+}
+
+.registro-contenido h2 {
+    text-align: center;
+    font-size: 32px;
+    margin-bottom: 30px;
+}
+
+.registro-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 22px 25px;
     width: 100%;
-    margin: 25px 0;
-    padding: 10px 0;
 }
 
-/* Cada paso */
-.paso-progreso {
+.campo-registro {
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+}
+
+.campo-registro label {
+    font-size: 16px;
+    font-weight: bold;
+    margin-bottom: 8px;
+}
+
+.campo-registro input {
+    width: 100%;
+    height: 48px;
+    padding: 10px 14px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 16px;
+    box-sizing: border-box;
+}
+
+.campo-registro input:focus {
+    outline: none;
+    border-color: #333;
+}
+
+.btn-crear-cuenta {
+    width: 100%;
+    height: 52px;
+    margin-top: 30px;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+#mensajeRegistro {
+    margin-top: 15px;
+    text-align: center;
+}
+
+
+/* =========================================
+   FORMULARIO EN CELULAR
+   ========================================= */
+
+@media (max-width: 700px) {
+
+    .registro-contenido {
+        width: 94%;
+        padding: 30px 20px;
+    }
+
+    .registro-grid {
+        grid-template-columns: 1fr;
+        gap: 18px;
+    }
+
+    .registro-contenido h2 {
+        font-size: 27px;
+    }
+
+}
+/* ===============================
+   AJUSTE MODAL MIS COMPRAS
+   =============================== */
+/* ===============================
+   AJUSTE MODAL MIS COMPRAS
+   =============================== */
+
+#misComprasModal .modal-contenido {
+    width: 90%;
+    max-width: 900px;
+    margin-top: 80px;
+    max-height: 85vh;
+    overflow-y: auto;
+    padding: 30px;
+}
+
+#misComprasModal h2 {
+    margin-bottom: 25px;
+}
+#misComprasModal h2 {
+    margin-bottom: 25px;
+}
+
+.btn-servicios-cercanos {
+    padding: 12px 20px;
+    border: none;
+    border-radius: 8px;
+    background-color: #2563eb;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+/* ===============================
+   HERO SOKO
+   =============================== */
+
+/* ===============================
+   HERO SOKO
+   =============================== */
+
+.hero {
+    min-height: 450px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 50px 20px;
+}
+
+.hero-contenido {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    min-width: 80px;
-    color: #999;
-    position: relative;
-    z-index: 2;
 }
 
-/* Círculo del paso */
-.paso-progreso span {
-    width: 42px;
-    height: 42px;
-    border-radius: 50%;
-    background: #e0e0e0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 20px;
-    border: 3px solid #d0d0d0;
-    transition: all 0.3s ease;
-}
-
-/* Texto debajo del círculo */
-.paso-progreso small {
-    margin-top: 8px;
-    font-size: 12px;
-    font-weight: 600;
-    text-align: center;
-    color: #999;
-}
-
-/* PASO ACTIVO / COMPLETADO */
-.paso-progreso.activo span {
-    background: #28a745;
-    border-color: #28a745;
-    color: white;
-    transform: scale(1.08);
-    box-shadow: 0 3px 8px rgba(40, 167, 69, 0.3);
-}
-
-.paso-progreso.activo small {
-    color: #28a745;
-    font-weight: bold;
-}
-
-/* Líneas entre los pasos */
-.linea-progreso {
-    flex: 1;
-    height: 5px;
-    min-width: 25px;
-    max-width: 90px;
-    background: #d9d9d9;
-    margin: 0 5px;
+.hero-logo {
+    width: 280px;
+    height: auto;
     margin-bottom: 25px;
-    border-radius: 5px;
-    transition: background 0.3s ease;
 }
 
-/* Línea de progreso activa */
-.linea-progreso.activa {
-    background: #28a745;
-}
-
-/* =====================================================
-   COMPRA CANCELADA
-   ===================================================== */
-
-.compra-cancelada {
-    margin: 20px 0;
-    padding: 15px;
-    border-radius: 10px;
-    background: #f8d7da;
-    border: 1px solid #f5c2c7;
-    color: #842029;
+.hero h2 {
+    font-size: 48px;
+    margin: 0 0 25px 0;
+    color: #333;
     font-weight: bold;
-    text-align: center;
 }
 
-/* =====================================================
-   BOTONES DE CAMBIO DE ESTADO
-   ===================================================== */
-
-.compra-estado button {
-    margin-top: 15px;
-    padding: 10px 18px;
+.hero button {
+    padding: 14px 30px;
+    font-size: 18px;
     border: none;
     border-radius: 8px;
-    background: #28a745;
-    color: white;
-    font-weight: bold;
     cursor: pointer;
-    transition: all 0.2s ease;
+    background-color: #2563eb;
+    color: white;
 }
 
-.compra-estado button:hover {
-    background: #218838;
-    transform: translateY(-1px);
+.hero button:hover {
+    background-color: #1d4ed8;
+}
+/* ===============================
+   LOGO DEL ENCABEZADO
+   =============================== */
+
+.logo-header {
+    width: 180px;
+    height: auto;
+    display: block;
+    margin: 0 auto 10px auto;
+}
+/* =========================================
+   MODAL PUBLICAR SERVICIO
+   ========================================= */
+
+#servicioModal {
+    align-items: flex-start;
+    justify-content: center;
+    padding: 30px 20px;
 }
 
-/* =====================================================
-   MENSAJE DEL ESTADO
-   ===================================================== */
+#servicioModal .modal-contenido {
+    width: 95%;
+    max-width: 750px;
+    max-height: 90vh;
+    overflow-y: auto;
+    padding: 35px;
+    margin: 0 auto;
+    box-sizing: border-box;
+}
 
-.mensaje-estado {
-    margin: 8px 0 15px;
-    font-size: 14px;
+/* Título */
+#servicioModal h2 {
+    text-align: center;
+    margin-top: 0;
+    margin-bottom: 25px;
+}
+
+/* Campos del formulario */
+#servicioModal input,
+#servicioModal textarea,
+#servicioModal select {
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+}
+
+/* Textarea */
+#servicioModal textarea {
+    min-height: 100px;
+    resize: vertical;
+}
+
+/* Botones del formulario */
+#servicioModal button {
+    box-sizing: border-box;
+    max-width: 100%;
+}
+  /* =========================================
+    MODAL INICIAR SESIÓN
+    ========================================= */
+
+#loginModal .modal-contenido {
+    width: 90%;
+    max-width: 400px;
+    padding: 20px 25px;
+}
+
+#loginModal h2 {
+    font-size: 28px;
+    margin-top: 0;
+    margin-bottom: 18px;
+}
+
+#loginModal label {
+    font-size: 17px;
+    font-weight: bold;
+    display: block;
+    margin-bottom: 4px;
+}
+
+#loginModal input {
+    font-size: 16px;
+    height: 40px;
+    padding: 7px 12px;
+    box-sizing: border-box;
+    margin-bottom: 12px;
+}
+
+#loginModal .btn-login {
+    font-size: 17px;
+    padding: 9px;
+    margin-top: 3px;
+}
+/* =========================================
+   AJUSTE DEFINITIVO - INICIAR SESIÓN
+   ========================================= */
+
+#loginModal {
+    align-items: flex-start !important;
+    padding-top: 80px !important;
+    padding-bottom: 10px !important;
+}
+
+#loginModal .modal-contenido {
+    height: auto !important;
+    min-height: 0 !important;
+    max-height: none !important;
+    padding: 20px 25px !important;
+    margin: 0 auto !important;
+}
+
+#loginModal .modal-contenido h2 {
+    margin-top: 0 !important;
+    margin-bottom: 15px !important;
+}
+
+#loginModal .modal-contenido input {
+    margin-bottom: 10px !important;
+}
+
+#loginModal .btn-login {
+    margin-bottom: 0 !important;
+}
+/* =========================================
+   MODAL MI CUENTA
+   ========================================= */
+/* =========================================
+   MODAL MI CUENTA - COMPACTO
+   ========================================= */
+
+#miCuenta {
+    align-items: flex-start !important;
+    padding-top: 60px !important;
+    padding-bottom: 10px !important;
+}
+
+#miCuenta .modal-contenido {
+    width: 90% !important;
+    max-width: 420px !important;
+    height: auto !important;
+    min-height: 0 !important;
+    max-height: none !important;
+    padding: 15px 20px !important;
+    margin: 0 auto !important;
+}
+
+#miCuenta h2 {
+    font-size: 26px !important;
+    margin: 0 0 12px 0 !important;
+}
+
+#miCuenta p {
+    margin: 6px 0 !important;
+}
+
+#miCuenta button {
+    margin-top: 8px !important;
+    margin-bottom: 0 !important;
+    padding: 9px 15px !important;
+}
+/* =========================================
+   MODAL CARRITO - COMPACTO
+   ========================================= */
+
+#carrito {
+    align-items: flex-start !important;
+    padding-top: 60px !important;
+    padding-bottom: 10px !important;
+}
+
+#carrito .modal-contenido {
+    width: 90% !important;
+    max-width: 500px !important;
+    height: auto !important;
+    min-height: 0 !important;
+    max-height: 80vh !important;
+    padding: 15px 20px !important;
+    margin: 0 auto !important;
+}
+
+#carrito h2 {
+    font-size: 26px !important;
+    margin: 0 0 15px 0 !important;
+}
+
+#carrito p {
+    margin: 6px 0 !important;
+}
+
+#carrito button {
+    margin-top: 8px !important;
+    margin-bottom: 0 !important;
+    padding: 9px 15px !important;
+    font-size: 16px !important;
+}
+/* =========================================
+   SECCIÓN SERVICIOS
+   ========================================= */
+
+#servicios {
+    padding: 35px 25px 50px 25px;
+}
+
+#servicios h2 {
+    text-align: center;
+    font-size: 34px;
+    margin: 0 0 10px 0;
+}
+
+#servicios > p {
+    text-align: center;
+    font-size: 17px;
+    margin: 0 0 25px 0;
     color: #555;
 }
 
-/* =====================================================
-   ADAPTACIÓN PARA CELULAR
-   ===================================================== */
-
-@media (max-width: 700px) {
-
-    .barra-progreso {
-        overflow-x: auto;
-        justify-content: flex-start;
-        padding: 10px 5px 15px;
-    }
-
-    .paso-progreso {
-        min-width: 70px;
-    }
-
-    .paso-progreso span {
-        width: 36px;
-        height: 36px;
-        font-size: 17px;
-    }
-
-    .paso-progreso small {
-        font-size: 10px;
-    }
-
-    .linea-progreso {
-        min-width: 20px;
-        max-width: 45px;
-        height: 4px;
-    }
+#listaServicios {
+    margin-top: 20px;
 }
+/* =========================================
+   DETALLE DEL PRODUCTO
+   ========================================= */
 
-
-/* =====================================================
-   MIS SOLICITUDES
-   ===================================================== */
-
-#misSolicitudes {
+#detalleProducto {
     display: none;
     position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 90%;
-    max-width: 650px;
-    max-height: 80vh;
-    overflow-y: auto;
-    background: white;
-    padding: 25px;
-    border-radius: 15px;
-    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
-    z-index: 9999;
-}
-
-#listaMisSolicitudes {
+    z-index: 2000;
+    left: 0;
+    top: 0;
     width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.55);
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    box-sizing: border-box;
 }
 
-.tarjeta-solicitud {
-    background: #f8f9fa;
-    border: 1px solid #ddd;
-    border-radius: 12px;
-    padding: 18px;
-    margin-bottom: 15px;
-}
-
-.tarjeta-solicitud h3 {
-    margin-top: 0;
-    margin-bottom: 15px;
-}
-
-.tarjeta-solicitud p {
-    margin: 8px 0;
-}
-
-
-/* =====================================================
-   SOLICITUDES RECIBIDAS DEL PROVEEDOR
-   ===================================================== */
-
-#solicitudesRecibidas {
-    display: none;
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+#detalleProducto .detalle-contenido {
+    position: relative;
+    background-color: white;
     width: 90%;
-    max-width: 700px;
-    max-height: 80vh;
+    max-width: 500px;
+    max-height: 90vh;
     overflow-y: auto;
-    background: white;
-    padding: 25px;
+    padding: 30px;
     border-radius: 15px;
-    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
-    z-index: 9999;
+    box-sizing: border-box;
+    text-align: center;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
 }
 
-#listaSolicitudesRecibidas {
+#detalleProducto .detalle-contenido img {
     width: 100%;
-}
-
-.tarjeta-solicitud-recibida {
-    background: #f8f9fa;
-    border: 1px solid #ddd;
-    border-radius: 12px;
-    padding: 18px;
+    max-height: 280px;
+    object-fit: contain;
+    border-radius: 10px;
     margin-bottom: 15px;
 }
 
-.tarjeta-solicitud-recibida h3 {
-    margin-top: 0;
-    margin-bottom: 15px;
+#detalleProducto .detalle-contenido h2 {
+    margin: 10px 0;
+    font-size: 28px;
 }
 
-.tarjeta-solicitud-recibida p {
-    margin: 8px 0;
+#detalleProducto .detalle-contenido p {
+    margin: 10px 0;
+    font-size: 17px;
 }
 
-.cerrar-solicitudes {
-    float: right;
+#detalleProducto .precio {
+    font-size: 22px;
+    font-weight: bold;
+}
+
+#detalleProducto .btn-comprar {
+    width: 100%;
+    padding: 12px;
+    margin-top: 15px;
+    background-color: #2563eb;
+    color: white;
     border: none;
-    background: transparent;
-    font-size: 20px;
+    border-radius: 8px;
+    font-size: 17px;
+    font-weight: bold;
     cursor: pointer;
 }
 
-.sin-solicitudes {
+#detalleProducto .btn-comprar:hover {
+    background-color: #1d4ed8;
+}
+
+#detalleProducto .cerrar-detalle {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    background: none;
+    border: none;
+    font-size: 30px;
+    cursor: pointer;
+    color: #333;
+}
+
+
+/* =========================================
+   IMAGEN DE PRODUCTOS EN EL CARRITO
+   ========================================= */
+
+.imagen-carrito {
+    width: 120px;
+    height: 100px;
+    object-fit: cover;
+    border-radius: 8px;
+    display: block;
+    margin: 0 auto 10px auto;
+}
+/* =========================================
+   MODAL MEDIO DE PAGO
+   ========================================= */
+
+#pagoModal {
+    align-items: flex-start !important;
+    justify-content: center !important;
+    padding-top: 70px !important;
+    padding-bottom: 20px !important;
+}
+
+#pagoModal .modal-contenido {
+    width: 90% !important;
+    max-width: 450px !important;
+    height: auto !important;
+    min-height: 0 !important;
+    max-height: 80vh !important;
+    padding: 25px !important;
+    margin: 0 auto !important;
+    box-sizing: border-box !important;
+}
+
+#pagoModal h2 {
     text-align: center;
-    padding: 30px;
+    margin: 0 0 25px 0;
+    font-size: 25px;
+}
+
+#pagoModal label {
+    display: block;
+    width: 100%;
+    padding: 12px 15px;
+    margin-bottom: 10px;
+    box-sizing: border-box;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 17px;
+}
+
+#pagoModal label:hover {
+    background-color: #f5f5f5;
+}
+
+#pagoModal input[type="radio"] {
+    margin-right: 10px;
+}
+
+#pagoModal #mensajePago {
+    text-align: center;
+    margin: 15px 0;
+}
+
+#pagoModal button {
+    display: block;
+    width: 100%;
+    padding: 12px;
+    margin-top: 15px;
+    border: none;
+    border-radius: 8px;
+    background-color: #2563eb;
+    color: white;
+    font-size: 17px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+#pagoModal button:hover {
+    background-color: #1d4ed8;
 }
