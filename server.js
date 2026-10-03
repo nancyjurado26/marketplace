@@ -27,6 +27,7 @@ const serviceRoutes = require('./routes/services');
 const productRoutes = require('./routes/products');
 const compraRoutes = require("./routes/compras");
 const contratacionesRoutes = require('./routes/contrataciones');
+const comentarioRoutes = require('./routes/comentario');
 
 
 
@@ -37,6 +38,7 @@ app.use('/servicios', serviceRoutes);
 app.use('/productos', productRoutes);
 app.use("/compras", compraRoutes);
 app.use('/contrataciones', contratacionesRoutes);
+app.use('/comentarios', comentarioRoutes);
 
 
 app.get('/', (req, res) => {

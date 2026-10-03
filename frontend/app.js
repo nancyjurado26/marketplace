@@ -4901,3 +4901,319 @@ async function eliminarMiServicio(id) {
         alert("❌ Error de conexión con el servidor.");
     }
 }
+
+
+// =====================================================
+// MOSTRAR OPINIONES DE LA COMUNIDAD
+// =====================================================
+
+async function mostrarOpiniones() {
+
+    const lista = document.getElementById("listaOpiniones");
+
+    if (!lista) {
+        console.error("❌ No se encontró listaOpiniones");
+        return;
+    }
+
+    try {
+
+        const respuesta = await fetch(
+            `${API_URL}/comentarios`
+        );
+
+        const comentarios = await respuesta.json();
+
+        console.log(
+            "💬 COMENTARIOS RECIBIDOS:",
+            comentarios
+        );
+
+        // Mostrar solamente opiniones de la plataforma
+        const opiniones = comentarios.filter(
+            comentario => comentario.tipo === "plataforma"
+        );
+
+        if (opiniones.length === 0) {
+
+            lista.innerHTML = `
+                <p>
+                    Todavía no hay opiniones.
+                </p>
+            `;
+
+            return;
+        }
+
+        lista.innerHTML = "";
+
+        opiniones.forEach(opinion => {
+
+            const nombre = opinion.usuario
+                ? `${opinion.usuario.nombres || ""} ${opinion.usuario.apellidos || ""}`.trim()
+                : "Usuario";
+
+            const estrellas =
+                "⭐".repeat(Number(opinion.calificacion)) +
+                "☆".repeat(5 - Number(opinion.calificacion));
+
+            const tarjeta =
+                document.createElement("div");
+
+            tarjeta.className = "opinion";
+
+            tarjeta.innerHTML = `
+
+                <h3>
+                    👤 ${nombre}
+                </h3>
+
+                <div class="estrellas">
+                    ${estrellas}
+                </div>
+
+                <p>
+                    ${opinion.comentario}
+                </p>
+
+            `;
+
+            lista.appendChild(tarjeta);
+
+        });
+
+    } catch (error) {
+
+        console.error(
+            "❌ Error cargando opiniones:",
+            error
+        );
+
+        lista.innerHTML = `
+            <p>
+                ❌ No se pudieron cargar las opiniones.
+            </p>
+        `;
+    }
+}
+
+// Cargar opiniones al iniciar
+mostrarOpiniones();
+// =====================================================
+// FORMULARIO DE OPINIONES
+// =====================================================
+
+let calificacionSeleccionada = 0;
+
+
+// =====================================================
+// SELECCIONAR ESTRELLAS
+// =====================================================
+
+document.addEventListener("DOMContentLoaded", () => {
+
+    const botonesEstrellas =
+        document.querySelectorAll(
+            "#seleccionEstrellas button"
+        );
+
+    botonesEstrellas.forEach(boton => {
+
+        boton.addEventListener("click", () => {
+
+            calificacionSeleccionada =
+                Number(boton.dataset.valor);
+
+            actualizarEstrellas();
+
+        });
+
+    });
+
+});
+
+
+// =====================================================
+// ACTUALIZAR ESTRELLAS
+// =====================================================
+
+function actualizarEstrellas() {
+
+    const botonesEstrellas =
+        document.querySelectorAll(
+            "#seleccionEstrellas button"
+        );
+
+    botonesEstrellas.forEach(boton => {
+
+        const valor =
+            Number(boton.dataset.valor);
+
+        if (valor <= calificacionSeleccionada) {
+
+            boton.textContent = "⭐";
+
+        } else {
+
+            boton.textContent = "☆";
+
+        }
+
+    });
+
+    const texto =
+        document.getElementById(
+            "textoCalificacion"
+        );
+
+    if (texto) {
+
+        texto.textContent =
+            `${calificacionSeleccionada} de 5 estrellas`;
+
+    }
+}
+
+
+// =====================================================
+// ENVIAR OPINIÓN
+// =====================================================
+
+async function enviarOpinion() {
+
+    const token = obtenerToken();
+
+    if (!token) {
+
+        alert(
+            "⚠️ Debes iniciar sesión para publicar una opinión."
+        );
+
+        abrirLogin();
+
+        return;
+    }
+
+    const comentario =
+        document
+            .getElementById("comentarioOpinion")
+            .value
+            .trim();
+
+    const mensaje =
+        document.getElementById(
+            "mensajeOpinion"
+        );
+
+
+    // Validar estrellas
+
+    if (calificacionSeleccionada === 0) {
+
+        mensaje.textContent =
+            "⚠️ Selecciona de 1 a 5 estrellas.";
+
+        return;
+    }
+
+
+    // Validar comentario
+
+    if (!comentario) {
+
+        mensaje.textContent =
+            "⚠️ Escribe un comentario.";
+
+        return;
+    }
+
+
+    try {
+
+        const respuesta = await fetch(
+            `${API_URL}/comentarios`,
+            {
+
+                method: "POST",
+
+                headers: {
+
+                    "Content-Type":
+                        "application/json",
+
+                    "Authorization":
+                        `Bearer ${token}`
+
+                },
+
+                body: JSON.stringify({
+
+                    tipo: "plataforma",
+
+                    calificacion:
+                        calificacionSeleccionada,
+
+                    comentario:
+                        comentario
+
+                })
+
+            }
+        );
+
+
+        const datos =
+            await respuesta.json();
+
+
+        console.log(
+            "💬 RESPUESTA GUARDAR OPINIÓN:",
+            datos
+        );
+
+
+        if (!respuesta.ok) {
+
+            mensaje.textContent =
+                datos.mensaje ||
+                "❌ No se pudo guardar la opinión.";
+
+            return;
+        }
+
+
+        // Opinión guardada correctamente
+
+        mensaje.textContent =
+            "✅ ¡Gracias por tu opinión!";
+
+
+        // Limpiar formulario
+
+        document
+            .getElementById("comentarioOpinion")
+            .value = "";
+
+        calificacionSeleccionada = 0;
+
+        actualizarEstrellas();
+
+
+        // Actualizar lista de opiniones
+
+        mostrarOpiniones();
+
+
+    } catch (error) {
+
+        console.error(
+            "❌ Error enviando opinión:",
+            error
+        );
+
+        mensaje.textContent =
+            "❌ Error de conexión con el servidor.";
+
+    }
+
+}

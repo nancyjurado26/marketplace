@@ -628,7 +628,66 @@
 </div>
 </section>
 
+<!-- =========================================
+     OPINIONES DE LA COMUNIDAD
+     ========================================= -->
 
+<section id="opiniones">
+
+    <h2>
+        💬 Opiniones de la comunidad
+    </h2>
+
+<!-- FORMULARIO PARA DEJAR UNA OPINIÓN -->
+
+<div id="formularioOpinion">
+
+    <h3>⭐ Déjanos tu opinión</h3>
+
+    <div id="seleccionEstrellas" class="seleccion-estrellas">
+
+        <button type="button" data-valor="1">☆</button>
+        <button type="button" data-valor="2">☆</button>
+        <button type="button" data-valor="3">☆</button>
+        <button type="button" data-valor="4">☆</button>
+        <button type="button" data-valor="5">☆</button>
+
+    </div>
+
+    <p id="textoCalificacion">
+        Selecciona una calificación
+    </p>
+
+    <textarea
+        id="comentarioOpinion"
+        placeholder="Escribe tu comentario sobre SOKO..."
+        rows="4"
+    ></textarea>
+
+    <p id="mensajeOpinion"></p>
+
+    <button
+        type="button"
+        id="btnEnviarOpinion"
+        onclick="enviarOpinion()"
+    >
+        Publicar opinión
+    </button>
+
+</div>
+
+
+
+
+    <div id="listaOpiniones">
+
+        <p>
+            Cargando opiniones...
+        </p>
+
+    </div>
+
+</section>
 <!-- =========================================
      MODAL PUBLICAR SERVICIO
      ========================================= -->

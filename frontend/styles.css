@@ -1064,3 +1064,168 @@ input, textarea {
 #pagoModal button:hover {
     background-color: #1d4ed8;
 }
+
+/* =====================================================
+   OPINIONES DE LA COMUNIDAD
+   ===================================================== */
+
+#opiniones {
+    width: 90%;
+    max-width: 900px;
+    margin: 50px auto;
+    padding: 30px;
+    background-color: white;
+    border-radius: 15px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.12);
+    text-align: center;
+    box-sizing: border-box;
+}
+
+#opiniones h2 {
+    margin: 0 0 25px 0;
+    font-size: 30px;
+    color: #333;
+}
+
+#listaOpiniones {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.opinion {
+    background-color: #f8f9fa;
+    border: 1px solid #ddd;
+    border-radius: 12px;
+    padding: 20px;
+    text-align: left;
+}
+
+.opinion h3 {
+    margin: 0 0 10px 0;
+    font-size: 20px;
+    color: #333;
+}
+
+.opinion .estrellas {
+    font-size: 24px;
+    margin-bottom: 10px;
+    letter-spacing: 3px;
+}
+
+.opinion p {
+    margin: 0;
+    font-size: 17px;
+    line-height: 1.5;
+    color: #444;
+}
+
+/* =====================================================
+   FORMULARIO DE OPINIONES
+   ===================================================== */
+
+#formularioOpinion {
+    width: 100%;
+    max-width: 650px;
+    margin: 0 auto 35px auto;
+    padding: 25px;
+    background-color: #f8f9fa;
+    border: 1px solid #ddd;
+    border-radius: 12px;
+    box-sizing: border-box;
+}
+
+#formularioOpinion h3 {
+    margin: 0 0 15px 0;
+    font-size: 22px;
+    color: #333;
+}
+
+.seleccion-estrellas {
+    display: flex;
+    justify-content: center;
+    gap: 5px;
+    margin: 10px 0;
+}
+
+.seleccion-estrellas button {
+    border: none;
+    background: transparent;
+    font-size: 35px;
+    cursor: pointer;
+    padding: 3px;
+}
+
+.seleccion-estrellas button:hover {
+    transform: scale(1.15);
+}
+
+#textoCalificacion {
+    margin: 5px 0 15px 0;
+    color: #555;
+    font-size: 15px;
+}
+
+#comentarioOpinion {
+    width: 100%;
+    min-height: 100px;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    resize: vertical;
+    font-family: Arial, sans-serif;
+    font-size: 16px;
+    box-sizing: border-box;
+}
+
+#mensajeOpinion {
+    min-height: 20px;
+    margin: 10px 0;
+    font-size: 15px;
+}
+
+#btnEnviarOpinion {
+    padding: 11px 22px;
+    border: none;
+    border-radius: 8px;
+    background-color: #2563eb;
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+#btnEnviarOpinion:hover {
+    background-color: #1d4ed8;
+}
+
+
+/* =====================================================
+   RESPONSIVE - OPINIONES
+   ===================================================== */
+
+@media (max-width: 600px) {
+
+    #opiniones {
+        width: 95%;
+        padding: 20px 15px;
+        margin: 30px auto;
+    }
+
+    #opiniones h2 {
+        font-size: 25px;
+    }
+
+    #formularioOpinion {
+        padding: 18px;
+    }
+
+    .seleccion-estrellas button {
+        font-size: 30px;
+    }
+
+    .opinion {
+        padding: 15px;
+    }
+
+}
