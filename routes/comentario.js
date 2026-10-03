@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 
-const Comentario = require("../models/Comentario");
+const Comentario = require("../models/comentario");
 const verificarToken = require("../middleware/auth");
 
 // =====================================================
