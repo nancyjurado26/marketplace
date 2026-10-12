@@ -5,6 +5,7 @@ const router = express.Router();
 const {
     crearProducto,
     obtenerProductos,
+    obtenerMisProductos,
     obtenerProductoPorId,
     editarProducto,
     eliminarProducto,
@@ -36,6 +37,17 @@ router.get('/', obtenerProductos);
 
 
 // ===============================
+// Obtener mis productos - PROTEGIDO
+// ===============================
+
+router.get(
+    '/mis-productos',
+    verificarToken,
+    obtenerMisProductos
+);
+
+
+// ===============================
 // Búsqueda avanzada - PÚBLICO
 // ===============================
 
@@ -59,6 +71,10 @@ router.get('/:id', obtenerProductoPorId);
 // ===============================
 // Editar producto - PROTEGIDO
 // ===============================
+
+
+
+
 
 router.put('/:id', verificarToken, editarProducto);
 

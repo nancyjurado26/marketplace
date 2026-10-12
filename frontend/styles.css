@@ -197,6 +197,29 @@ h2 {
     background-color: #15803d;
 }
 
+
+/* BOTÓN PUBLICAR PRODUCTO */
+
+.btn-publicar-producto {
+    display: inline-block;
+    padding: 12px 22px;
+    margin: 15px 0 25px 0;
+    border: none;
+    border-radius: 8px;
+    background-color: #2563eb;
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.btn-publicar-producto:hover {
+    background-color: #1d4ed8;
+}
+
+
+
+
 #serviciosModal .modal-contenido > button:hover {
     background-color: #15803d;
 }
@@ -341,15 +364,17 @@ input, textarea {
     border: 1px solid #ccc;
     border-radius: 5px;
 }
-
 .btn-login {
-    width: 100%;
-    padding: 10px;
+    width: auto;
+    padding: 10px 16px;
     background-color: #2563eb;
     color: white;
     border: none;
     border-radius: 5px;
+    cursor: pointer;
+    font-size: 15px;
 }
+
 
 /* ===============================
    CARRITO Y COMPRAS
@@ -1228,4 +1253,269 @@ input, textarea {
         padding: 15px;
     }
 
+}
+
+.titulo-productos {
+    font-size: 34px;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 25px;
+}
+
+
+/* BOTONES DE PRODUCTOS Y SERVICIOS */
+
+.botones-productos-servicios {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    margin: 15px 0 25px;
+}
+
+.botones-productos-servicios button {
+    margin: 0;
+}
+
+
+
+/* =========================================
+   MIS SERVICIOS: DISEÑO UNIFORME
+   ========================================= */
+
+#misServiciosModal .modal-contenido {
+    width: 90%;
+    max-width: 850px;
+    padding: 25px;
+    background-color: #ffffff !important;
+    color: #333333 !important;
+    border-radius: 15px;
+    box-sizing: border-box;
+}
+
+#misServiciosModal #listaMisServicios {
+    display: grid !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 20px;
+    width: 100%;
+    margin-top: 20px;
+    align-items: stretch;
+}
+
+#misServiciosModal #listaMisServicios .servicio {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: stretch !important;
+
+    background-color: #ffffff !important;
+    background-image: none !important;
+    color: #333333 !important;
+
+    border: 1px solid #d5dce5 !important;
+    border-radius: 14px;
+    padding: 22px;
+    margin: 0 !important;
+    width: 100%;
+    min-width: 0;
+    min-height: 100%;
+    box-sizing: border-box;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.10);
+    overflow-wrap: anywhere;
+}
+
+#misServiciosModal #listaMisServicios .servicio h3 {
+    color: #174a6e !important;
+    font-size: 20px;
+    margin: 0 0 16px;
+}
+
+#misServiciosModal #listaMisServicios .servicio p {
+    color: #333333 !important;
+    font-size: 15px;
+    line-height: 1.5;
+    margin: 0 0 12px;
+}
+
+/* BOTÓN ELIMINAR */
+
+#misServiciosModal #listaMisServicios .servicio button {
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+
+    background-color: #b42318 !important;
+    color: #ffffff !important;
+    border: none !important;
+    border-radius: 8px;
+    padding: 12px;
+    margin: auto 0 0 !important;
+    width: 100% !important;
+    min-height: 46px;
+    font-size: 15px;
+    font-weight: bold;
+    cursor: pointer;
+    flex-shrink: 0;
+}
+
+#misServiciosModal #listaMisServicios .servicio button:hover {
+    background-color: #8f1b13 !important;
+}
+
+@media (max-width: 600px) {
+    #misServiciosModal #listaMisServicios {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* =========================================
+   MIS PRODUCTOS: TARJETAS UNIFORMES
+   ========================================= */
+
+#misProductosModal .modal-contenido {
+    background: #ffffff !important;
+    color: #333333 !important;
+    width: 90%;
+    max-width: 900px;
+    padding: 25px;
+    border-radius: 15px;
+    box-sizing: border-box;
+}
+
+#listaMisProductos {
+    display: grid !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 20px;
+    width: 100%;
+    margin-top: 20px;
+    align-items: stretch;
+}
+
+#listaMisProductos .tarjeta-producto {
+    display: flex !important;
+    flex-direction: column;
+    align-items: stretch;
+
+    background: #ffffff !important;
+    background-color: #ffffff !important;
+    background-image: none !important;
+    color: #333333 !important;
+
+    border: 1px solid #d5dce5 !important;
+    border-radius: 14px;
+    padding: 20px;
+    margin: 0 !important;
+    width: 100%;
+    min-width: 0;
+    min-height: 100%;
+    box-sizing: border-box;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.10);
+    overflow-wrap: anywhere;
+}
+
+#listaMisProductos .tarjeta-producto img {
+    display: block;
+    width: 100%;
+    height: 180px;
+    object-fit: contain;
+    background: #ffffff !important;
+    margin: 0 auto 15px;
+}
+
+#listaMisProductos .tarjeta-producto h3 {
+    color: #174a6e !important;
+    font-size: 20px;
+    margin: 0 0 12px;
+}
+
+#listaMisProductos .tarjeta-producto p {
+    color: #333333 !important;
+    font-size: 15px;
+    line-height: 1.5;
+    margin: 0 0 12px;
+}
+
+@media (max-width: 600px) {
+    #listaMisProductos {
+        grid-template-columns: 1fr;
+    }
+}
+
+
+#listaMisProductos .btn-eliminar-producto {
+    display: block;
+    width: 100%;
+    min-height: 46px;
+    margin-top: 16px;
+    padding: 12px;
+    border: none;
+    border-radius: 8px;
+    background-color: #b42318;
+    color: #ffffff;
+    font-size: 15px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+#listaMisProductos .btn-eliminar-producto:hover {
+    background-color: #8f1b13;
+}
+/* BOTÓN MIS PRODUCTOS DEL ENCABEZADO */
+.btn-mis-productos {
+    background-color: white;
+    color: #174a6e;
+    border: 1px solid #d5dce5;
+    border-radius: 8px;
+    padding: 10px 16px;
+    font-size: 15px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.btn-mis-productos:hover {
+    background-color: #f0f4f8;
+}
+
+
+/* ALINEAR BOTÓN MIS PRODUCTOS CON EL ENCABEZADO */
+header .btn-mis-productos {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    height: 40px;
+    padding: 0 16px;
+    margin: 0;
+    vertical-align: middle;
+    line-height: 1;
+    font-family: inherit;
+    font-size: 15px;
+    font-weight: bold;
+    background-color: white;
+    color: #174a6e;
+    border: 1px solid #d5dce5;
+    border-radius: 8px;
+    cursor: pointer;
+}
+/* ALINEAR TODOS LOS BOTONES DEL ENCABEZADO */
+header nav {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+header nav button,
+header nav a,
+header .btn-mis-productos {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    height: 40px;
+    margin: 0;
+    vertical-align: middle;
+    white-space: nowrap;
 }

@@ -58,6 +58,31 @@ const obtenerProductos = async (req, res) => {
 };
 
 
+
+ // ===============================
+// Obtener mis productos
+// ===============================
+const obtenerMisProductos = async (req, res) => {
+
+    try {
+
+        const productos = await Product.find({
+            usuario: req.usuario.id
+        }).sort({ fechaRegistro: -1 });
+
+        res.json(productos);
+
+    } catch (error) {
+
+        res.status(500).json({
+            mensaje: error.message
+        });
+
+    }
+
+};
+
+
 // ===============================
 // Obtener producto por ID
 // ===============================
@@ -278,12 +303,13 @@ const busquedaAvanzada = async (req, res) => {
 };
 
 
-// ===============================
+ // ===============================
 // Exportar funciones
 // ===============================
 module.exports = {
     crearProducto,
     obtenerProductos,
+    obtenerMisProductos,
     obtenerProductoPorId,
     editarProducto,
     eliminarProducto,

@@ -621,7 +621,11 @@ async function obtenerServicios() {
         mostrarServicios(
             servicios
         );
-
+        // Bajar automáticamente a la sección Servicios
+       document.getElementById("servicios")?.scrollIntoView({
+       behavior: "smooth",
+       block: "start"
+       });
 
     } catch (error) {
 
@@ -817,6 +821,13 @@ window.buscarServiciosCercanos = function () {
                 mostrarServicios(
                     tresMasCercanos
                 );
+
+              document.getElementById("servicios")?.scrollIntoView({
+              behavior: "smooth",
+              block: "start"
+            });
+
+
 
             } catch (error) {
 
@@ -1949,7 +1960,6 @@ function cerrarProductoModal() {
 
 }
 
-
 // ===============================
 // PUBLICAR PRODUCTO
 // ===============================
@@ -1969,7 +1979,6 @@ async function publicarProducto(event) {
 
         return;
     }
-
 
     const nombre =
         document.getElementById("productoNombre").value.trim();
@@ -2012,36 +2021,22 @@ async function publicarProducto(event) {
     }
 
 
-    if (!archivoImagen) {
-
-        mensaje.textContent =
-            "❌ Debes seleccionar una imagen.";
-
-        return;
-    }
-
-
     // ===============================
     // CREAR FORM DATA
     // ===============================
 
-    const formulario = new FormData();
+    const formData = new FormData();
 
-    formulario.append("nombre", nombre);
+    formData.append("nombre", nombre);
+    formData.append("descripcion", descripcion);
+    formData.append("precio", precio);
+    formData.append("categoria", categoria);
+    formData.append("stock", stock);
 
-    formulario.append("descripcion", descripcion);
-
-    formulario.append("precio", precio);
-
-    formulario.append("categoria", categoria);
-
-    formulario.append("stock", stock);
-
-    formulario.append("imagen", archivoImagen);
-
-
-    mensaje.textContent =
-        "⏳ Publicando producto...";
+    // La imagen es opcional
+    if (archivoImagen) {
+        formData.append("imagen", archivoImagen);
+    }
 
 
     try {
@@ -2052,15 +2047,17 @@ async function publicarProducto(event) {
                 method: "POST",
 
                 headers: {
-                    "Authorization": `Bearer ${token}`
+                    "Authorization":
+                        `Bearer ${token}`
                 },
 
-                body: formulario
+                body: formData
             }
         );
 
 
-        const datos = await respuesta.json();
+        const datos =
+            await respuesta.json();
 
 
         // ===============================
@@ -2109,7 +2106,6 @@ async function publicarProducto(event) {
         mensaje.textContent =
             "✅ Producto publicado correctamente.";
 
-
         await obtenerProductos();
 
 
@@ -2133,7 +2129,6 @@ async function publicarProducto(event) {
     }
 
 }
-
 // =====================================================
 // OBTENER PRODUCTOS
 // =====================================================
@@ -3869,6 +3864,251 @@ function cerrarMisServicios() {
     }
 
 }
+
+
+ // =====================================================
+// MIS PRODUCTOS
+// =====================================================
+
+function abrirMisProductos() {
+
+    console.log("📦 BOTÓN MIS PRODUCTOS");
+
+    const token = obtenerToken();
+
+    if (!token) {
+
+        alert("⚠️ Debes iniciar sesión para ver tus productos.");
+
+        abrirLogin();
+
+        return;
+    }
+
+    const modal =
+        document.getElementById("misProductosModal");
+
+    if (!modal) {
+
+        console.error(
+            "❌ No se encontró el modal misProductosModal"
+        );
+
+        return;
+    }
+
+    modal.style.display = "flex";
+
+    mostrarMisProductos();
+
+async function eliminarMiProducto(id) {
+    const token = obtenerToken();
+
+    if (!token) {
+        alert("Debes iniciar sesión.");
+        abrirLogin();
+        return;
+    }
+
+    const confirmar = confirm(
+        "¿Estás seguro de que deseas eliminar este producto?"
+    );
+
+    if (!confirmar) return;
+
+    try {
+        const respuesta = await fetch(
+            `${API_URL}/productos/${id}`,
+            {
+                method: "DELETE",
+                headers: {
+                    "Authorization": `Bearer ${token}`
+                }
+            }
+        );
+
+        const datos = await respuesta.json();
+
+        if (!respuesta.ok) {
+            alert(datos.mensaje || "No se pudo eliminar el producto.");
+            return;
+        }
+
+        alert("✅ Producto eliminado correctamente.");
+
+        await mostrarMisProductos();
+        await obtenerProductos();
+
+    } catch (error) {
+        console.error("Error eliminando producto:", error);
+        alert("❌ Error de conexión al eliminar el producto.");
+    }
+}
+
+}
+
+
+
+ // =====================================================
+// MOSTRAR MIS PRODUCTOS
+// =====================================================
+
+async function mostrarMisProductos() {
+
+    const contenedor =
+        document.getElementById("listaMisProductos");
+
+    if (!contenedor) {
+        return;
+    }
+
+    const token = obtenerToken();
+
+    if (!token) {
+        contenedor.innerHTML =
+            "<p>Debes iniciar sesión para ver tus productos.</p>";
+        return;
+    }
+
+    contenedor.innerHTML =
+        "<p>⏳ Cargando tus productos...</p>";
+
+    try {
+
+        const respuesta = await fetch(
+            `${API_URL}/productos/mis-productos`,
+            {
+                headers: {
+                    "Authorization": `Bearer ${token}`
+                }
+            }
+        );
+
+        const productos = await respuesta.json();
+
+        if (!respuesta.ok) {
+            throw new Error(
+                productos.mensaje ||
+                "No se pudieron cargar tus productos."
+            );
+        }
+
+        if (!productos.length) {
+            contenedor.innerHTML =
+                "<p>📦 Todavía no has publicado productos.</p>";
+            return;
+        }
+
+        contenedor.innerHTML = productos.map(producto => `
+            <div class="tarjeta-producto">
+                ${
+                    producto.imagen
+                    ? `<img
+                        src="${API_URL}/uploads/${encodeURIComponent(producto.imagen)}"
+                        alt="${producto.nombre || 'Producto'}"
+                        style="width:120px;height:120px;object-fit:contain;"
+                    >`
+                    : "<p>Sin imagen</p>"
+                }
+
+                <h3>${producto.nombre || "Producto sin nombre"}</h3>
+
+                <p>${producto.descripcion || ""}</p>
+
+                <p><strong>Precio:</strong> $${Number(producto.precio || 0).toLocaleString("es-CO")}</p>
+
+                <p><strong>Stock:</strong> ${producto.stock ?? 0}</p>
+
+<button
+    type="button"
+    class="btn-eliminar-producto"
+    onclick="eliminarMiProducto('${producto._id}')">
+    🗑️ Eliminar producto
+</button>
+
+
+
+            </div>
+        `).join("");
+
+    } catch (error) {
+
+        console.error(
+            "Error cargando mis productos:",
+            error
+        );
+
+        contenedor.innerHTML =
+            "<p>❌ No se pudieron cargar tus productos.</p>";
+    }
+
+
+
+    
+window.eliminarMiProducto = async function (id) {
+    const token = obtenerToken();
+
+    if (!token) {
+        alert("Debes iniciar sesión.");
+        abrirLogin();
+        return;
+    }
+
+    if (!confirm("¿Estás seguro de que deseas eliminar este producto?")) {
+        return;
+    }
+
+    try {
+        const respuesta = await fetch(
+            `${API_URL}/productos/${id}`,
+            {
+                method: "DELETE",
+                headers: {
+                    "Authorization": `Bearer ${token}`
+                }
+            }
+        );
+
+        const datos = await respuesta.json();
+
+        if (!respuesta.ok) {
+            console.error("Error eliminando producto:", datos);
+            alert(datos.mensaje || "No se pudo eliminar el producto.");
+            return;
+        }
+
+        alert("✅ Producto eliminado correctamente.");
+
+        await mostrarMisProductos();
+        await obtenerProductos();
+
+    } catch (error) {
+        console.error("Error eliminando producto:", error);
+        alert("Error de conexión al eliminar el producto.");
+    }
+};
+
+}
+
+
+
+// =====================================================
+// CERRAR MIS PRODUCTOS
+// =====================================================
+
+function cerrarMisProductos() {
+
+    const modal =
+        document.getElementById("misProductosModal");
+
+    if (modal) {
+        modal.style.display = "none";
+    }
+
+}
+
+
+
 
 
 // =====================================================

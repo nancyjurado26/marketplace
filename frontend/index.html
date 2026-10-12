@@ -51,6 +51,9 @@
         Mis servicios
            </button>
           </div>
+        <button class="btn-mis-productos" onclick="abrirMisProductos()">
+         📦 Mis productos
+        </button>
 
     </header>
 
@@ -71,41 +74,32 @@
 
         <h2>Bienvenido a SOKO</h2>
 
-       <button onclick="document.getElementById('productos').scrollIntoView({ behavior: 'smooth' })">
-    Ver productos
-</button>
+       
 
     </div>
 
 </section>
 
-    <!-- =========================================
-         PRODUCTOS
-         ========================================= -->
-
-    <!-- =========================================
+<!-- =========================================
      PRODUCTOS
      ========================================= -->
 
 <section id="productos">
 
-    <h2>
-        Productos
+    <h2 class="titulo-productos">
+        📦 Productos
     </h2>
 
-    <div id="listaProductos"></div>
+    <!-- BOTONES DE PRODUCTOS Y SERVICIOS -->
 
-</section>
+    <div class="botones-productos-servicios">
 
-
-<!-- =========================================
-     DETALLE DEL PRODUCTO
-     ========================================= -->
-
-<div id="detalleProducto" class="modal">
-
-</div>
-<div class="botones-servicios">
+        <button
+            type="button"
+            class="btn-publicar-producto"
+            onclick="abrirProductoModal()">
+            ➕ Publicar producto
+        </button>
 
         <button
             type="button"
@@ -131,23 +125,33 @@
 
     </div>
 
-    <!-- =========================================
-         SERVICIOS
-         ========================================= -->
+    <!-- LISTA DE PRODUCTOS -->
 
-    <!-- =========================================
+    <div id="listaProductos"></div>
+
+</section>
+
+
+<!-- =========================================
+     DETALLE DEL PRODUCTO
+     ========================================= -->
+
+<div id="detalleProducto" class="modal">
+</div>
+
+
+<!-- =========================================
      SERVICIOS
      ========================================= -->
 
 <section id="servicios">
 
-    <h2>
-        Servicios
-    </h2>
+    <h2>Servicios</h2>
 
     <div id="listaServicios"></div>
 
 </section>
+
 
 
     <!-- =========================================
@@ -604,6 +608,33 @@
 
 </div>
 
+
+<!-- =========================================
+     MIS PRODUCTOS
+     ========================================= -->
+
+<div id="misProductosModal" class="modal">
+
+    <div class="modal-contenido">
+
+        <span
+            class="cerrar-modal"
+            onclick="cerrarMisProductos()"
+        >
+            &times;
+        </span>
+
+        <h2>📦 Mis productos</h2>
+
+        <div id="listaMisProductos">
+            <p>Cargando mis productos...</p>
+        </div>
+
+    </div>
+
+</div>
+
+
     <!-- =========================================
          MODAL SERVICIOS
          ========================================= -->
@@ -878,5 +909,92 @@
     <script src="app.js"></script>
 
 </body>
+
+<!-- =========================================
+     MODAL PUBLICAR PRODUCTO
+     ========================================= -->
+
+<div id="productoModal" class="modal">
+
+    <div class="modal-contenido">
+
+        <button
+            type="button"
+            class="cerrar"
+            onclick="cerrarProductoModal()"
+        >
+            ✖
+        </button>
+
+        <h2>➕ Publicar producto</h2>
+
+        <form
+            id="formProducto"
+            onsubmit="publicarProducto(event)"
+        >
+
+            <input
+                type="text"
+                id="productoNombre"
+                placeholder="Nombre del producto"
+                required
+            >
+
+            <textarea
+                id="productoDescripcion"
+                placeholder="Descripción del producto"
+                required
+            ></textarea>
+
+            <input
+                type="number"
+                id="productoPrecio"
+                placeholder="Precio"
+                min="0"
+                required
+            >
+
+            <input
+                type="text"
+                id="productoCategoria"
+                placeholder="Categoría"
+                required
+            >
+
+            <input
+                type="number"
+                id="productoStock"
+                placeholder="Cantidad disponible"
+                min="0"
+                required
+            >
+
+            <label>
+                Imagen del producto
+            </label>
+
+            <input
+                type="file"
+                id="productoImagen"
+                accept="image/*"
+                
+            >
+
+            <p id="mensajeProducto"></p>
+
+            <button
+                type="submit"
+                class="btn-publicar-producto"
+            >
+                Publicar producto
+            </button>
+
+        </form>
+
+    </div>
+
+</div>
+
+
 
 </html>
