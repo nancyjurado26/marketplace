@@ -4442,7 +4442,7 @@ async function mostrarMisSolicitudes() {
     try {
 
            const respuesta = await fetch(
-           `${API_URL}/contrataciones/mis-solicitudes`,
+    `${API_URL}/contrataciones/recibidas`,
             {
                 method: "GET",
                 headers: {
@@ -4550,198 +4550,102 @@ async function mostrarMisSolicitudes() {
     }
 }
 
-// =====================================================
-// ABRIR SOLICITUDES RECIBIDAS DEL PROVEEDOR
-// =====================================================
 
 async function abrirSolicitudesRecibidas() {
-
     const token = localStorage.getItem("token");
 
     if (!token) {
-
         alert("Debes iniciar sesión para ver las solicitudes recibidas.");
-
         return;
     }
 
-    const ventana =
-        document.getElementById("solicitudesRecibidas");
-
-    const contenedor =
-        document.getElementById("listaSolicitudesRecibidas");
+    const ventana = document.getElementById("solicitudesRecibidas");
+    const contenedor = document.getElementById("listaSolicitudesRecibidas");
 
     if (!ventana || !contenedor) {
-
-        console.error(
-            "❌ No se encontró la ventana de solicitudes recibidas."
-        );
-
+        console.error("No se encontró la ventana o el contenedor de solicitudes.");
         return;
     }
 
-    ventana.style.display = "block";
-
-    contenedor.innerHTML = `
-        <p>⏳ Cargando solicitudes...</p>
-    `;
+    ventana.style.display = "flex";
+    contenedor.innerHTML = "<p>⏳ Cargando solicitudes...</p>";
 
     try {
-
         const respuesta = await fetch(
             `${API_URL}/contrataciones/recibidas`,
             {
                 method: "GET",
                 headers: {
-                    "Authorization": `Bearer ${token}`
+                    Authorization: `Bearer ${token}`
                 }
             }
         );
 
         const solicitudes = await respuesta.json();
 
-        console.log(
-            "📥 SOLICITUDES RECIBIDAS DEL PROVEEDOR:",
-            solicitudes
-        );
-
-        console.log(
-            "📥 ESTADO HTTP:",
-            respuesta.status
-        );
+        console.log("ESTADO HTTP:", respuesta.status);
+        console.log("SOLICITUDES RECIBIDAS:", solicitudes);
 
         if (!respuesta.ok) {
-
-            contenedor.innerHTML = `
-                <p>
-                    ❌ ${
-                        solicitudes.mensaje ||
-                        "No se pudieron obtener las solicitudes."
-                    }
-                </p>
-            `;
-
+            contenedor.innerHTML =
+                `<p>❌ ${solicitudes.mensaje || "No se pudieron cargar las solicitudes."}</p>`;
             return;
         }
 
-        if (!solicitudes || solicitudes.length === 0) {
-
-            contenedor.innerHTML = `
-                <div class="sin-solicitudes">
-                    <p>📭 No tienes solicitudes recibidas todavía.</p>
-                </div>
-            `;
-
+        if (!Array.isArray(solicitudes) || solicitudes.length === 0) {
+            contenedor.innerHTML =
+                "<p>📭 No tienes solicitudes recibidas todavía.</p>";
             return;
         }
 
         contenedor.innerHTML = "";
 
-        solicitudes.forEach(contratacion => {
-
+        solicitudes.forEach((contratacion) => {
             const servicio = contratacion.servicio;
             const cliente = contratacion.cliente;
 
-            const tarjeta =
-                document.createElement("div");
-
-            tarjeta.className =
-                "tarjeta-solicitud-recibida";
+            const tarjeta = document.createElement("div");
+            tarjeta.className = "tarjeta-solicitud-recibida";
 
             tarjeta.innerHTML = `
-
-                <h3>
-                    🛠️ ${servicio?.titulo || "Servicio"}
-                </h3>
-
-                <p>
-                    <strong>👤 Cliente:</strong>
-                    ${
-                        cliente?.nombres || ""
-                    }
-                    ${
-                        cliente?.apellidos || ""
-                    }
+                <h3>🛠️ ${servicio?.titulo || "Servicio"}</h3>
+                <p><strong>👤 Cliente:</strong>
+                    ${cliente?.nombres || ""} ${cliente?.apellidos || ""}
                 </p>
-
-                <p>
-                    <strong>💰 Precio:</strong>
-                    $${Number(
-                        contratacion.precio || 0
-                    ).toLocaleString("es-CO")}
+                <p><strong>💰 Precio:</strong>
+                    $${Number(contratacion.precio || 0).toLocaleString("es-CO")}
                 </p>
-
-                <p>
-                    <strong>📌 Estado:</strong>
+                <p><strong>📌 Estado:</strong>
                     ${contratacion.estado || "Pendiente"}
                 </p>
-
-                <p>
-                    <strong>📅 Fecha:</strong>
-                    ${
-                        contratacion.fechaSolicitud
-                            ? new Date(
-                                contratacion.fechaSolicitud
-                              ).toLocaleDateString("es-CO")
-                            : "No disponible"
-                    }
+                <p><strong>📅 Fecha:</strong>
+                    ${contratacion.fechaSolicitud
+                        ? new Date(contratacion.fechaSolicitud).toLocaleDateString("es-CO")
+                        : "No disponible"}
                 </p>
-
                 ${
                     contratacion.estado === "Pendiente"
-                    ? `
-                        <div class="acciones-solicitud">
-
-                            <button
-                                type="button"
-                                onclick="aceptarSolicitudServicio('${contratacion._id}')"
-                            >
-                                ✅ Aceptar
-                            </button>
-
-                            <button
-                                type="button"
-                                onclick="rechazarSolicitudServicio('${contratacion._id}')"
-                            >
-                                ❌ Rechazar
-                            </button>
-
-                        </div>
-                    `
-                    : `
-                        <p>
-                            ${
-                                contratacion.estado === "Aceptada"
-                                    ? "✅ Solicitud aceptada"
-                                    : contratacion.estado === "Rechazada"
-                                        ? "❌ Solicitud rechazada"
-                                        : ""
-                            }
-                        </p>
-                    `
+                        ? `<button type="button"
+                              onclick="aceptarSolicitudServicio('${contratacion._id}')">
+                              ✅ Aceptar
+                           </button>
+                           <button type="button"
+                              onclick="rechazarSolicitudServicio('${contratacion._id}')">
+                              ❌ Rechazar
+                           </button>`
+                        : ""
                 }
-
             `;
 
             contenedor.appendChild(tarjeta);
-
         });
 
     } catch (error) {
-
-        console.error(
-            "❌ Error obteniendo solicitudes recibidas:",
-            error
-        );
-
-        contenedor.innerHTML = `
-            <p>
-                ❌ Error de conexión con el servidor.
-            </p>
-        `;
+        console.error("Error cargando solicitudes recibidas:", error);
+        contenedor.innerHTML =
+            "<p>❌ Error de conexión con el servidor.</p>";
     }
 }
-
 
 
 
@@ -4950,9 +4854,101 @@ function abrirMisCompras() {
 // ABRIR Y CERRAR SOLICITUDES
 // ===============================
 
-function abrirSolicitudesRecibidas() {
-    document.getElementById("solicitudesRecibidas").style.display = "flex";
+
+async function abrirSolicitudesRecibidas() {
+    const token = localStorage.getItem("token");
+    const ventana = document.getElementById("solicitudesRecibidas");
+    const contenedor = document.getElementById("listaSolicitudesRecibidas");
+
+    if (!token) {
+        alert("Debes iniciar sesión para ver las solicitudes recibidas.");
+        return;
+    }
+
+    if (!ventana || !contenedor) {
+        console.error("No se encontró la ventana o el contenedor de solicitudes.");
+        return;
+    }
+
+    ventana.style.display = "flex";
+    contenedor.innerHTML = "<p>⏳ Cargando solicitudes...</p>";
+
+    try {
+        const respuesta = await fetch(`${API_URL}/contrataciones/recibidas`, {
+            method: "GET",
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        });
+
+        const solicitudes = await respuesta.json();
+
+        console.log("ESTADO HTTP SOLICITUDES:", respuesta.status);
+        console.log("SOLICITUDES RECIBIDAS:", solicitudes);
+
+        if (!respuesta.ok) {
+            contenedor.innerHTML =
+                `<p>❌ ${solicitudes.mensaje || "Error al cargar solicitudes."}</p>`;
+            return;
+        }
+
+        if (!Array.isArray(solicitudes) || solicitudes.length === 0) {
+            contenedor.innerHTML =
+                "<p>📭 No tienes solicitudes recibidas todavía.</p>";
+            return;
+        }
+
+        contenedor.innerHTML = "";
+
+        solicitudes.forEach((contratacion) => {
+            const servicio = contratacion.servicio;
+            const cliente = contratacion.cliente;
+            const tarjeta = document.createElement("div");
+
+            tarjeta.className = "tarjeta-solicitud-recibida";
+
+            const titulo = document.createElement("h3");
+            titulo.textContent = "🛠️ " + (servicio?.titulo || "Servicio");
+
+            const datos = document.createElement("p");
+            datos.textContent =
+                `👤 Cliente: ${cliente?.nombres || ""} ${cliente?.apellidos || ""}`;
+
+            const estado = document.createElement("p");
+            estado.textContent = `📌 Estado: ${contratacion.estado || "Pendiente"}`;
+
+            const precio = document.createElement("p");
+            precio.textContent =
+                `💰 Precio: $${Number(contratacion.precio || 0).toLocaleString("es-CO")}`;
+
+            tarjeta.append(titulo, datos, precio, estado);
+
+            if (contratacion.estado === "Pendiente") {
+                const aceptar = document.createElement("button");
+                aceptar.textContent = "✅ Aceptar";
+                aceptar.type = "button";
+                aceptar.onclick = () =>
+                    aceptarSolicitudServicio(contratacion._id);
+
+                const rechazar = document.createElement("button");
+                rechazar.textContent = "❌ Rechazar";
+                rechazar.type = "button";
+                rechazar.onclick = () =>
+                    rechazarSolicitudServicio(contratacion._id);
+
+                tarjeta.append(aceptar, rechazar);
+            }
+
+            contenedor.appendChild(tarjeta);
+        });
+
+    } catch (error) {
+        console.error("Error cargando solicitudes recibidas:", error);
+        contenedor.innerHTML =
+            "<p>❌ Error de conexión con el servidor.</p>";
+    }
 }
+
 
 function abrirMisSolicitudes() {
     document.getElementById("misSolicitudes").style.display = "flex";
@@ -5456,4 +5452,215 @@ async function enviarOpinion() {
 
     }
 
+}
+
+
+
+/* =========================================
+   RECUPERACIÓN DE CONTRASEÑA - SOKO
+   ========================================= */
+
+// Abrir la ventana de recuperación
+window.abrirRecuperacionPassword = function (event) {
+    if (event) event.preventDefault();
+
+    const loginModal = document.getElementById("loginModal");
+    const recuperacionModal = document.getElementById(
+        "recuperacionPasswordModal"
+    );
+
+    if (loginModal) loginModal.style.display = "none";
+
+    if (recuperacionModal) {
+        recuperacionModal.style.display = "flex";
+    }
+};
+
+
+// Cerrar la ventana de recuperación
+window.cerrarRecuperacionPassword = function () {
+    const modal = document.getElementById(
+        "recuperacionPasswordModal"
+    );
+
+    if (modal) modal.style.display = "none";
+};
+
+
+// Solicitar el enlace por correo electrónico
+window.solicitarRecuperacionPassword = async function (event) {
+    event.preventDefault();
+
+    const correo = document.getElementById(
+        "correoRecuperacion"
+    ).value.trim();
+
+    const mensaje = document.getElementById(
+        "mensajeRecuperacion"
+    );
+
+    mensaje.textContent = "Enviando solicitud...";
+
+    try {
+        const respuesta = await fetch(
+            `${API_URL}/usuarios/solicitar-recuperacion`,
+            {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({ correo })
+            }
+        );
+
+        const datos = await respuesta.json();
+
+        if (!respuesta.ok) {
+            mensaje.textContent =
+                datos.mensaje || "No se pudo enviar la solicitud.";
+            return;
+        }
+
+        mensaje.textContent = datos.mensaje;
+
+    } catch (error) {
+        console.error("Error solicitando recuperación:", error);
+
+        mensaje.textContent =
+            "No se pudo conectar con el servidor.";
+    }
+};
+
+
+// Leer el enlace recibido por correo y abrir el formulario
+function comprobarEnlaceRecuperacion() {
+    const parametros = new URLSearchParams(window.location.search);
+
+    const token = parametros.get("resetToken");
+    const correo = parametros.get("email");
+
+    if (!token || !correo) return;
+
+    const modal = document.getElementById(
+        "restablecerPasswordModal"
+    );
+
+    if (modal) {
+        modal.style.display = "flex";
+    }
+}
+
+
+// Guardar la nueva contraseña
+window.restablecerPassword = async function (event) {
+    event.preventDefault();
+
+    const parametros = new URLSearchParams(window.location.search);
+
+    const token = parametros.get("resetToken");
+    const correo = parametros.get("email");
+
+    const nuevaPassword = document.getElementById(
+        "nuevaPassword"
+    ).value;
+
+    const confirmarPassword = document.getElementById(
+        "confirmarNuevaPassword"
+    ).value;
+
+    const mensaje = document.getElementById(
+        "mensajeRestablecerPassword"
+    );
+
+    if (!token || !correo) {
+        mensaje.textContent =
+            "El enlace no es válido. Solicita uno nuevo.";
+        return;
+    }
+
+    if (nuevaPassword !== confirmarPassword) {
+        mensaje.textContent =
+            "Las contraseñas no coinciden.";
+        return;
+    }
+
+    if (nuevaPassword.length < 8) {
+        mensaje.textContent =
+            "La contraseña debe tener al menos 8 caracteres.";
+        return;
+    }
+
+    mensaje.textContent = "Actualizando contraseña...";
+
+    try {
+        const respuesta = await fetch(
+            `${API_URL}/usuarios/restablecer-password`,
+            {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    token,
+                    correo,
+                    nuevaPassword
+                })
+            }
+        );
+
+        const datos = await respuesta.json();
+
+        if (!respuesta.ok) {
+            mensaje.textContent =
+                datos.mensaje || "No se pudo cambiar la contraseña.";
+            return;
+        }
+
+mensaje.textContent =
+    datos.mensaje || "✅ Contraseña actualizada correctamente.";
+
+// Quitar el token de la dirección después de usarlo.
+window.history.replaceState(
+    {},
+    document.title,
+    window.location.pathname
+);
+
+// Permitir volver al inicio de sesión.
+const modalRestablecer = document.getElementById(
+    "restablecerPasswordModal"
+);
+
+if (modalRestablecer) {
+    modalRestablecer.style.display = "none";
+}
+
+// Limpiar los campos del formulario.
+document.getElementById("nuevaPassword").value = "";
+document.getElementById("confirmarNuevaPassword").value = "";
+
+// Abrir el inicio de sesión después de cambiar la contraseña.
+const loginModal = document.getElementById("loginModal");
+
+if (loginModal) {
+    loginModal.style.display = "flex";
+}
+
+    } catch (error) {
+        console.error("Error cambiando contraseña:", error);
+
+        mensaje.textContent =
+            "No se pudo conectar con el servidor.";
+    }
+};
+
+
+// Comprobar el enlace cuando la página ya esté lista.
+if (document.readyState === "loading") {
+    document.addEventListener(
+        "DOMContentLoaded",
+        comprobarEnlaceRecuperacion
+    );
+} else {
+    comprobarEnlaceRecuperacion();
 }

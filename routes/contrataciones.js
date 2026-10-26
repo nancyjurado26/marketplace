@@ -4,6 +4,8 @@ const router = express.Router();
 const Contratacion = require('../models/contratacion');
 const Service = require('../models/Service');
 
+const Mensaje = require('../models/Mensaje');
+
 // Middleware de autenticación
 const auth = require('../middleware/auth');
 
@@ -325,6 +327,110 @@ router.put('/finalizar/:id', auth, async (req, res) => {
 
     }
 
+});
+
+
+
+/* =====================================================
+   CHAT PRIVADO DE UNA CONTRATACIÓN
+===================================================== */
+
+// Obtener mensajes de una contratación
+router.get('/:id/mensajes', auth, async (req, res) => {
+    try {
+        const contratacion = await Contratacion.findById(req.params.id);
+
+        if (!contratacion) {
+            return res.status(404).json({
+                mensaje: 'Contratación no encontrada'
+            });
+        }
+
+        const usuarioId = req.usuario.id.toString();
+
+        const esParticipante =
+            contratacion.cliente.toString() === usuarioId ||
+            contratacion.proveedor.toString() === usuarioId;
+
+        if (!esParticipante) {
+            return res.status(403).json({
+                mensaje: 'No tienes permiso para ver esta conversación'
+            });
+        }
+
+        const mensajes = await Mensaje.find({
+            contratacion: contratacion._id
+        })
+            .populate('remitente', 'nombres apellidos')
+            .sort({ fecha: 1 });
+
+        res.json(mensajes);
+
+    } catch (error) {
+        console.error('Error obteniendo mensajes:', error);
+        res.status(500).json({
+            mensaje: 'Error al cargar la conversación'
+        });
+    }
+});
+
+
+// Enviar un mensaje en una contratación
+router.post('/:id/mensajes', auth, async (req, res) => {
+    try {
+        const contratacion = await Contratacion.findById(req.params.id);
+
+        if (!contratacion) {
+            return res.status(404).json({
+                mensaje: 'Contratación no encontrada'
+            });
+        }
+
+        const usuarioId = req.usuario.id.toString();
+
+        const esParticipante =
+            contratacion.cliente.toString() === usuarioId ||
+            contratacion.proveedor.toString() === usuarioId;
+
+        if (!esParticipante) {
+            return res.status(403).json({
+                mensaje: 'No tienes permiso para escribir en esta conversación'
+            });
+        }
+
+        const texto =
+            typeof req.body.texto === 'string'
+                ? req.body.texto.trim()
+                : '';
+
+        if (!texto) {
+            return res.status(400).json({
+                mensaje: 'Escribe un mensaje antes de enviarlo'
+            });
+        }
+
+        if (texto.length > 2000) {
+            return res.status(400).json({
+                mensaje: 'El mensaje no puede superar los 2000 caracteres'
+            });
+        }
+
+        const nuevoMensaje = await Mensaje.create({
+            contratacion: contratacion._id,
+            remitente: usuarioId,
+            texto
+        });
+
+        await nuevoMensaje.populate('remitente', 'nombres apellidos');
+
+        res.status(201).json(nuevoMensaje);
+
+    } catch (error) {
+        console.error('Error enviando mensaje:', error);
+        res.status(500).json({
+            mensaje: 'Error al enviar el mensaje'
+        });
+    }
 });
 
 

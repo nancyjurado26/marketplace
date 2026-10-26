@@ -86,9 +86,7 @@
 
 <section id="productos">
 
-    <h2 class="titulo-productos">
-        📦 Productos
-    </h2>
+   
 
     <!-- BOTONES DE PRODUCTOS Y SERVICIOS -->
 
@@ -125,6 +123,22 @@
 
     </div>
 
+       </div>
+
+    <!-- LETRERO DEBAJO DE LOS BOTONES -->
+
+    <p class="letrero-servicios">
+        📍 Encuentra servicios cerca de ti o consulta todos los servicios disponibles para tu comunidad.
+    </p>
+
+      </div>
+
+    <!-- TITULO DEBAJO DE LOS BOTONES -->
+
+    <h2 class="titulo-productos">
+        📦 Productos
+    </h2>
+
     <!-- LISTA DE PRODUCTOS -->
 
     <div id="listaProductos"></div>
@@ -153,66 +167,129 @@
 </section>
 
 
+<!-- =========================================
+     MODAL LOGIN
+     ========================================= -->
 
-    <!-- =========================================
-         MODAL LOGIN
-         ========================================= -->
+<div id="loginModal" class="modal">
 
-    <div id="loginModal" class="modal">
+    <div class="modal-contenido">
 
-        <div class="modal-contenido">
+        <span
+            class="cerrar-modal"
+            onclick="cerrarLogin()">
+            &times;
+        </span>
 
-            <span
-                class="cerrar-modal"
-                onclick="cerrarLogin()">
-                &times;
-            </span>
+        <h2>Iniciar sesión</h2>
 
-            <h2>
-                Iniciar sesión
-            </h2>
+        <label for="loginCorreo">
+            Correo
+        </label>
 
-            <label for="loginCorreo">
-                Correo
-            </label>
+        <input
+            type="email"
+            id="loginCorreo"
+            placeholder="Ingrese su correo">
+
+        <label for="loginPassword">
+            Contraseña
+        </label>
+
+        <input
+            type="password"
+            id="loginPassword"
+            placeholder="Ingrese su contraseña">
+
+        <div id="mensajeLogin"></div>
+
+        <button
+            class="btn-login"
+            onclick="iniciarSesion(event)">
+            Iniciar sesión
+        </button>
+
+        <p class="recuperar-password">
+            <a href="#" onclick="abrirRecuperacionPassword(event)">
+                ¿Olvidaste tu contraseña?
+            </a>
+        </p>
+
+    </div>
+</div>
+    
+<!-- MODAL PARA SOLICITAR RECUPERACIÓN -->
+<div id="recuperacionPasswordModal" class="modal">
+    <div class="modal-contenido">
+        <span class="cerrar-modal"
+              onclick="cerrarRecuperacionPassword()">&times;</span>
+
+        <h2>Recuperar contraseña</h2>
+
+        <p>Ingresa el correo electrónico de tu cuenta SOKO.</p>
+
+        <form onsubmit="solicitarRecuperacionPassword(event)">
+            <label for="correoRecuperacion">Correo electrónico</label>
 
             <input
                 type="email"
-                id="loginCorreo"
-                placeholder="Ingrese su correo">
+                id="correoRecuperacion"
+                placeholder="Ingresa tu correo"
+                required
+            >
 
+            <p id="mensajeRecuperacion"></p>
 
-            <label for="loginPassword">
-                Contraseña
+            <button type="submit" class="btn-login">
+                Enviar enlace de recuperación
+            </button>
+        </form>
+    </div>
+</div>
+
+<!-- MODAL PARA CREAR UNA NUEVA CONTRASEÑA -->
+<div id="restablecerPasswordModal" class="modal">
+    <div class="modal-contenido">
+        <h2>Crear nueva contraseña</h2>
+
+        <p>Elige una contraseña de al menos 8 caracteres.</p>
+
+        <form onsubmit="restablecerPassword(event)">
+            <label for="nuevaPassword">Nueva contraseña</label>
+
+            <input
+                type="password"
+                id="nuevaPassword"
+                minlength="8"
+                autocomplete="new-password"
+                placeholder="Mínimo 8 caracteres"
+                required
+            >
+
+            <label for="confirmarNuevaPassword">
+                Confirmar contraseña
             </label>
 
             <input
                 type="password"
-                id="loginPassword"
-                placeholder="Ingrese su contraseña">
+                id="confirmarNuevaPassword"
+                minlength="8"
+                autocomplete="new-password"
+                placeholder="Repite la contraseña"
+                required
+            >
 
+            <p id="mensajeRestablecerPassword"></p>
 
-            <div id="mensajeLogin"></div>
-
-
-            <button
-                class="btn-login"
-                onclick="iniciarSesion(event)">
-
-                Iniciar sesión
-
+            <button type="submit" class="btn-login">
+                Guardar nueva contraseña
             </button>
-
-        </div>
-
+        </form>
     </div>
+</div>
 
 
-    <!-- =========================================
-         MODAL CREAR CUENTA
-         ========================================= -->
-
-    
+      
 <!-- =========================================
      MODAL CREAR CUENTA
      ========================================= -->
@@ -439,6 +516,17 @@
     <span id="miDireccion"></span>
 </p>
 
+            <button
+                type="button"
+                onclick="abrirSolicitudesRecibidas()">
+                📥 Servicios que me han solicitado
+            </button>
+
+
+
+
+
+
             <button onclick="cerrarSesion()">
                 Cerrar sesión
             </button>
@@ -446,6 +534,36 @@
         </div>
 
     </div>
+
+
+
+
+
+<!-- =========================================
+     MODAL SOLICITUDES RECIBIDAS
+========================================= -->
+
+<div id="solicitudesRecibidas" class="modal">
+
+    <div class="modal-contenido">
+
+        <span
+            class="cerrar-modal"
+            onclick="document.getElementById('solicitudesRecibidas').style.display='none'">
+            &times;
+        </span>
+
+        <h2>📥 Servicios que me han solicitado</h2>
+
+        <div id="listaSolicitudesRecibidas">
+            <p>Las solicitudes aparecerán aquí.</p>
+        </div>
+
+    </div>
+
+</div>
+
+
 
 
 
@@ -954,12 +1072,23 @@
                 required
             >
 
-            <input
-                type="text"
-                id="productoCategoria"
-                placeholder="Categoría"
-                required
-            >
+            
+<select id="productoCategoria" required>
+    <option value="" disabled selected>
+        Selecciona una categoría
+    </option>
+    <option value="Tecnología">Tecnología</option>
+    <option value="Hogar">Hogar</option>
+    <option value="Ropa y accesorios">Ropa y accesorios</option>
+    <option value="Belleza">Belleza</option>
+    <option value="Deportes">Deportes</option>
+    <option value="Vehículos">Vehículos</option>
+    <option value="Alimentos">Alimentos</option>
+    <option value="Mascotas">Mascotas</option>
+    <option value="Herramientas">Herramientas</option>
+    <option value="Otros">Otros</option>
+</select>
+
 
             <input
                 type="number"

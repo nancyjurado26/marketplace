@@ -1277,7 +1277,21 @@ input, textarea {
 .botones-productos-servicios button {
     margin: 0;
 }
+/* LETRERO DEBAJO DE LOS BOTONES */
 
+.letrero-servicios {
+    display: block;
+    width: 100%;
+    text-align: center;
+    font-size: 18px;
+    font-weight: bold;
+    color: #174a6e;
+    background-color: #eaf4fb;
+    padding: 14px 20px;
+    margin: 0 auto 25px;
+    border-radius: 10px;
+    box-sizing: border-box;
+}
 
 
 /* =========================================
@@ -1518,4 +1532,248 @@ header .btn-mis-productos {
     margin: 0;
     vertical-align: middle;
     white-space: nowrap;
+}
+
+
+/* RECUPERAR CONTRASEÑA */
+
+.recuperar-password {
+    text-align: center;
+    margin: 18px 0 5px;
+}
+
+.recuperar-password a {
+    color: #1769aa;
+    font-size: 16px;
+    font-weight: bold;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.recuperar-password a:hover {
+    text-decoration: underline;
+}
+
+
+
+/* =========================================
+   MODAL PUBLICAR PRODUCTO - SOKO
+   ========================================= */
+
+#productoModal .modal-contenido {
+    width: min(92%, 680px);
+    max-width: 680px;
+    max-height: 88vh;
+    overflow-y: auto;
+    padding: 30px;
+    border-radius: 18px;
+}
+
+#productoModal .modal-contenido h2 {
+    margin: 10px 0 25px;
+    text-align: center;
+    font-size: 28px;
+}
+
+#productoModal #formProducto {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+#productoModal #formProducto input:not([type="file"]),
+#productoModal #formProducto textarea,
+#productoModal #formProducto select {
+    width: 100%;
+    min-height: 48px;
+    padding: 12px;
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 16px;
+    background-color: #fff;
+}
+
+#productoModal #formProducto textarea {
+    min-height: 90px;
+    resize: vertical;
+}
+
+#productoModal #formProducto input[type="file"] {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    background: #fff;
+}
+
+#productoModal .btn-publicar-producto {
+    width: 100%;
+    min-height: 48px;
+    padding: 12px 18px;
+    border: none;
+    border-radius: 9px;
+    background: #2864e8;
+    color: #fff;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+#productoModal .btn-publicar-producto:hover {
+    background: #174fc4;
+}
+
+@media (max-width: 600px) {
+    #productoModal .modal-contenido {
+        width: 94%;
+        max-height: 85vh;
+        padding: 20px 16px;
+    }
+
+    #productoModal .modal-contenido h2 {
+        font-size: 23px;
+    }
+}
+
+/* BOTÓN CERRAR SESIÓN - PERFIL SOKO */
+#perfilModal button[onclick="cerrarSesion()"] {
+    display: block;
+    width: 100%;
+    max-width: 320px;
+    margin: 24px auto 10px;
+    padding: 14px 20px;
+    background-color: #dc3545;
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    box-sizing: border-box;
+}
+
+#perfilModal button[onclick="cerrarSesion()"]:hover {
+    background-color: #b02a37;
+}
+
+/* BOTÓN CERRAR SESIÓN EN MI CUENTA */
+
+#miCuenta .modal-contenido button[onclick="cerrarSesion()"] {
+    display: block !important;
+    width: 100% !important;
+    min-height: 48px !important;
+    padding: 14px 20px !important;
+    margin: 24px auto 10px !important;
+    background-color: #dc3545 !important;
+    color: #ffffff !important;
+    border: none !important;
+    border-radius: 10px !important;
+    font-size: 16px !important;
+    font-weight: bold !important;
+    cursor: pointer !important;
+    box-sizing: border-box !important;
+}
+
+#miCuenta .modal-contenido button[onclick="cerrarSesion()"]:hover {
+    background-color: #b02a37 !important;
+}
+
+
+
+/* =====================================
+   MODAL: SOLICITUDES RECIBIDAS
+===================================== */
+
+#solicitudesRecibidas {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 10000;
+    background: rgba(0, 0, 0, 0.6);
+    padding: 20px;
+    justify-content: center;
+    align-items: center;
+    overflow-y: auto;
+}
+
+#solicitudesRecibidas .modal-contenido {
+    position: relative;
+    width: 100%;
+    max-width: 750px;
+    max-height: 85vh;
+    overflow-y: auto;
+    margin: auto;
+    padding: 25px;
+    border-radius: 14px;
+    background: #fff;
+    box-sizing: border-box;
+}
+
+#solicitudesRecibidas h2 {
+    margin: 0 35px 20px 0;
+    text-align: center;
+    font-size: 24px;
+}
+
+#listaSolicitudesRecibidas {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    max-height: 60vh;
+    overflow-y: auto;
+    padding: 5px;
+}
+
+#listaSolicitudesRecibidas .tarjeta-solicitud-recibida {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 18px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    background: #f8fafc;
+    overflow-wrap: anywhere;
+}
+
+#listaSolicitudesRecibidas .tarjeta-solicitud-recibida h3 {
+    margin: 0 0 12px;
+    font-size: 19px;
+}
+
+#listaSolicitudesRecibidas .tarjeta-solicitud-recibida p {
+    margin: 8px 0;
+    line-height: 1.5;
+}
+
+#listaSolicitudesRecibidas .tarjeta-solicitud-recibida button {
+    margin: 8px 8px 0 0;
+    padding: 10px 16px;
+    border: none;
+    border-radius: 7px;
+    cursor: pointer;
+}
+
+@media (max-width: 600px) {
+    #solicitudesRecibidas {
+        padding: 10px;
+    }
+
+    #solicitudesRecibidas .modal-contenido {
+        padding: 18px 12px;
+        max-height: 90vh;
+    }
+
+    #solicitudesRecibidas h2 {
+        font-size: 20px;
+    }
+
+    #listaSolicitudesRecibidas {
+        max-height: 70vh;
+    }
+
+    #listaSolicitudesRecibidas .tarjeta-solicitud-recibida button {
+        width: 100%;
+        margin-right: 0;
+    }
 }

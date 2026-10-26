@@ -6,8 +6,11 @@ const router = express.Router();
 const {
     registrarUsuario,
     loginUsuario,
-    cambiarPassword
+    cambiarPassword,
+    solicitarRecuperacionPassword,
+    restablecerPassword
 } = require("../controllers/UserController");
+
 
 const verificarToken = require("../middleware/auth");
 
@@ -49,6 +52,16 @@ router.put(
     "/cambiar-password",
     verificarToken,
     cambiarPassword
+);
+
+router.post(
+    "/solicitar-recuperacion",
+    solicitarRecuperacionPassword
+);
+
+router.post(
+    "/restablecer-password",
+    restablecerPassword
 );
 
 
