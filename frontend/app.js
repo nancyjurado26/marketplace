@@ -3468,44 +3468,53 @@ async function mostrarMisCompras() {
                             ? Number(producto.subtotal)
                             : precio * cantidad;
 
-                    productosHTML += `
-                        <div class="producto-compra">
+const productoId =
+    typeof producto.producto === "object"
+        ? producto.producto?._id
+        : producto.producto;
 
-                            <img
-                                class="imagen-compra"
-                                src="${API_URL}/uploads/${imagen}"
-                                alt="${producto.nombre}"
-                            >
+productosHTML += `
+    <div class="producto-compra">
 
-                            <div class="producto-compra-info">
+        <img
+            class="imagen-compra"
+            src="${API_URL}/uploads/${imagen}"
+            alt="${producto.nombre}"
+        >
 
-                                <h3>
-                                    ${producto.nombre}
-                                </h3>
+        <div class="producto-compra-info">
 
-                                <p>
-                                    Precio:
-                                    $${precio.toLocaleString("es-CO")}
-                                </p>
+            <h3>${producto.nombre}</h3>
 
-                                <p>
-                                    Cantidad:
-                                    <strong>
-                                        ${cantidad}
-                                    </strong>
-                                </p>
+            <p>
+                Precio:
+                $${precio.toLocaleString("es-CO")}
+            </p>
 
-                                <p>
-                                    Subtotal:
-                                    <strong>
-                                        $${subtotal.toLocaleString("es-CO")}
-                                    </strong>
-                                </p>
+            <p>
+                Cantidad:
+                <strong>${cantidad}</strong>
+            </p>
 
-                            </div>
+            <p>
+                Subtotal:
+                <strong>
+                    $${subtotal.toLocaleString("es-CO")}
+                </strong>
+            </p>
 
-                        </div>
-                    `;
+            <button
+                type="button"
+                onclick="abrirChatCompra('${compra._id}', '${productoId}')"
+            >
+                💬 Chatear con el vendedor
+            </button>
+
+        </div>
+
+    </div>
+`;
+
                 });
             }
 
@@ -3796,6 +3805,363 @@ function cerrarMisCompras() {
     }
 
 }
+
+
+
+
+// =====================================================
+// CHAT PRIVADO DE COMPRAS
+// =====================================================
+
+window.compraChatActual = null;
+window.productoChatActual = null;
+
+
+// ABRIR CHAT Y CARGAR MENSAJES
+window.abrirChatCompra = async function(compraId, productoId) {
+
+    const token = obtenerToken();
+
+    if (!token) {
+        alert("Debes iniciar sesión para usar el chat.");
+        abrirLogin();
+        return;
+    }
+
+    window.compraChatActual = compraId;
+    window.productoChatActual = productoId;
+
+    const modal = document.getElementById("chatCompraModal");
+    const lista = document.getElementById("listaMensajesCompra");
+
+    if (!modal || !lista) {
+        console.error("No se encontró la ventana del chat.");
+        return;
+    }
+
+    modal.style.display = "flex";
+
+    lista.innerHTML = "<p>⏳ Cargando mensajes...</p>";
+
+    await cargarMensajesCompra();
+};
+
+
+// CARGAR MENSAJES
+window.cargarMensajesCompra = async function() {
+
+    const token = obtenerToken();
+
+    const lista = document.getElementById("listaMensajesCompra");
+
+    if (!token || !lista) return;
+
+    try {
+
+        const respuesta = await fetch(
+            `${API_URL}/compras/${window.compraChatActual}/productos/${window.productoChatActual}/mensajes`,
+            {
+                method: "GET",
+                headers: {
+                    "Authorization": `Bearer ${token}`
+                }
+            }
+        );
+
+        const mensajes = await respuesta.json();
+
+        if (!respuesta.ok) {
+            throw new Error(
+                mensajes.mensaje || "No se pudieron cargar los mensajes."
+            );
+        }
+
+        lista.innerHTML = "";
+
+        if (!Array.isArray(mensajes) || mensajes.length === 0) {
+            lista.innerHTML = "<p> todavía no hay mensajes. ¡Inicia la conversación!</p>";
+            return;
+        }
+
+        mensajes.forEach(mensaje => {
+
+            const elemento = document.createElement("div");
+            elemento.classList.add("mensaje-chat-compra");
+
+            const nombre = document.createElement("strong");
+
+            const remitente = mensaje.remitente;
+
+            nombre.textContent = remitente
+                ? `${remitente.nombres || ""} ${remitente.apellidos || ""}`.trim()
+                : "Usuario";
+
+            const texto = document.createElement("p");
+            texto.textContent = mensaje.texto || "";
+
+            const fecha = document.createElement("small");
+            fecha.textContent = mensaje.fecha
+                ? new Date(mensaje.fecha).toLocaleString("es-CO")
+                : "";
+
+            elemento.appendChild(nombre);
+            elemento.appendChild(texto);
+            elemento.appendChild(fecha);
+
+            lista.appendChild(elemento);
+        });
+
+        lista.scrollTop = lista.scrollHeight;
+
+    } catch (error) {
+
+        console.error("Error cargando mensajes:", error);
+
+        lista.innerHTML = `
+            <p>❌ No se pudieron cargar los mensajes.</p>
+        `;
+    }
+};
+
+
+// ENVIAR MENSAJE
+window.enviarMensajeCompra = async function() {
+
+    const token = obtenerToken();
+
+    const campo = document.getElementById("textoMensajeCompra");
+
+    if (!token || !campo) return;
+
+    const texto = campo.value.trim();
+
+    if (!texto) {
+        alert("Escribe un mensaje antes de enviar.");
+        return;
+    }
+
+    try {
+
+        const respuesta = await fetch(
+            `${API_URL}/compras/${window.compraChatActual}/productos/${window.productoChatActual}/mensajes`,
+            {
+                method: "POST",
+
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${token}`
+                },
+
+                body: JSON.stringify({
+                    texto: texto
+                })
+            }
+        );
+
+        const resultado = await respuesta.json();
+
+        if (!respuesta.ok) {
+            throw new Error(
+                resultado.mensaje || "No se pudo enviar el mensaje."
+            );
+        }
+
+        campo.value = "";
+
+        await cargarMensajesCompra();
+
+    } catch (error) {
+
+        console.error("Error enviando mensaje:", error);
+
+        alert("❌ No se pudo enviar el mensaje.");
+    }
+};
+
+
+// CERRAR CHAT
+window.cerrarChatCompra = function() {
+
+    const modal = document.getElementById("chatCompraModal");
+
+    if (modal) {
+        modal.style.display = "none";
+    }
+
+};
+
+// =====================================
+// CHAT PRIVADO DE SERVICIOS
+// =====================================
+
+window.contratacionChatActual = null;
+
+
+// ABRIR CHAT DE SERVICIOS
+window.abrirChatServicio = async function (contratacionId) {
+
+    window.contratacionChatActual = contratacionId;
+
+    const ventana =
+        document.getElementById("chatServicioModal");
+
+    if (ventana) {
+        ventana.style.display = "flex";
+    }
+
+    await cargarMensajesServicio();
+};
+
+
+// CARGAR MENSAJES
+window.cargarMensajesServicio = async function () {
+
+    const token = localStorage.getItem("token");
+
+    const contenedor =
+        document.getElementById("listaMensajesServicio");
+
+    if (!token || !window.contratacionChatActual || !contenedor) {
+        return;
+    }
+
+    contenedor.innerHTML = "<p>⏳ Cargando mensajes...</p>";
+
+    try {
+
+        const respuesta = await fetch(
+            `${API_URL}/contrataciones/${window.contratacionChatActual}/mensajes`,
+            {
+                method: "GET",
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            }
+        );
+
+        const mensajes = await respuesta.json();
+
+        if (!respuesta.ok) {
+            contenedor.textContent =
+                mensajes.mensaje || "No se pudieron cargar los mensajes.";
+            return;
+        }
+
+        contenedor.innerHTML = "";
+
+        if (!Array.isArray(mensajes) || mensajes.length === 0) {
+            contenedor.textContent =
+                "Todavía no hay mensajes. ¡Inicia la conversación!";
+            return;
+        }
+
+        mensajes.forEach((mensaje) => {
+
+            const tarjeta = document.createElement("div");
+
+            tarjeta.className = "mensaje-chat";
+
+            const remitente = document.createElement("strong");
+
+            remitente.textContent =
+                `${mensaje.remitente?.nombres || "Usuario"} ${mensaje.remitente?.apellidos || ""}`;
+
+            const texto = document.createElement("p");
+
+            texto.textContent = mensaje.texto || "";
+
+            const fecha = document.createElement("small");
+
+            fecha.textContent = mensaje.fecha
+                ? new Date(mensaje.fecha).toLocaleString("es-CO")
+                : "";
+
+            tarjeta.append(remitente, texto, fecha);
+
+            contenedor.appendChild(tarjeta);
+
+        });
+
+        contenedor.scrollTop = contenedor.scrollHeight;
+
+    } catch (error) {
+
+        console.error("Error cargando mensajes del servicio:", error);
+
+        contenedor.textContent =
+            "❌ Error de conexión al cargar los mensajes.";
+    }
+};
+
+
+// ENVIAR MENSAJE
+window.enviarMensajeServicio = async function () {
+
+    const token = localStorage.getItem("token");
+
+    const campo =
+        document.getElementById("textoMensajeServicio");
+
+    if (!token || !window.contratacionChatActual || !campo) {
+        alert("No se pudo identificar la conversación.");
+        return;
+    }
+
+    const texto = campo.value.trim();
+
+    if (!texto) {
+        alert("Escribe un mensaje antes de enviarlo.");
+        return;
+    }
+
+    try {
+
+        const respuesta = await fetch(
+            `${API_URL}/contrataciones/${window.contratacionChatActual}/mensajes`,
+            {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${token}`
+                },
+                body: JSON.stringify({ texto })
+            }
+        );
+
+        const datos = await respuesta.json();
+
+        if (!respuesta.ok) {
+            alert(datos.mensaje || "No se pudo enviar el mensaje.");
+            return;
+        }
+
+        campo.value = "";
+
+        await cargarMensajesServicio();
+
+    } catch (error) {
+
+        console.error("Error enviando mensaje:", error);
+
+        alert("❌ Error de conexión al enviar el mensaje.");
+    }
+};
+
+
+// CERRAR CHAT
+window.cerrarChatServicio = function () {
+
+    const ventana =
+        document.getElementById("chatServicioModal");
+
+    if (ventana) {
+        ventana.style.display = "none";
+    }
+
+    window.contratacionChatActual = null;
+};
+
+
 
 // =====================================================
 // MIS SERVICIOS
@@ -4939,7 +5305,20 @@ async function abrirSolicitudesRecibidas() {
                 tarjeta.append(aceptar, rechazar);
             }
 
+            // BOTÓN PARA CHATEAR CON EL CLIENTE
+            const botonChat = document.createElement("button");
+
+            botonChat.textContent = "💬 Chatear con el cliente";
+            botonChat.type = "button";
+
+            botonChat.onclick = () => {
+                abrirChatServicio(contratacion._id);
+            };
+
+            tarjeta.appendChild(botonChat);
+
             contenedor.appendChild(tarjeta);
+
         });
 
     } catch (error) {
@@ -4950,10 +5329,128 @@ async function abrirSolicitudesRecibidas() {
 }
 
 
-function abrirMisSolicitudes() {
-    document.getElementById("misSolicitudes").style.display = "flex";
-}
+// =====================================
+// MIS SOLICITUDES COMO CLIENTE
+// =====================================
 
+async function abrirMisSolicitudes() {
+
+    const token = localStorage.getItem("token");
+
+    const ventana =
+        document.getElementById("misSolicitudes");
+
+    const contenedor =
+        document.getElementById("listaMisSolicitudes");
+
+    if (!token) {
+        alert("Debes iniciar sesión para ver tus solicitudes.");
+        return;
+    }
+
+    if (!ventana || !contenedor) {
+        console.error("No se encontró la ventana de mis solicitudes.");
+        return;
+    }
+
+    ventana.style.display = "flex";
+
+    contenedor.innerHTML = "<p>⏳ Cargando solicitudes...</p>";
+
+    try {
+
+        const respuesta = await fetch(
+            `${API_URL}/contrataciones/mis-solicitudes`,
+            {
+                method: "GET",
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            }
+        );
+
+        const solicitudes = await respuesta.json();
+
+        console.log("MIS SOLICITUDES:", solicitudes);
+
+        if (!respuesta.ok) {
+
+            contenedor.textContent =
+                solicitudes.mensaje || "Error al cargar tus solicitudes.";
+
+            return;
+        }
+
+        if (!Array.isArray(solicitudes) || solicitudes.length === 0) {
+
+            contenedor.innerHTML =
+                "<p>📭 Todavía no has solicitado ningún servicio.</p>";
+
+            return;
+        }
+
+        contenedor.innerHTML = "";
+
+        solicitudes.forEach((contratacion) => {
+
+            const servicio = contratacion.servicio;
+            const proveedor = contratacion.proveedor;
+
+            const tarjeta = document.createElement("div");
+
+            tarjeta.className = "tarjeta-solicitud-recibida";
+
+            const titulo = document.createElement("h3");
+
+            titulo.textContent =
+                "🛠️ " + (servicio?.titulo || "Servicio");
+
+            const datos = document.createElement("p");
+
+            datos.textContent =
+                `👤 Proveedor: ${proveedor?.nombres || ""} ${proveedor?.apellidos || ""}`;
+
+            const estado = document.createElement("p");
+
+            estado.textContent =
+                `📌 Estado: ${contratacion.estado || "Pendiente"}`;
+
+            const precio = document.createElement("p");
+
+            precio.textContent =
+                `💰 Precio: $${Number(contratacion.precio || 0).toLocaleString("es-CO")}`;
+
+            const botonChat = document.createElement("button");
+
+            botonChat.textContent =
+                "💬 Chatear con el proveedor";
+
+            botonChat.type = "button";
+
+            botonChat.onclick = () => {
+                abrirChatServicio(contratacion._id);
+            };
+
+            tarjeta.append(
+                titulo,
+                datos,
+                precio,
+                estado,
+                botonChat
+            );
+
+            contenedor.appendChild(tarjeta);
+
+        });
+
+    } catch (error) {
+
+        console.error("Error cargando mis solicitudes:", error);
+
+        contenedor.innerHTML =
+            "<p>❌ Error de conexión con el servidor.</p>";
+    }
+}
 
 // ===============================
 // ABRIR Y CERRAR MI CUENTA

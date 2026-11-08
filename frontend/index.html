@@ -564,7 +564,29 @@
 </div>
 
 
+<!-- =========================================
+     MODAL MIS SOLICITUDES
+========================================= -->
 
+<div id="misSolicitudes" class="modal">
+
+    <div class="modal-contenido">
+
+        <span
+            class="cerrar-modal"
+            onclick="document.getElementById('misSolicitudes').style.display='none'">
+            &times;
+        </span>
+
+        <h2>📋 Servicios que he solicitado</h2>
+
+        <div id="listaMisSolicitudes">
+            <p>⏳ Cargando mis solicitudes...</p>
+        </div>
+
+    </div>
+
+</div>
 
 
      
@@ -702,7 +724,77 @@
     </div>
 
 
+<!-- MODAL CHAT PRIVADO DE COMPRAS -->
+<div id="chatCompraModal" class="modal">
 
+    <div class="modal-contenido">
+
+        <span
+            class="cerrar-modal"
+            onclick="cerrarChatCompra()"
+        >
+            &times;
+        </span>
+
+        <h2>💬 Chat con el vendedor</h2>
+
+        <div id="listaMensajesCompra">
+            <p>Selecciona una conversación.</p>
+        </div>
+
+        <div class="formulario-chat-compra">
+
+            <textarea
+                id="textoMensajeCompra"
+                placeholder="Escribe tu mensaje..."
+                maxlength="2000"
+            ></textarea>
+
+            <button
+                type="button"
+                onclick="enviarMensajeCompra()"
+            >
+                📩 Enviar mensaje
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- CHAT PRIVADO DE SERVICIOS -->
+<div id="chatServicioModal" class="modal">
+
+    <div class="modal-contenido">
+
+        <h2>💬 Chat del servicio</h2>
+
+        <div id="listaMensajesServicio">
+            <p>Los mensajes aparecerán aquí.</p>
+        </div>
+
+        <textarea
+            id="textoMensajeServicio"
+            placeholder="Escribe tu mensaje..."
+            rows="3">
+        </textarea>
+
+        <button
+            type="button"
+            onclick="enviarMensajeServicio()">
+            📩 Enviar mensaje
+        </button>
+
+        <button
+            type="button"
+            onclick="cerrarChatServicio()">
+            Cerrar
+        </button>
+
+    </div>
+
+</div>
     <!-- =========================================
      MIS SERVICIOS
      ========================================= -->
